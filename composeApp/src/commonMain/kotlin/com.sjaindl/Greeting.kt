@@ -1,3 +1,5 @@
+package com.sjaindl
+
 class Greeting {
     private val platform = getPlatform()
 

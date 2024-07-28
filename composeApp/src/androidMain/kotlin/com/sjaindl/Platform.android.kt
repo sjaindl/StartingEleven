@@ -1,3 +1,5 @@
+package com.sjaindl
+
 import android.os.Build
 
 class AndroidPlatform : Platform {

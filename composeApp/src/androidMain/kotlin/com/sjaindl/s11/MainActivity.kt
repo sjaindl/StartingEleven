@@ -1,6 +1,6 @@
 package com.sjaindl.s11
 
-import App
+import com.sjaindl.App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

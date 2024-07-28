@@ -1,3 +1,5 @@
+package com.sjaindl
+
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
