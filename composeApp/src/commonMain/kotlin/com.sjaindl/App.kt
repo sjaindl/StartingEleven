@@ -53,18 +53,18 @@ fun App() {
             },
         ) {
             NavHost(navController = navController, startDestination = Home.toString(), modifier = Modifier.padding(it)) {
-                composable(route = Home.toString()) {
+                composable<Home> {
                     Text("Home")
                 }
-                composable(route = Team.toString()) {
+                composable<Team> {
                     Text("Team")
                     TestContent()
                 }
-                composable(route = Players.toString()) {
+                composable<Players> {
                     Text("Players")
                     TestContent()
                 }
-                composable(route = Standings.toString()) {
+                composable<Standings> {
                     Text("Standings")
                     TestContent()
                 }

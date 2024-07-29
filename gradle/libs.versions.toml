@@ -10,7 +10,7 @@ androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material3 = "1.2.1"
 kotlinVersion = "2.0.0"
-navigationVersion = "2.7.0-alpha07"
+navigationVersion = "2.8.0-alpha08"
 serializationVersion = "1.6.3"
 iconsVersion = "1.6.11"
 

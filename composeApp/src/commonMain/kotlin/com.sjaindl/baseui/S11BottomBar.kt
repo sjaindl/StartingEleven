@@ -35,7 +35,7 @@ fun S11NavigationBar(navController: NavController) {
                         Team -> Icon(Icons.Filled.Favorite, contentDescription = screen.toString())
                         Players -> Icon(Icons.Filled.Person, contentDescription = screen.toString())
                         Standings -> Icon(Icons.Filled.Calculate, contentDescription = screen.toString())
-                        else -> {}
+                        else -> { }
                     }
                 },
                 label = {
