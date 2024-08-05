@@ -21,16 +21,16 @@ import com.sjaindl.s11.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.error_description
-import startingeleven.composeapp.generated.resources.error_title
+import startingeleven.composeapp.generated.resources.errorDescription
+import startingeleven.composeapp.generated.resources.errorTitle
 import startingeleven.composeapp.generated.resources.retry
 
 @Composable
 fun ErrorScreen(
     modifier: Modifier = Modifier,
     onButtonClick: (() -> Unit)? = null,
-    title: String = stringResource(Res.string.error_title),
-    text: String = stringResource(Res.string.error_description),
+    title: String = stringResource(Res.string.errorTitle),
+    text: String = stringResource(Res.string.errorDescription),
     buttonTitle: String = stringResource(Res.string.retry),
 ) {
     Column(

@@ -1,4 +1,4 @@
-package navigation
+package com.sjaindl.s11.navigation
 
 import kotlinx.serialization.Serializable
 
@@ -25,3 +25,6 @@ data object Privacy
 
 @Serializable
 data object Profile
+
+@Serializable
+data object Auth
