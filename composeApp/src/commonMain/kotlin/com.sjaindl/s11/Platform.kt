@@ -1,4 +1,4 @@
-package com.sjaindl
+package com.sjaindl.s11
 
 interface Platform {
     val name: String
