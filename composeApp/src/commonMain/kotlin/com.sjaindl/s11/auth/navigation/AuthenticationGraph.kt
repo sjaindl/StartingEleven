@@ -80,7 +80,7 @@ fun authenticationGraph(
     val authenticationState by authenticationViewModel.authenticationState.collectAsState()
 
     BackHandler(
-        isEnabled = false,
+        isEnabled = true,
         onBack = { },
     )
 
