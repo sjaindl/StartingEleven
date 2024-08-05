@@ -1,4 +1,4 @@
-package com.sjaindl
+package com.sjaindl.s11
 
 import platform.UIKit.UIDevice
 
