@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.google
+import startingeleven.composeapp.generated.resources.ic_google
 import startingeleven.composeapp.generated.resources.signInWithEmail
 import startingeleven.composeapp.generated.resources.signInWithFacebook
 import startingeleven.composeapp.generated.resources.signInWithGoogle
@@ -50,7 +50,7 @@ fun SignInChooserScreen(
             onClick = signInWithGoogle,
         ) {
             Image(
-                painter = painterResource(Res.drawable.google),
+                painter = painterResource(Res.drawable.ic_google),
                 contentDescription = stringResource(resource = Res.string.signInWithGoogle),
                 modifier = Modifier
                     .size(20.dp),

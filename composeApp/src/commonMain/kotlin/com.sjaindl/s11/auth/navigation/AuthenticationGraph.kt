@@ -3,6 +3,7 @@ package com.sjaindl.s11.auth.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import com.sjaindl.s11.auth.AuthenticationState.GoogleSignInSuccess
 import com.sjaindl.s11.auth.AuthenticationState.Initial
 import com.sjaindl.s11.auth.AuthenticationState.Loading
 import com.sjaindl.s11.auth.AuthenticationViewModel
+import com.sjaindl.s11.auth.GoogleSignIn
 import com.sjaindl.s11.auth.SignInChooserScreen
 import com.sjaindl.s11.auth.SignInWithMailHomeScreen
 import com.sjaindl.s11.auth.SignInWithMailScreen
@@ -35,6 +37,7 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import startingeleven.composeapp.generated.resources.Res
 import startingeleven.composeapp.generated.resources.appName
+import startingeleven.composeapp.generated.resources.signInCancel
 
 private const val MAIL_ARG = "email"
 
@@ -69,6 +72,8 @@ fun authenticationGraph(
     // Needs to be a separate navController than the top one, because Each NavHost is designed to manage its own navigation graph and associated ViewModelStore
     val navController = rememberNavController()
 
+    val cancelMessage = stringResource(resource = Res.string.signInCancel)
+
     var currentRoute by remember {
         mutableStateOf(value = navController.currentBackStackEntry?.destination?.route)
     }
@@ -79,6 +84,10 @@ fun authenticationGraph(
 
     val authenticationState by authenticationViewModel.authenticationState.collectAsState()
 
+    var signInWithGoogle by remember {
+        mutableStateOf(value = false)
+    }
+
     BackHandler(
         isEnabled = true,
         onBack = { },
@@ -86,6 +95,17 @@ fun authenticationGraph(
 
     navController.addOnDestinationChangedListener { _, destination, _ ->
         currentRoute = destination.route
+    }
+
+    if (signInWithGoogle) {
+        GoogleSignIn {
+            signInWithGoogle = false
+
+            authenticationViewModel.handleGoogleSignIn(
+                authResponse = it,
+                cancelMessage = cancelMessage,
+            )
+        }
     }
 
     Scaffold(
@@ -104,7 +124,7 @@ fun authenticationGraph(
                     composable<SignInChooser> {
                         SignInChooserScreen(
                             signInWithGoogle = {
-                                // TODO
+                                signInWithGoogle = true
                             },
                             signInWithFacebook = {
                                 // TODO
@@ -178,9 +198,11 @@ fun authenticationGraph(
             }
 
             EmailSignInSuccess, EmailSignUpSuccess, FacebookSignInSuccess, GoogleSignInSuccess -> {
-                authenticationViewModel.resetState()
-                navController.popBackStack(route = SignInChooser, inclusive = true)
-                onSuccess()
+                LaunchedEffect(authenticationState) {
+                    authenticationViewModel.resetState()
+                    navController.popBackStack(route = SignInChooser, inclusive = true)
+                    onSuccess()
+                }
             }
         }
     }

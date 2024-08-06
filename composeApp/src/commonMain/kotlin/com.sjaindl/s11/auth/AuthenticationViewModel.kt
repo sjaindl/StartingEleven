@@ -2,9 +2,13 @@ package com.sjaindl.s11.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.auth.model.AuthResponse
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseException
+import dev.gitlive.firebase.auth.FirebaseAuthException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
+import dev.gitlive.firebase.auth.GoogleAuthProvider
 import dev.gitlive.firebase.auth.auth
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +25,9 @@ sealed class AuthenticationState {
     data class Error(val message: String): AuthenticationState()
 }
 
-class AuthenticationViewModel : ViewModel() {
+class AuthenticationViewModel constructor(
+    // private val fireStoreUtils: FireStoreUtils,
+) : ViewModel() {
 
     private val tag = "AuthenticationViewModel"
 
@@ -47,6 +53,13 @@ class AuthenticationViewModel : ViewModel() {
         } catch (e: FirebaseAuthInvalidCredentialsException) {
             Napier.e("Sign-in failed: Invalid credentials", e)
             _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
+        } catch (e: FirebaseAuthInvalidUserException) {
+            Napier.e("Sign-in failed: Invalid user", e)
+            _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
+        } catch (e: FirebaseAuthException) {
+            // on iOS FirebaseAuthException is directly thrown
+            Napier.e("Sign-in failed", e)
+            _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
         }
     }
 
@@ -71,6 +84,32 @@ class AuthenticationViewModel : ViewModel() {
         } catch (e: FirebaseException) {
             Napier.e("Sign-up failed", e)
             _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
+        } catch (e: FirebaseAuthException) {
+            // on iOS FirebaseAuthException is directly thrown
+            Napier.e("Sign-up failed", e)
+            _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
+        }
+    }
+
+    fun handleGoogleSignIn(authResponse: AuthResponse, cancelMessage: String) {
+        viewModelScope.launch {
+            when(authResponse) {
+                AuthResponse.Cancelled -> {
+                    _authenticationState.value = AuthenticationState.Error(message = cancelMessage)
+                }
+                is AuthResponse.Error -> {
+                    _authenticationState.value = AuthenticationState.Error(message = authResponse.message)
+                }
+                is AuthResponse.Success -> {
+                    Firebase.auth.signInWithCredential(
+                        GoogleAuthProvider.credential(
+                            idToken = authResponse.account.idToken,
+                            accessToken = null,
+                        )
+                    )
+                    _authenticationState.value = AuthenticationState.GoogleSignInSuccess
+                }
+            }
         }
     }
 
