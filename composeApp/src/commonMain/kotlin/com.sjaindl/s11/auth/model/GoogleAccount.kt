@@ -2,6 +2,7 @@ package com.sjaindl.s11.auth.model
 
 data class GoogleAccount(
     val idToken: String,
+    val accessToken: String?,
     val profile: Profile,
 )
 

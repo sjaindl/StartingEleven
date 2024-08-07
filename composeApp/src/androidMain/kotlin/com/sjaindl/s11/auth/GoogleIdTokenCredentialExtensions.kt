@@ -7,6 +7,7 @@ import com.sjaindl.s11.auth.model.Profile
 val GoogleIdTokenCredential.googleAccount: GoogleAccount
     get() = GoogleAccount(
         idToken = idToken,
+        accessToken = null,
         profile = Profile(
             name = displayName,
             familyName = familyName,

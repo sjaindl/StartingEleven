@@ -104,7 +104,7 @@ class AuthenticationViewModel constructor(
                     Firebase.auth.signInWithCredential(
                         GoogleAuthProvider.credential(
                             idToken = authResponse.account.idToken,
-                            accessToken = null,
+                            accessToken = authResponse.account.accessToken,
                         )
                     )
                     _authenticationState.value = AuthenticationState.GoogleSignInSuccess
