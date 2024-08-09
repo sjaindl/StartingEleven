@@ -6,12 +6,18 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import Foundation
+import FBSDKCoreKit
 import FirebaseCore
+import Foundation
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+        
         FirebaseApp.configure()
         return true
     }

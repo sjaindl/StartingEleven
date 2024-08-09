@@ -29,6 +29,7 @@ import com.sjaindl.s11.auth.SignInChooserScreen
 import com.sjaindl.s11.auth.SignInWithMailHomeScreen
 import com.sjaindl.s11.auth.SignInWithMailScreen
 import com.sjaindl.s11.auth.SignUpWithMailScreen
+import com.sjaindl.s11.auth.FacebookSignIn
 import com.sjaindl.s11.baseui.ErrorScreen
 import com.sjaindl.s11.baseui.LoadingScreen
 import com.sjaindl.s11.baseui.S11AppBar
@@ -88,6 +89,10 @@ fun authenticationGraph(
         mutableStateOf(value = false)
     }
 
+    var signInWithFacebook by remember {
+        mutableStateOf(value = false)
+    }
+
     BackHandler(
         isEnabled = true,
         onBack = { },
@@ -102,7 +107,18 @@ fun authenticationGraph(
             signInWithGoogle = false
 
             authenticationViewModel.handleGoogleSignIn(
-                authResponse = it,
+                googleAuthResponse = it,
+                cancelMessage = cancelMessage,
+            )
+        }
+    }
+
+    if (signInWithFacebook) {
+        signInWithFacebook = false
+
+        FacebookSignIn {
+            authenticationViewModel.handleFacebookSignIn(
+                facebookAuthResponse = it,
                 cancelMessage = cancelMessage,
             )
         }
@@ -127,7 +143,7 @@ fun authenticationGraph(
                                 signInWithGoogle = true
                             },
                             signInWithFacebook = {
-                                // TODO
+                                signInWithFacebook = true
                             },
                             signInWithMail = {
                                 navController.navigateToMailSignInHome()

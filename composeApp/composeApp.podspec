@@ -9,6 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/composeApp.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.0'
+    spec.dependency 'FBSDKLoginKit', '16.3.1'
     spec.dependency 'FirebaseAuth'
     spec.dependency 'FirebaseCore'
     spec.dependency 'GoogleSignIn'

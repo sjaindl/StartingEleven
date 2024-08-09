@@ -2,13 +2,13 @@ package com.sjaindl.s11.auth
 
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.sjaindl.s11.auth.model.GoogleAccount
-import com.sjaindl.s11.auth.model.Profile
+import com.sjaindl.s11.auth.model.GoogleProfile
 
 val GoogleIdTokenCredential.googleAccount: GoogleAccount
     get() = GoogleAccount(
         idToken = idToken,
         accessToken = null,
-        profile = Profile(
+        googleProfile = GoogleProfile(
             name = displayName,
             familyName = familyName,
             givenName = givenName,

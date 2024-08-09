@@ -13,12 +13,12 @@ import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.sjaindl.s11.BuildConfig
-import com.sjaindl.s11.auth.model.AuthResponse
+import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 
 @Composable
-actual fun GoogleSignIn(onResponse: (AuthResponse) -> Unit) {
+actual fun GoogleSignIn(onResponse: (GoogleAuthResponse) -> Unit) {
     val credentialManager = CredentialManager.create(LocalContext.current)
 
     val coroutineScope = rememberCoroutineScope()
@@ -43,7 +43,8 @@ actual fun GoogleSignIn(onResponse: (AuthResponse) -> Unit) {
                     is PublicKeyCredential -> {
                         // Share responseJson such as a GetCredentialResponse on your server to validate and authenticate
                         val responseJson = credential.authenticationResponseJson
-                        Napier.d(message = "Received PublicKeyCredential: $responseJson")
+                        Napier.d(message = "Received PublicKeyCredential instead of CustomCredential: $responseJson")
+                        onResponse(GoogleAuthResponse.Error("Received PublicKeyCredential: $responseJson"))
                     }
 
                     is PasswordCredential -> {
@@ -51,6 +52,7 @@ actual fun GoogleSignIn(onResponse: (AuthResponse) -> Unit) {
                         val username = credential.id
                         val password = credential.password
                         Napier.d(message = "Received PasswordCredential: $username / $password")
+                        onResponse(GoogleAuthResponse.Error("Received PasswordCredential for ${credential.id} instead of CustomCredential"))
                     }
 
                     is CustomCredential -> {
@@ -60,14 +62,14 @@ actual fun GoogleSignIn(onResponse: (AuthResponse) -> Unit) {
                             val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(data = credential.data)
 
                             onResponse(
-                                AuthResponse.Success(account = googleIdTokenCredential.googleAccount),
+                                GoogleAuthResponse.Success(account = googleIdTokenCredential.googleAccount),
                             )
                         }
                     }
                 }
 
             } catch (exception: GetCredentialException) {
-                onResponse(AuthResponse.Error(exception.message ?: exception.toString()))
+                onResponse(GoogleAuthResponse.Error(exception.message ?: exception.toString()))
             }
         }
     }

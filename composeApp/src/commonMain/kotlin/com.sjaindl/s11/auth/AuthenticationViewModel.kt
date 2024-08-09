@@ -2,9 +2,11 @@ package com.sjaindl.s11.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sjaindl.s11.auth.model.AuthResponse
+import com.sjaindl.s11.auth.model.FacebookAuthResponse
+import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseException
+import dev.gitlive.firebase.auth.FacebookAuthProvider
 import dev.gitlive.firebase.auth.FirebaseAuthException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
@@ -25,9 +27,7 @@ sealed class AuthenticationState {
     data class Error(val message: String): AuthenticationState()
 }
 
-class AuthenticationViewModel constructor(
-    // private val fireStoreUtils: FireStoreUtils,
-) : ViewModel() {
+class AuthenticationViewModel : ViewModel() {
 
     private val tag = "AuthenticationViewModel"
 
@@ -91,23 +91,52 @@ class AuthenticationViewModel constructor(
         }
     }
 
-    fun handleGoogleSignIn(authResponse: AuthResponse, cancelMessage: String) {
+    fun handleGoogleSignIn(googleAuthResponse: GoogleAuthResponse, cancelMessage: String) {
         viewModelScope.launch {
-            when(authResponse) {
-                AuthResponse.Cancelled -> {
+            when(googleAuthResponse) {
+                GoogleAuthResponse.Cancelled -> {
                     _authenticationState.value = AuthenticationState.Error(message = cancelMessage)
                 }
-                is AuthResponse.Error -> {
-                    _authenticationState.value = AuthenticationState.Error(message = authResponse.message)
+                is GoogleAuthResponse.Error -> {
+                    _authenticationState.value = AuthenticationState.Error(message = googleAuthResponse.message)
                 }
-                is AuthResponse.Success -> {
+                is GoogleAuthResponse.Success -> {
                     Firebase.auth.signInWithCredential(
                         GoogleAuthProvider.credential(
-                            idToken = authResponse.account.idToken,
-                            accessToken = authResponse.account.accessToken,
+                            idToken = googleAuthResponse.account.idToken,
+                            accessToken = googleAuthResponse.account.accessToken,
                         )
                     )
                     _authenticationState.value = AuthenticationState.GoogleSignInSuccess
+                }
+            }
+        }
+    }
+
+    fun handleFacebookSignIn(facebookAuthResponse: FacebookAuthResponse, cancelMessage: String) {
+        viewModelScope.launch {
+            when(facebookAuthResponse) {
+                FacebookAuthResponse.Cancelled -> {
+                    _authenticationState.value = AuthenticationState.Error(message = cancelMessage)
+                }
+                is FacebookAuthResponse.Error -> {
+                    _authenticationState.value = AuthenticationState.Error(message = facebookAuthResponse.message)
+                }
+                is FacebookAuthResponse.Success -> {
+                    try {
+                        Firebase.auth.signInWithCredential(
+                            FacebookAuthProvider.credential(
+                                accessToken = facebookAuthResponse.accessToken,
+                            )
+                        )
+                        _authenticationState.value = AuthenticationState.FacebookSignInSuccess
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        Napier.e(message = "Firebase Auth Error: FirebaseAuthInvalidCredentialsException", throwable = e)
+                        _authenticationState.value = AuthenticationState.Error(message = "${e.message}")
+                    } catch (e: FirebaseAuthException) {
+                        Napier.e("Sign-in failed", e)
+                        _authenticationState.value = AuthenticationState.Error(message = e.message ?: e.toString())
+                    }
                 }
             }
         }
