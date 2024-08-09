@@ -96,6 +96,8 @@ kotlin {
             implementation(libs.credentials.play.services)
             implementation(libs.googleid)
             implementation(libs.facebook.login)
+
+            implementation(libs.koin.android)
         }
 
         commonMain.dependencies {
@@ -115,10 +117,13 @@ kotlin {
             implementation(libs.firebase.auth)
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.storage)
+
+            implementation(libs.koin.core)
         }
 
         commonTest.dependencies {
             implementation(libs.kotest.assertions.core)
+            implementation(libs.koin.test)
         }
 
         val wasmJsMain by getting {

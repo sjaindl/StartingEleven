@@ -9,61 +9,62 @@ androidx-constraintlayout = "2.1.4"
 androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-material3 = "1.2.1"
-kotestAssertionsCore = "5.9.1"
-kotlinVersion = "2.0.0"
+androidx-test-junit = "1.2.1"
 composeMultiplatformVersion = "2.8.0-alpha08"
-serializationVersion = "1.6.3"
-iconsVersion = "1.6.11"
-napierVersion = "2.7.1"
-firebaseVersion = "1.10.4"
-playServicesAuth = "21.0.0"
-firebase-bom = "32.7.4"
-google-play-services = "4.4.1"
 credentialsVersion = "1.2.2"
 credentialsPlayServicesVersion = "1.2.2"
-googleidVersion = "1.1.1"
-facebookVersion = "16.0.1"
-
-androidx-test-junit = "1.2.1"
 compose-plugin = "1.6.11"
+facebookVersion = "16.0.1"
+firebaseVersion = "1.10.4"
+firebase-bom = "32.7.4"
+google-play-services = "4.4.1"
+googleidVersion = "1.1.1"
+iconsVersion = "1.6.11"
 junit = "4.13.2"
+koinVersion = "3.2.0"
+kotestAssertionsCore = "5.9.1"
+kotlinVersion = "2.0.0"
+napierVersion = "2.7.1"
+playServicesAuth = "21.0.0"
+serializationVersion = "1.6.3"
 
 [libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentialsVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+androidx-material3 = { group = "com.google.android.material3", name = "material3", version.ref = "androidx-material3" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "composeMultiplatformVersion" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesVersion" }
+facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookVersion" }
+firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseVersion" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
+firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
+firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebaseVersion" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinVersion" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinVersion" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinVersion" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
-androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
-androidx-material3 = { group = "com.google.android.material3", name = "material3", version.ref = "androidx-material3" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "composeMultiplatformVersion" }
-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "composeMultiplatformVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationVersion" }
-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "iconsVersion" }
-firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
-firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseVersion" }
-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
-firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebaseVersion" }
 logging-napier = { module = "io.github.aakira:napier", version.ref = "napierVersion" }
-
+material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "iconsVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
-androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentialsVersion" }
-credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesVersion" }
-googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
-facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookVersion" }
+viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "composeMultiplatformVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
+google-playServices = { id = "com.google.gms.google-services", version.ref = "google-play-services" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinVersion" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
-kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinVersion" }
-
-google-playServices = { id = "com.google.gms.google-services", version.ref = "google-play-services" }

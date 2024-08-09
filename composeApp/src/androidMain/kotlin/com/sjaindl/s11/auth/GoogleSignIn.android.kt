@@ -16,10 +16,11 @@ import com.sjaindl.s11.BuildConfig
 import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 
 @Composable
 actual fun GoogleSignIn(onResponse: (GoogleAuthResponse) -> Unit) {
-    val credentialManager = CredentialManager.create(LocalContext.current)
+    val credentialManager: CredentialManager by inject(CredentialManager::class.java)
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
