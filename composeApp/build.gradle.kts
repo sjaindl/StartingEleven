@@ -1,6 +1,8 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -10,9 +12,23 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinCocoapods)
+    alias(libs.plugins.google.playServices)
 }
 
 kotlin {
+    /*
+    js(IR) {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+     */
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -37,23 +53,51 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "S11 iOS dependencies"
+        homepage = "https://starting-eleven-2019.firebaseapp.com/home"
+        version = "1.0"
+        ios.deploymentTarget = "16.0"
+        podfile = project.file("../iosApp/Podfile")
+        name = "composeApp"
+
+        framework {
+            baseName = "composeApp"
             isStatic = true
+
+            embedBitcode(BITCODE)
+        }
+
+        xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
+        xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
+
+        pod(name = "GoogleSignIn")
+        pod(name = "FirebaseCore")
+        pod(name = "FirebaseAuth")
+        pod(name = "FBSDKLoginKit") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "16.3.1"
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.play.services.auth)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.androidx.credentials)
+            implementation(libs.credentials.play.services)
+            implementation(libs.googleid)
+            implementation(libs.facebook.login)
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -64,6 +108,20 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.material.icons.extended)
+            implementation(libs.viewmodel.compose)
+            implementation(libs.logging.napier)
+
+            implementation(libs.firebase.common)
+            implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotest.assertions.core)
+        }
+
+        val wasmJsMain by getting {
         }
     }
 }
@@ -82,6 +140,12 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        val googleServerClientId = gradleLocalProperties(rootDir, providers).getProperty("googleServerClientId")
+        buildConfigField(type = "String", name = "googleServerClientId", value = googleServerClientId)
+
+        val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
+        manifestPlaceholders["facebookClientToken"] = facebookClientToken
     }
     packaging {
         resources {
@@ -99,6 +163,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     dependencies {
         debugImplementation(compose.uiTooling)

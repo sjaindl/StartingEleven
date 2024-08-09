@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'composeApp'
     spec.version                  = '1.0'
-    spec.homepage                 = 'null'
+    spec.homepage                 = 'https://starting-eleven-2019.firebaseapp.com/home'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
