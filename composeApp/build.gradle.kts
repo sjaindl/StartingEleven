@@ -62,7 +62,7 @@ kotlin {
         summary = "S11 iOS dependencies"
         homepage = "https://starting-eleven-2019.firebaseapp.com/home"
         version = "1.0"
-        ios.deploymentTarget = "16.0"
+        ios.deploymentTarget = "17.5"
         podfile = project.file("../iosApp/Podfile")
         name = "composeApp"
 
@@ -79,6 +79,9 @@ kotlin {
         pod(name = "GoogleSignIn")
         pod(name = "FirebaseCore")
         pod(name = "FirebaseAuth")
+        pod(name = "FirebaseFirestore") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
@@ -119,6 +122,7 @@ kotlin {
             implementation(libs.firebase.storage)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         commonTest.dependencies {

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.0"
+agp = "8.3.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -21,7 +21,8 @@ google-play-services = "4.4.1"
 googleidVersion = "1.1.1"
 iconsVersion = "1.6.11"
 junit = "4.13.2"
-koinVersion = "3.2.0"
+koinVersion = "4.0.0-RC1"
+koinComposeVersion = "1.1.5"
 kotestAssertionsCore = "5.9.1"
 kotlinVersion = "2.0.0"
 napierVersion = "2.7.1"
@@ -48,6 +49,7 @@ firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "fir
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion"}
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinVersion" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }

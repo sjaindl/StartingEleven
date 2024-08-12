@@ -6,8 +6,10 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
+import composeApp
 import FBSDKCoreKit
 import FirebaseCore
+import FirebaseFirestore
 import Foundation
 import SwiftUI
 
@@ -19,6 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         )
         
         FirebaseApp.configure()
+
+        // TODO: Replace once method in Firebase iOS SDK is out of preview
+        // It's not available in iOSMain right now.
+        AppModule_iosKt.globalFireStore = Firestore.firestore(database: "s11-prod")
+        
         return true
     }
 }

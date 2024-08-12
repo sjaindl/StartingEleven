@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.google.firebase.FirebaseApp
 import com.sjaindl.s11.di.androidModule
+import com.sjaindl.s11.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -22,7 +23,7 @@ class S11Application : Application() {
 
         startKoin {
             androidContext(this@S11Application)
-            modules(modules = androidModule)
+            modules(androidModule, appModule)
         }
     }
 }

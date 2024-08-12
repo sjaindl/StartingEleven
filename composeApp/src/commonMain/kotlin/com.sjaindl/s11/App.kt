@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sjaindl.s11.auth.navigation.authenticationGraph
 import com.sjaindl.s11.baseui.S11AppBar
 import com.sjaindl.s11.baseui.S11NavigationBar
+import com.sjaindl.s11.composables.PlayersScreen
 import com.sjaindl.s11.home.HomeScreen
 import com.sjaindl.s11.navigation.Auth
 import com.sjaindl.s11.navigation.Home
@@ -39,6 +40,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
 import startingeleven.composeapp.generated.resources.Res
 import startingeleven.composeapp.generated.resources.appName
 import startingeleven.composeapp.generated.resources.compose_multiplatform
@@ -49,81 +51,82 @@ private val TOP_LEVEL_SCREENS = listOf(Home.toString(), Team.toString(), Players
 @Composable
 @Preview
 fun App() {
-    val navController = rememberNavController()
+    KoinContext {
+        val navController = rememberNavController()
 
-    val snackBarHostState = remember {
-        SnackbarHostState()
-    }
+        val snackBarHostState = remember {
+            SnackbarHostState()
+        }
 
-    var showBars by remember {
-        mutableStateOf(value = true)
-    }
+        var showBars by remember {
+            mutableStateOf(value = true)
+        }
 
-    val coroutineScope = rememberCoroutineScope()
+        val coroutineScope = rememberCoroutineScope()
 
-    val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(
-        initial = Firebase.auth.currentUser
-    )
+        val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(
+            initial = Firebase.auth.currentUser
+        )
 
-    HvtdpTheme {
-        Scaffold(
-            topBar = {
-                if (showBars) {
-                    S11AppBar(
-                        title = stringResource(resource = Res.string.appName),
-                        userIsSignedIn = user?.displayName != null,
-                        canNavigateBack = navController.previousBackStackEntry != null &&
-                                TOP_LEVEL_SCREENS.contains(navController.currentBackStackEntry?.destination?.route).not() &&
-                                navController.currentBackStackEntry?.destination?.route != Auth.toString(),
-                        navigateUp = navController::navigateUp,
-                    )
-                }
-            },
-            bottomBar = {
-                if (showBars) {
-                    S11NavigationBar(navController)
-                }
-            },
-            snackbarHost = {
-                SnackbarHost(hostState = snackBarHostState)
-            },
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = Home,
-                modifier = Modifier
-                    .padding(paddingValues = it),
+        HvtdpTheme {
+            Scaffold(
+                topBar = {
+                    if (showBars) {
+                        S11AppBar(
+                            title = stringResource(resource = Res.string.appName),
+                            userIsSignedIn = user?.displayName != null,
+                            canNavigateBack = navController.previousBackStackEntry != null &&
+                                    TOP_LEVEL_SCREENS.contains(navController.currentBackStackEntry?.destination?.route).not() &&
+                                    navController.currentBackStackEntry?.destination?.route != Auth.toString(),
+                            navigateUp = navController::navigateUp,
+                        )
+                    }
+                },
+                bottomBar = {
+                    if (showBars) {
+                        S11NavigationBar(navController)
+                    }
+                },
+                snackbarHost = {
+                    SnackbarHost(hostState = snackBarHostState)
+                },
             ) {
-                composable<Home> {
-                    HomeScreen(
-                        displayName = user?.displayName,
-                        onAuthenticate = {
-                            showBars = false
-                            navController.navigate(route = Auth)
-                        },
-                    )
-                }
-                composable<Team> {
-                    Text("Team")
-                    TestContent()
-                }
-                composable<Players> {
-                    Text("Players")
-                    TestContent()
-                }
-                composable<Standings> {
-                    Text("Standings")
-                    TestContent()
-                }
+                NavHost(
+                    navController = navController,
+                    startDestination = Home,
+                    modifier = Modifier
+                        .padding(paddingValues = it),
+                ) {
+                    composable<Home> {
+                        HomeScreen(
+                            displayName = user?.displayName,
+                            onAuthenticate = {
+                                showBars = false
+                                navController.navigate(route = Auth)
+                            },
+                        )
+                    }
+                    composable<Team> {
+                        Text("Team")
+                        TestContent()
+                    }
+                    composable<Players> {
+                        PlayersScreen()
+                    }
+                    composable<Standings> {
+                        Text("Standings")
+                        TestContent()
+                    }
 
-                composable<Auth> {
-                    val signInSuccessText = stringResource(Res.string.signInSuccess)
+                    composable<Auth> {
+                        val signInSuccessText = stringResource(Res.string.signInSuccess)
 
-                    authenticationGraph() {
-                        navController.popBackStack()
-                        showBars = true
-                        coroutineScope.launch {
-                            snackBarHostState.showSnackbar(message = signInSuccessText)
+                        authenticationGraph() {
+                            navController.popBackStack()
+                            showBars = true
+                            coroutineScope.launch {
+                                snackBarHostState.showSnackbar(message = signInSuccessText)
+                            }
                         }
                     }
                 }
