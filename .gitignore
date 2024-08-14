@@ -44,3 +44,8 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 Pods
+
+# Secret files
+GoogleService-Info.plist
+S11Config.xcconfig
+google-services.json
