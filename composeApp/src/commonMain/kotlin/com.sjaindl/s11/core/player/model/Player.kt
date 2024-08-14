@@ -8,5 +8,6 @@ data class Player(
     val name: String,
     val position: Position,
     val imageRef: String?,
+    val downloadUrl: String?,
     val points: Map<String, Int>,
 )

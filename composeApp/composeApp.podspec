@@ -13,6 +13,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseAuth'
     spec.dependency 'FirebaseCore'
     spec.dependency 'FirebaseFirestore'
+    spec.dependency 'FirebaseStorage', '10.21.0'
     spec.dependency 'GoogleSignIn'
                 
     if !Dir.exist?('build/cocoapods/framework/composeApp.framework') || Dir.empty?('build/cocoapods/framework/composeApp.framework')

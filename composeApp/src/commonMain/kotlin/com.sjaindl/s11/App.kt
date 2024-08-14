@@ -22,6 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.disk.DiskCache
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.crossfade
+import coil3.util.DebugLogger
 import com.sjaindl.s11.auth.navigation.authenticationGraph
 import com.sjaindl.s11.baseui.S11AppBar
 import com.sjaindl.s11.baseui.S11NavigationBar
@@ -37,6 +46,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import okio.FileSystem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -48,9 +58,14 @@ import startingeleven.composeapp.generated.resources.signInSuccess
 
 private val TOP_LEVEL_SCREENS = listOf(Home.toString(), Team.toString(), Players.toString(), Standings.toString())
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 @Preview
 fun App() {
+    setSingletonImageLoaderFactory { context ->
+        getAsyncImageLoader(context)
+    }
+
     KoinContext {
         val navController = rememberNavController()
 
@@ -154,4 +169,26 @@ private fun TestContent() {
             }
         }
     }
+}
+
+fun getAsyncImageLoader(context: PlatformContext)=
+    ImageLoader
+        .Builder(context)
+        .crossfade(true)
+        .logger(DebugLogger())
+        .memoryCachePolicy(CachePolicy.ENABLED)
+        .memoryCache {
+            MemoryCache.Builder()
+                .maxSizePercent(context = context, percent = 0.3)
+                .strongReferencesEnabled(enable = true)
+                .build()
+        }
+        .diskCache(newDiskCache())
+        .build()
+
+fun newDiskCache(): DiskCache {
+    return DiskCache.Builder()
+        .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
+        .maxSizeBytes(size = 50L * 1024 * 1024) // 50 MB
+        .build()
 }

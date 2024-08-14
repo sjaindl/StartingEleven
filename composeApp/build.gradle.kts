@@ -73,14 +73,20 @@ kotlin {
             embedBitcode(BITCODE)
         }
 
-        xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
-        xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
+       // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
+       // xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
 
         pod(name = "GoogleSignIn")
         pod(name = "FirebaseCore")
         pod(name = "FirebaseAuth")
         pod(name = "FirebaseFirestore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
+        }
+        pod(name = "FirebaseStorage") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "10.21.0"
+            // needed because of error:
+            // Caused by: java.lang.IllegalStateException: Executing of 'xcodebuild -project Pods.xcodeproj -scheme FirebaseStorage -sdk iphoneos -configuration Release' failed with code 65 and message:
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
@@ -101,6 +107,7 @@ kotlin {
             implementation(libs.facebook.login)
 
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.android)
         }
 
         commonMain.dependencies {
@@ -112,6 +119,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.material.icons.extended)
             implementation(libs.viewmodel.compose)
             implementation(libs.logging.napier)
@@ -123,6 +131,21 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.ios)
         }
 
         commonTest.dependencies {

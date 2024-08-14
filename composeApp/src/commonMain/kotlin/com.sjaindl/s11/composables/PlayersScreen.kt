@@ -1,9 +1,9 @@
 package com.sjaindl.s11.composables
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,12 +51,11 @@ fun PlayersScreen(
         }
 
         is PlayerState.Success -> {
-            Column(
+            LazyColumn(
                 modifier = modifier,
             ) {
-                Text("success")
-                state.players.forEach {
-                    Text(it.name)
+                items(state.players) {
+                    PlayerUI(player = it)
                 }
             }
         }
