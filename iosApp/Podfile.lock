@@ -959,6 +959,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.32)
   - BoringSSL-GRPC/Interface (0.0.32)
   - composeApp (1.0):
+    - FBSDKCoreKit
     - FBSDKLoginKit (= 16.3.1)
     - FirebaseAuth
     - FirebaseCore
@@ -1168,7 +1169,7 @@ SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
-  composeApp: 9c793bfb7ad51023dd9d5b091fc19e7eccb553f7
+  composeApp: f435cd2c556b47512fdab06d200390c471077baf
   FBAEMKit: 6c7b5eb77c96861bb59e040842c6e55bf39512ce
   FBSDKCoreKit: 5e4dd478947ab1bcc887e8cfadeae0727af1a942
   FBSDKCoreKit_Basics: cd7b5f5d1e8868c26706917919d058999ca672c3

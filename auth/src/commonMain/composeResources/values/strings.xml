@@ -1,0 +1,14 @@
+<resources>
+    <string name="appName">Starting 11</string>
+
+    <string name="signIn">Sign in</string>
+    <string name="signUp">Sign up</string>
+    <string name="email">E-mail</string>
+    <string name="enterMail">Enter E-mail</string>
+    <string name="enterPassword">Enter password</string>
+    <string name="enterName">Enter name</string>
+    <string name="signInWithGoogle">Sign in with Google</string>
+    <string name="signInWithFacebook">Sign in with Facebook</string>
+    <string name="signInWithEmail">Sign in with email</string>
+    <string name="signInCancel">Sign in cancelled</string>
+</resources>

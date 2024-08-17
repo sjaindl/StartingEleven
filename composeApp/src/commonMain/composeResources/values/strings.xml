@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName" translatable="false">Starting 11</string>
-    <string name="back">Back</string>
-
-    <string name="signOut">Sign out</string>
-    <string name="signIn">Sign in</string>
-    <string name="signUp">Sign up</string>
-    <string name="email">E-mail</string>
-    <string name="enterMail">Enter E-mail</string>
-    <string name="enterPassword">Enter password</string>
-    <string name="enterName">Enter name</string>
-    <string name="signInWithGoogle">Sign in with Google</string>
-    <string name="signInWithFacebook">Sign in with Facebook</string>
-    <string name="signInWithEmail">Sign in with email</string>
-    <string name="signInCancel">Sign in cancelled</string>
-
-    <string name="errorTitle">An error has occurred</string>
-    <string name="errorDescription">Currently no data can be displayed</string>
-    <string name="retry">Retry</string>
-    <string name="showMore">Show more</string>
 
     <string name="hello">Hello</string>
     <string name="signInSuccess">Successfully signed in!</string>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="back">Back</string>
+    <string name="signOut">Sign out</string>
+    <string name="errorTitle">An error has occurred</string>
+    <string name="errorDescription">Currently no data can be displayed</string>
+    <string name="retry">Retry</string>
+    <string name="showMore">Show more</string>
+</resources>

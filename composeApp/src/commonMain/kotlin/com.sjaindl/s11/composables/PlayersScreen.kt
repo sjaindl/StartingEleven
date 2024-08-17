@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.PlayerState
 import com.sjaindl.s11.PlayerViewModel
-import com.sjaindl.s11.baseui.ErrorScreen
-import com.sjaindl.s11.baseui.LoadingScreen
-import com.sjaindl.s11.theme.HvtdpTheme
+import com.sjaindl.s11.core.baseui.ErrorScreen
+import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.theme.HvtdpTheme
 
 @Composable
 fun PlayersScreen(

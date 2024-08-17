@@ -2,7 +2,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
-import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -29,6 +28,7 @@ kotlin {
     }
      */
 
+    /*
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -46,6 +46,7 @@ kotlin {
         }
         binaries.executable()
     }
+     */
     
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -62,7 +63,8 @@ kotlin {
         summary = "S11 iOS dependencies"
         homepage = "https://starting-eleven-2019.firebaseapp.com/home"
         version = "1.0"
-        ios.deploymentTarget = "17.5"
+        ios.deploymentTarget = "15.5"
+
         podfile = project.file("../iosApp/Podfile")
         name = "composeApp"
 
@@ -76,7 +78,10 @@ kotlin {
        // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
        // xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
 
-        pod(name = "GoogleSignIn")
+        pod(name = "GoogleSignIn") {
+            linkOnly = true
+        }
+
         pod(name = "FirebaseCore")
         pod(name = "FirebaseAuth")
         pod(name = "FirebaseFirestore") {
@@ -88,9 +93,15 @@ kotlin {
             // needed because of error:
             // Caused by: java.lang.IllegalStateException: Executing of 'xcodebuild -project Pods.xcodeproj -scheme FirebaseStorage -sdk iphoneos -configuration Release' failed with code 65 and message:
         }
+
+        pod(name = "FBSDKCoreKit") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            linkOnly = true
+        }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
+            linkOnly = true
         }
     }
 
@@ -101,6 +112,7 @@ kotlin {
 
             implementation(libs.play.services.auth)
             implementation(project.dependencies.platform(libs.firebase.bom))
+
             implementation(libs.androidx.credentials)
             implementation(libs.credentials.play.services)
             implementation(libs.googleid)
@@ -118,10 +130,10 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.navigation.compose)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.material.icons.extended)
             implementation(libs.viewmodel.compose)
+
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.material.icons.extended)
             implementation(libs.logging.napier)
 
             implementation(libs.firebase.common)
@@ -142,10 +154,15 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
+
+            implementation(project(":core"))
+            implementation(project(":auth"))
         }
 
-        iosMain.dependencies {
-            implementation(libs.ktor.client.ios)
+        iosMain {
+            dependencies {
+                implementation(libs.ktor.client.ios)
+            }
         }
 
         commonTest.dependencies {
@@ -153,8 +170,10 @@ kotlin {
             implementation(libs.koin.test)
         }
 
+        /*
         val wasmJsMain by getting {
         }
+         */
     }
 }
 
@@ -164,7 +183,7 @@ android {
 
     sourceSets["main"].manifest.srcFile(srcPath = "src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
     defaultConfig {
         applicationId = "com.sjaindl.s11"
@@ -172,9 +191,6 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
-        val googleServerClientId = gradleLocalProperties(rootDir, providers).getProperty("googleServerClientId")
-        buildConfigField(type = "String", name = "googleServerClientId", value = googleServerClientId)
 
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
@@ -195,7 +211,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
     dependencies {
         debugImplementation(compose.uiTooling)

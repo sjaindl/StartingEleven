@@ -18,10 +18,10 @@ import coil3.compose.LocalPlatformContext
 import coil3.compose.SubcomposeAsyncImage
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
-import com.sjaindl.s11.baseui.LoadingScreen
+import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.player.model.Player
 import com.sjaindl.s11.core.player.model.Position
-import com.sjaindl.s11.theme.HvtdpTheme
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

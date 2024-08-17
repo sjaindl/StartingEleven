@@ -19,8 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.sjaindl.s11.theme.HvtdpTheme
-import com.sjaindl.s11.theme.LocalDimensions
+import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.core.theme.LocalDimensions
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

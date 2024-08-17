@@ -5,6 +5,247 @@
       location = "container:"
       name = "KMP">
       <Group
+         location = "group:../auth"
+         name = "auth">
+         <Group
+            location = "group:src"
+            name = "src">
+            <Group
+               location = "group:iosMain"
+               name = "iosMain">
+               <Group
+                  location = "group:kotlin"
+                  name = "kotlin">
+                  <Group
+                     location = "group:com.sjaindl"
+                     name = "com.sjaindl">
+                     <Group
+                        location = "group:s11"
+                        name = "s11">
+                        <Group
+                           location = "group:auth"
+                           name = "auth">
+                           <FileRef
+                              location = "group:GoogleSignIn.ios.kt">
+                           </FileRef>
+                           <FileRef
+                              location = "group:FacebookSignIn.ios.kt">
+                           </FileRef>
+                        </Group>
+                     </Group>
+                  </Group>
+               </Group>
+            </Group>
+            <Group
+               location = "group:commonMain"
+               name = "commonMain">
+               <Group
+                  location = "group:composeResources"
+                  name = "composeResources">
+                  <Group
+                     location = "group:drawable"
+                     name = "drawable">
+                     <FileRef
+                        location = "group:ic_google.xml">
+                     </FileRef>
+                  </Group>
+                  <Group
+                     location = "group:values"
+                     name = "values">
+                     <FileRef
+                        location = "group:strings.xml">
+                     </FileRef>
+                  </Group>
+               </Group>
+               <Group
+                  location = "group:kotlin"
+                  name = "kotlin">
+                  <Group
+                     location = "group:com"
+                     name = "com">
+                     <Group
+                        location = "group:sjaindl"
+                        name = "sjaindl">
+                        <Group
+                           location = "group:s11"
+                           name = "s11">
+                           <Group
+                              location = "group:auth"
+                              name = "auth">
+                              <FileRef
+                                 location = "group:SignInWithMailHomeScreen.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:AuthenticationViewModel.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:FacebookSignIn.kt">
+                              </FileRef>
+                              <Group
+                                 location = "group:navigation"
+                                 name = "navigation">
+                                 <FileRef
+                                    location = "group:AuthenticationGraph.kt">
+                                 </FileRef>
+                              </Group>
+                              <FileRef
+                                 location = "group:SignInChooserScreen.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:SignUpWithMailScreen.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:ValidationRules.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:SignInWithMailScreen.kt">
+                              </FileRef>
+                              <Group
+                                 location = "group:model"
+                                 name = "model">
+                                 <FileRef
+                                    location = "group:GoogleAccount.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:FacebookAuthResponse.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:GoogleAuthResponse.kt">
+                                 </FileRef>
+                              </Group>
+                              <FileRef
+                                 location = "group:GoogleSignIn.kt">
+                              </FileRef>
+                           </Group>
+                        </Group>
+                     </Group>
+                  </Group>
+               </Group>
+            </Group>
+         </Group>
+      </Group>
+      <Group
+         location = "group:../core"
+         name = "core">
+         <Group
+            location = "group:src"
+            name = "src">
+            <Group
+               location = "group:iosMain"
+               name = "iosMain">
+               <Group
+                  location = "group:kotlin"
+                  name = "kotlin">
+                  <Group
+                     location = "group:com.sjaindl"
+                     name = "com.sjaindl">
+                     <Group
+                        location = "group:s11"
+                        name = "s11">
+                        <Group
+                           location = "group:core"
+                           name = "core">
+                           <FileRef
+                              location = "group:BackHandler.ios.kt">
+                           </FileRef>
+                        </Group>
+                     </Group>
+                  </Group>
+               </Group>
+            </Group>
+            <Group
+               location = "group:commonMain"
+               name = "commonMain">
+               <Group
+                  location = "group:composeResources"
+                  name = "composeResources">
+                  <Group
+                     location = "group:drawable"
+                     name = "drawable">
+                  </Group>
+                  <Group
+                     location = "group:values"
+                     name = "values">
+                     <FileRef
+                        location = "group:strings.xml">
+                     </FileRef>
+                  </Group>
+               </Group>
+               <FileRef
+                  location = "group:AndroidManifest.xml">
+               </FileRef>
+               <Group
+                  location = "group:kotlin"
+                  name = "kotlin">
+                  <Group
+                     location = "group:com"
+                     name = "com">
+                     <Group
+                        location = "group:sjaindl"
+                        name = "sjaindl">
+                        <Group
+                           location = "group:s11"
+                           name = "s11">
+                           <Group
+                              location = "group:core"
+                              name = "core">
+                              <FileRef
+                                 location = "group:CachedValue.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:BackHandler.kt">
+                              </FileRef>
+                              <Group
+                                 location = "group:navigation"
+                                 name = "navigation">
+                                 <FileRef
+                                    location = "group:Routes.kt">
+                                 </FileRef>
+                              </Group>
+                              <Group
+                                 location = "group:theme"
+                                 name = "theme">
+                                 <FileRef
+                                    location = "group:Color.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:Dimensions.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:Theme.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:Type.kt">
+                                 </FileRef>
+                              </Group>
+                              <Group
+                                 location = "group:baseui"
+                                 name = "baseui">
+                                 <FileRef
+                                    location = "group:OverflowMenu.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:S11BottomBar.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:ErrorScreen.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:S11AppBar.kt">
+                                 </FileRef>
+                                 <FileRef
+                                    location = "group:LoadingScreen.kt">
+                                 </FileRef>
+                              </Group>
+                           </Group>
+                        </Group>
+                     </Group>
+                  </Group>
+               </Group>
+            </Group>
+         </Group>
+      </Group>
+      <Group
          location = "group:../composeApp/src/commonMain"
          name = "commonMain">
          <Group
@@ -176,23 +417,6 @@
                <Group
                   location = "group:s11"
                   name = "s11">
-                  <Group
-                     location = "group:core"
-                     name = "core">
-                     <FileRef
-                        location = "group:BackHandler.ios.kt">
-                     </FileRef>
-                  </Group>
-                  <Group
-                     location = "group:auth"
-                     name = "auth">
-                     <FileRef
-                        location = "group:GoogleSignIn.ios.kt">
-                     </FileRef>
-                     <FileRef
-                        location = "group:FacebookSignIn.ios.kt">
-                     </FileRef>
-                  </Group>
                   <FileRef
                      location = "group:MainViewController.kt">
                   </FileRef>
