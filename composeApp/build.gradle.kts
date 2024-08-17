@@ -187,6 +187,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sjaindl.s11"
+
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
