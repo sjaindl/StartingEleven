@@ -73,6 +73,11 @@ kotlin {
             isStatic = true
 
             embedBitcode(BITCODE)
+
+            // TODO: Can pod dependencies from other libs be directly included without re-specification here?
+            dependencies {
+                implementation(project(":auth"))
+            }
         }
 
        // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
@@ -211,5 +216,7 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        testImplementation(libs.junit)
+        testImplementation(libs.kotlin.test.junit)
     }
 }

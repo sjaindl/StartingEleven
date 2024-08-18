@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -25,24 +24,6 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-
-    cocoapods {
-        summary = "S11 iOS core dependencies"
-        homepage = "https://starting-eleven-2019.firebaseapp.com/home"
-        version = "1.0"
-        ios.deploymentTarget = "15.5"
-
-        podfile = project.file("../iosApp/Podfile")
-
-        name = "core"
-
-        framework {
-            baseName = "core"
-            isStatic = true
-
-            embedBitcode(BITCODE)
-        }
-    }
 
     sourceSets {
         androidMain.dependencies {
