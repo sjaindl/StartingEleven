@@ -78,9 +78,7 @@ kotlin {
        // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
        // xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
 
-        pod(name = "GoogleSignIn") {
-            linkOnly = true
-        }
+        pod(name = "GoogleSignIn")
 
         pod(name = "FirebaseCore")
         pod(name = "FirebaseAuth")
@@ -96,12 +94,10 @@ kotlin {
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            linkOnly = true
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
-            linkOnly = true
         }
     }
 
