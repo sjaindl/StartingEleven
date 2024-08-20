@@ -1,8 +1,8 @@
-package com.sjaindl.s11.core.player
+package com.sjaindl.s11.core.firestore.player
 
 import com.sjaindl.s11.core.CachedValue
 import com.sjaindl.s11.core.firestore.FireStoreBaseDataSource
-import com.sjaindl.s11.core.player.model.Player
+import com.sjaindl.s11.core.firestore.player.model.Player
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.FirebaseStorage
@@ -39,9 +39,9 @@ internal class PlayerDataSourceImpl(
         return players
     }
 
-    override fun getPlayersFlow() = getDataFlow()
+    override fun getPlayersFlow() = getCollectionFlow()
 
-    private suspend fun getPlayerDataWithImage() = getData().map {
+    private suspend fun getPlayerDataWithImage() = getCollection().map {
         it.copy(
             downloadUrl = getPlayerImageDownloadUrl(it),
         )

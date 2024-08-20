@@ -156,8 +156,9 @@ kotlin {
             implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
 
-            implementation(project(":core"))
-            implementation(project(":auth"))
+            implementation(project(path = ":core"))
+            implementation(project(path = ":auth"))
+            implementation(project(path = ":profile"))
         }
 
         iosMain {

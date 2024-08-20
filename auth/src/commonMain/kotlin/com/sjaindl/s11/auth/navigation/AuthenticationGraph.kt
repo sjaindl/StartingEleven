@@ -67,7 +67,7 @@ private fun NavController.navigateToMailSignUp(email: String, navOptions: NavOpt
 }
 
 @Composable
-fun authenticationGraph(
+fun AuthenticationGraph(
     onSuccess: () -> Unit,
 ) {
     // Needs to be a separate navController than the top one, because Each NavHost is designed to manage its own navigation graph and associated ViewModelStore
@@ -129,6 +129,7 @@ fun authenticationGraph(
             S11AppBar(
                 title = stringResource(resource = Res.string.appName),
                 userIsSignedIn = false,
+                isTopLevelAppBar = false,
                 canNavigateBack = currentRoute?.contains(other = SignInChooser.toString())?.not() ?: false,
                 navigateUp = navController::navigateUp,
             )

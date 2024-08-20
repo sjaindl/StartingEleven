@@ -1,4 +1,4 @@
-package com.sjaindl.s11.core.player.model
+package com.sjaindl.s11.core.firestore.player.model
 
 import kotlinx.serialization.Serializable
 

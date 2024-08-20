@@ -1,6 +1,6 @@
-package com.sjaindl.s11.core.faq
+package com.sjaindl.s11.firestore.faq
 
-import com.sjaindl.s11.core.faq.model.Faq
+import com.sjaindl.s11.firestore.faq.model.Faq
 import kotlinx.coroutines.flow.Flow
 
 interface FaqRepository {

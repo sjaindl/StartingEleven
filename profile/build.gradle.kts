@@ -1,9 +1,5 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -28,13 +24,13 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
 
             implementation(libs.play.services.auth)
             implementation(project.dependencies.platform(libs.firebase.bom))
 
             implementation(libs.koin.android)
         }
-
 
         commonMain {
             dependencies {
@@ -45,19 +41,26 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
                 implementation(libs.androidx.navigation.compose)
+                implementation(libs.viewmodel.compose)
 
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.material.icons.extended)
-                implementation(libs.kotlinx.datetime)
                 implementation(libs.logging.napier)
+
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
 
                 implementation(libs.firebase.common)
                 implementation(libs.firebase.auth)
                 implementation(libs.firebase.firestore)
                 implementation(libs.firebase.storage)
 
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
+                implementation(libs.coil.compose.core)
+                implementation(libs.coil.compose)
+                implementation(libs.coil.mp)
+                implementation(libs.coil.network.ktor)
+
+                implementation(project(":core"))
             }
         }
 
@@ -66,6 +69,7 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotest.assertions.core)
+            implementation(libs.koin.test)
         }
 
         //val wasmJsMain by getting {
@@ -74,7 +78,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.sjaindl.s11.core"
+    namespace = "com.sjaindl.s11.profile"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

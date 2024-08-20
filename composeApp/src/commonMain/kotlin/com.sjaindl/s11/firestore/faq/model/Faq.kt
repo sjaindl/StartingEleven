@@ -1,4 +1,4 @@
-package com.sjaindl.s11.core.faq.model
+package com.sjaindl.s11.firestore.faq.model
 
 import kotlinx.serialization.Serializable
 

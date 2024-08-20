@@ -31,17 +31,19 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
-import com.sjaindl.s11.auth.navigation.authenticationGraph
+import com.sjaindl.s11.auth.navigation.AuthenticationGraph
+import com.sjaindl.s11.composables.PlayersScreen
 import com.sjaindl.s11.core.baseui.S11AppBar
 import com.sjaindl.s11.core.baseui.S11NavigationBar
-import com.sjaindl.s11.composables.PlayersScreen
-import com.sjaindl.s11.home.HomeScreen
 import com.sjaindl.s11.core.navigation.Auth
 import com.sjaindl.s11.core.navigation.Home
 import com.sjaindl.s11.core.navigation.Players
+import com.sjaindl.s11.core.navigation.Profile
 import com.sjaindl.s11.core.navigation.Standings
 import com.sjaindl.s11.core.navigation.Team
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.home.HomeScreen
+import com.sjaindl.s11.profile.navigation.ProfileGraph
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -90,10 +92,15 @@ fun App() {
                         S11AppBar(
                             title = stringResource(resource = Res.string.appName),
                             userIsSignedIn = user?.displayName != null,
+                            isTopLevelAppBar = true,
                             canNavigateBack = navController.previousBackStackEntry != null &&
                                     TOP_LEVEL_SCREENS.contains(navController.currentBackStackEntry?.destination?.route).not() &&
                                     navController.currentBackStackEntry?.destination?.route != Auth.toString(),
                             navigateUp = navController::navigateUp,
+                            showProfile = true,
+                            onClickProfile = {
+                                navController.navigate(route = Profile)
+                            }
                         )
                     }
                 },
@@ -134,15 +141,19 @@ fun App() {
                     }
 
                     composable<Auth> {
-                        val signInSuccessText = stringResource(Res.string.signInSuccess)
+                        val signInSuccessText = stringResource(resource = Res.string.signInSuccess)
 
-                        authenticationGraph() {
+                        AuthenticationGraph {
                             navController.popBackStack()
                             showBars = true
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar(message = signInSuccessText)
                             }
                         }
+                    }
+
+                    composable<Profile> {
+                        ProfileGraph()
                     }
                 }
             }

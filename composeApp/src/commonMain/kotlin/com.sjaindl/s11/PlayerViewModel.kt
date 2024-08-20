@@ -2,8 +2,8 @@ package com.sjaindl.s11
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sjaindl.s11.core.player.PlayerRepository
-import com.sjaindl.s11.core.player.model.Player
+import com.sjaindl.s11.core.firestore.player.PlayerRepository
+import com.sjaindl.s11.core.firestore.player.model.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

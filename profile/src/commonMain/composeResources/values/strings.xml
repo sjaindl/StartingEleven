@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="profile">Profile</string>
+    <string name="notSignedIn">You are not signed in!</string>
+    <string name="email">E-mail</string>
+    <string name="noMail">No e-mail address</string>
+    <string name="onProfilePictureUpdated">Profile picture successfully updated</string>
+    <string name="onProfilePictureDeleted">Profile picture successfully deleted</string>
+    <string name="onUserNameChanged">User name successfully changed</string>
+    <string name="profileTakePhoto">Take photo</string>
+    <string name="profileChoosePhoto">Choose photo</string>
+    <string name="profileDeletePhoto">Delete photo</string>
+</resources>

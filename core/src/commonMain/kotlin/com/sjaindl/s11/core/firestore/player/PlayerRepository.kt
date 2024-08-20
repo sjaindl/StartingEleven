@@ -1,6 +1,6 @@
-package com.sjaindl.s11.core.player
+package com.sjaindl.s11.core.firestore.player
 
-import com.sjaindl.s11.core.player.model.Player
+import com.sjaindl.s11.core.firestore.player.model.Player
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {

@@ -1,6 +1,6 @@
-package com.sjaindl.s11.core.faq
+package com.sjaindl.s11.firestore.faq
 
-import com.sjaindl.s11.core.faq.model.Faq
+import com.sjaindl.s11.firestore.faq.model.Faq
 import com.sjaindl.s11.core.firestore.FireStoreBaseDataSource
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
@@ -20,7 +20,7 @@ internal class FaqDataSourceImpl(
         it.data()
     }
 
-    override suspend fun getFaqs() = getData()
+    override suspend fun getFaqs() = getCollection()
 
-    override fun getFaqsFlow() = getDataFlow()
+    override fun getFaqsFlow() = getCollectionFlow()
 }
