@@ -1,16 +1,19 @@
-package com.sjaindl.s11.profile.firestore.user
+package com.sjaindl.s11.core.firestore.user
 
 import com.sjaindl.s11.core.CachedValue
 import com.sjaindl.s11.core.firestore.FireStoreBaseDataSource
-import com.sjaindl.s11.profile.firestore.user.model.User
+import com.sjaindl.s11.core.firestore.user.model.User
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.File
 import dev.gitlive.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface UserDataSource {
+    suspend fun getUsers(): List<User>
+    fun getUsersFlow(): Flow<List<User>>
     suspend fun getUser(uid: String): User?
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
@@ -22,7 +25,8 @@ internal class UserDataSourceImpl(
 ): FireStoreBaseDataSource<User>(firestore = firestore), UserDataSource, KoinComponent {
     private val storage: FirebaseStorage by inject()
 
-    private var cache: CachedValue<User>? = null
+    private var userCache: MutableMap<String, CachedValue<User>?> = mutableMapOf()
+    private var usersCache: CachedValue<List<User>>? = null
 
     override val collectionPath: String = "users"
 
@@ -30,12 +34,25 @@ internal class UserDataSourceImpl(
         it.data()
     }
 
+    override suspend fun getUsers(): List<User> {
+        val cachedValue = usersCache?.get()
+        if (!cachedValue.isNullOrEmpty()) return cachedValue
+
+        val users = getCollection()
+        usersCache = CachedValue(
+            value = users,
+        )
+        return users
+    }
+
+    override fun getUsersFlow(): Flow<List<User>> = getCollectionFlow()
+
     override suspend fun getUser(uid: String): User? {
-        val cachedValue = cache?.get()
+        val cachedValue = userCache[uid]?.get()
         if (cachedValue != null) return cachedValue
 
         val user = getUserWithImage(uid = uid)
-        cache = CachedValue(
+        userCache[uid] = CachedValue(
             value = user,
         )
 

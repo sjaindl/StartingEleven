@@ -9,5 +9,5 @@ data class Player(
     val position: Position,
     val imageRef: String?,
     val downloadUrl: String?,
-    val points: Map<String, Int>,
+    val points: Map<String, Float>,
 )
