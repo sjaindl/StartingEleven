@@ -12,24 +12,28 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
-import com.sjaindl.s11.core.navigation.Home
-import com.sjaindl.s11.core.navigation.Players
-import com.sjaindl.s11.core.navigation.Standings
-import com.sjaindl.s11.core.navigation.Team
+import com.sjaindl.s11.core.navigation.Route.Home
+import com.sjaindl.s11.core.navigation.Route.Players
+import com.sjaindl.s11.core.navigation.Route.Team
+import com.sjaindl.s11.core.navigation.StandingsNavGraphRoute
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
+import org.jetbrains.compose.resources.stringResource
+import startingeleven.core.generated.resources.Res
+import startingeleven.core.generated.resources.tabHome
+import startingeleven.core.generated.resources.tabPlayers
+import startingeleven.core.generated.resources.tabStandings
+import startingeleven.core.generated.resources.tabTeam
 
 @Composable
-fun S11NavigationBar(
+fun S11BottomBar(
     navController: NavController,
+    selectedItem: Int,
+    onSetSelectedItem: (Int) -> Unit,
 ) {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf(Home, Team, Players, Standings)
+    val items = listOf(Home, Team, Players, StandingsNavGraphRoute)
     val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(initial = Firebase.auth.currentUser)
 
     NavigationBar {
@@ -39,7 +43,7 @@ fun S11NavigationBar(
             NavigationBarItem(
                 selected = selectedItem == index,
                 onClick = {
-                    selectedItem = index
+                    onSetSelectedItem(index)
                     navController.navigate(route = screen)
                 },
                 icon = {
@@ -47,13 +51,19 @@ fun S11NavigationBar(
                         Home -> Icon(Icons.Filled.Home, contentDescription = contentDescription)
                         Team -> Icon(Icons.Filled.Favorite, contentDescription = contentDescription)
                         Players -> Icon(Icons.Filled.Person, contentDescription = contentDescription)
-                        Standings -> Icon(Icons.Filled.Calculate, contentDescription = contentDescription)
+                        StandingsNavGraphRoute -> Icon(Icons.Filled.Calculate, contentDescription = contentDescription)
                         else -> { }
                     }
                 },
                 enabled = screen == Home || user != null,
                 label = {
-                    Text(text = screen.toString())
+                    when (screen) {
+                        Home -> Text(text = stringResource(Res.string.tabHome))
+                        Team -> Text(text = stringResource(Res.string.tabTeam))
+                        Players -> Text(text = stringResource(Res.string.tabPlayers))
+                        StandingsNavGraphRoute -> Text(text = stringResource(Res.string.tabStandings))
+                        else -> { }
+                    }
                 },
             )
         }

@@ -8,4 +8,17 @@
     <string name="errorDescription">Currently no data can be displayed</string>
     <string name="retry">Retry</string>
     <string name="showMore">Show more</string>
+
+    <string name="tabHome">Home</string>
+    <string name="tabTeam">Team</string>
+    <string name="tabPlayers">Players</string>
+    <string name="tabStandings">Standings</string>
+    <string name="routePrices">Prices</string>
+    <string name="routeFaq">FAQ</string>
+    <string name="routePrivacy">Privacy</string>
+    <string name="routeProfile">Profile</string>
+    <string name="routeAuth">Sign-in</string>
+    <string name="routeAuthMail">Sign-in with e-mail</string>
+    <string name="routeMailSignIn">Sign-in with e-mail</string>
+    <string name="routeMailSignUp">Sign-up with e-mail</string>
 </resources>

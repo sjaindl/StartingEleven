@@ -31,19 +31,22 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
-import com.sjaindl.s11.auth.navigation.AuthenticationGraph
+import com.sjaindl.s11.auth.navigation.authenticationGraph
 import com.sjaindl.s11.composables.PlayersScreen
 import com.sjaindl.s11.core.baseui.S11AppBar
-import com.sjaindl.s11.core.baseui.S11NavigationBar
-import com.sjaindl.s11.core.navigation.Auth
-import com.sjaindl.s11.core.navigation.Home
-import com.sjaindl.s11.core.navigation.Players
-import com.sjaindl.s11.core.navigation.Profile
-import com.sjaindl.s11.core.navigation.Standings
-import com.sjaindl.s11.core.navigation.Team
+import com.sjaindl.s11.core.baseui.S11BottomBar
+import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
+import com.sjaindl.s11.core.navigation.Route
+import com.sjaindl.s11.core.navigation.Route.Home
+import com.sjaindl.s11.core.navigation.Route.Players
+import com.sjaindl.s11.core.navigation.Route.Standings
+import com.sjaindl.s11.core.navigation.Route.Team
+import com.sjaindl.s11.core.navigation.toRoute
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.home.HomeScreen
-import com.sjaindl.s11.profile.navigation.ProfileGraph
+import com.sjaindl.s11.profile.navigation.navigateToProfile
+import com.sjaindl.s11.profile.navigation.profileGraph
+import com.sjaindl.s11.standings.navigation.standingsGraph
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -54,11 +57,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.appName
 import startingeleven.composeapp.generated.resources.compose_multiplatform
 import startingeleven.composeapp.generated.resources.signInSuccess
-
-private val TOP_LEVEL_SCREENS = listOf(Home.toString(), Team.toString(), Players.toString(), Standings.toString())
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -75,8 +75,16 @@ fun App() {
             SnackbarHostState()
         }
 
-        var showBars by remember {
+        var showBottomBar by remember {
             mutableStateOf(value = true)
+        }
+
+        var currentRoute: Route? by remember(navController.currentBackStackEntry) {
+            mutableStateOf(value = null)
+        }
+
+        var selectedItem by remember {
+            mutableStateOf(value = 0)
         }
 
         val coroutineScope = rememberCoroutineScope()
@@ -85,28 +93,58 @@ fun App() {
             initial = Firebase.auth.currentUser
         )
 
+        navController.addOnDestinationChangedListener { controller, _, _ ->
+            currentRoute = controller.currentBackStackEntry.toRoute()
+            selectedItem = when (currentRoute) {
+                Home -> 0
+                Team -> 1
+                Players -> 2
+                Standings -> 3
+                else -> selectedItem
+            }
+        }
+
+        val canNavigateBack by remember(navController.previousBackStackEntry, currentRoute) {
+            mutableStateOf(
+                value = navController.previousBackStackEntry != null &&
+                        currentRoute?.showBackButton == true
+            )
+        }
+
+        val signInSuccessText = stringResource(resource = Res.string.signInSuccess)
+
         HvtdpTheme {
             Scaffold(
                 topBar = {
-                    if (showBars) {
+                    Column {
+                        //Text("canNavigateBack: $canNavigateBack")
+                        //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
+                        //Text("currentRoute: $currentRoute")
                         S11AppBar(
-                            title = stringResource(resource = Res.string.appName),
-                            userIsSignedIn = user?.displayName != null,
-                            isTopLevelAppBar = true,
-                            canNavigateBack = navController.previousBackStackEntry != null &&
-                                    TOP_LEVEL_SCREENS.contains(navController.currentBackStackEntry?.destination?.route).not() &&
-                                    navController.currentBackStackEntry?.destination?.route != Auth.toString(),
+                            userIsSignedIn = user != null,
+                            currentRoute = currentRoute,
+                            canNavigateBack = canNavigateBack,
                             navigateUp = navController::navigateUp,
-                            showProfile = true,
+                            navigateHome = {
+                                navController.navigate(Home) {
+                                    popUpTo<Home>()
+                                }
+                            },
                             onClickProfile = {
-                                navController.navigate(route = Profile)
+                                navController.navigateToProfile()
                             }
                         )
                     }
                 },
                 bottomBar = {
-                    if (showBars) {
-                        S11NavigationBar(navController)
+                    if (showBottomBar) {
+                        S11BottomBar(
+                            navController = navController,
+                            selectedItem = selectedItem,
+                            onSetSelectedItem = { index ->
+                                selectedItem = index
+                            }
+                        )
                     }
                 },
                 snackbarHost = {
@@ -119,42 +157,42 @@ fun App() {
                     modifier = Modifier
                         .padding(paddingValues = it),
                 ) {
+
                     composable<Home> {
                         HomeScreen(
                             displayName = user?.displayName,
                             onAuthenticate = {
-                                showBars = false
-                                navController.navigate(route = Auth)
+                                showBottomBar = false
+                                navController.navigate(route = AuthNavGraphRoute)
                             },
                         )
                     }
+
                     composable<Team> {
                         Text("Team")
                         TestContent()
                     }
+
                     composable<Players> {
                         PlayersScreen()
                     }
-                    composable<Standings> {
-                        Text("Standings")
-                        TestContent()
-                    }
 
-                    composable<Auth> {
-                        val signInSuccessText = stringResource(resource = Res.string.signInSuccess)
+                    standingsGraph()
 
-                        AuthenticationGraph {
-                            navController.popBackStack()
-                            showBars = true
+                    authenticationGraph(
+                        navController = navController,
+                        onSuccess = {
+                            navController.navigate(Home) {
+                                popUpTo<Home>()
+                            }
+                            showBottomBar = true
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar(message = signInSuccessText)
                             }
                         }
-                    }
+                    )
 
-                    composable<Profile> {
-                        ProfileGraph()
-                    }
+                    profileGraph()
                 }
             }
         }
@@ -186,15 +224,15 @@ fun getAsyncImageLoader(context: PlatformContext)=
     ImageLoader
         .Builder(context)
         .crossfade(true)
-        .logger(DebugLogger())
-        .memoryCachePolicy(CachePolicy.ENABLED)
+        .logger(logger = DebugLogger())
+        .memoryCachePolicy(policy = CachePolicy.ENABLED)
         .memoryCache {
             MemoryCache.Builder()
                 .maxSizePercent(context = context, percent = 0.3)
                 .strongReferencesEnabled(enable = true)
                 .build()
         }
-        .diskCache(newDiskCache())
+        .diskCache(diskCache = newDiskCache())
         .build()
 
 fun newDiskCache(): DiskCache {
