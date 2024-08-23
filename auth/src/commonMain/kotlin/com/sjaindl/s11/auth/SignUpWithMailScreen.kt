@@ -10,6 +10,8 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sjaindl.s11.auth.EmailAuthenticationState.EmailSignInSuccess
+import com.sjaindl.s11.auth.EmailAuthenticationState.EmailSignUpSuccess
+import com.sjaindl.s11.auth.EmailAuthenticationState.Error
+import com.sjaindl.s11.auth.EmailAuthenticationState.Initial
+import com.sjaindl.s11.auth.EmailAuthenticationState.Loading
+import com.sjaindl.s11.core.baseui.ErrorScreen
+import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -32,8 +42,14 @@ import startingeleven.auth.generated.resources.signUp
 fun SignUpWithMailScreen(
     email: String,
     modifier: Modifier = Modifier,
-    onProceed: (email: String, password: String, name: String) -> Unit,
+    onSuccess: () -> Unit,
 ) {
+    val authenticationViewModel = viewModel {
+        EmailAuthenticationViewModel()
+    }
+
+    val authenticationState by authenticationViewModel.authenticationState.collectAsState()
+
     var name by remember {
         mutableStateOf("")
     }
@@ -46,55 +62,84 @@ fun SignUpWithMailScreen(
         containerColor = colorScheme.primary,
     )
 
-    Column(
-        modifier = modifier
-            .padding(all = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.End,
-    ) {
+    when (val state = authenticationState) {
+        Initial -> {
+            Column(
+                modifier = modifier
+                    .padding(all = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.End,
+            ) {
 
-        OutlinedTextField(
-            value = email,
-            onValueChange = { },
-            enabled = false,
-            label = {
-                Text(text = stringResource(resource = Res.string.email))
-            },
-            isError = !email.isValidMail(),
-        )
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { },
+                    enabled = false,
+                    label = {
+                        Text(text = stringResource(resource = Res.string.email))
+                    },
+                    isError = !email.isValidMail(),
+                )
 
-        OutlinedTextField(
-            value = name,
-            onValueChange = {
-                name = it
-            },
-            label = {
-                Text(text = stringResource(resource = Res.string.enterName))
-            },
-            isError = !name.isValidName(),
-        )
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = {
+                        name = it
+                    },
+                    label = {
+                        Text(text = stringResource(resource = Res.string.enterName))
+                    },
+                    isError = !name.isValidName(),
+                )
 
-        OutlinedTextField(
-            value = password,
-            label = {
-                Text(text = stringResource(resource = Res.string.enterPassword))
-            },
-            onValueChange = {
-                password = it
-            },
-            isError = !password.isValidPassword(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = PasswordVisualTransformation(),
-        )
+                OutlinedTextField(
+                    value = password,
+                    label = {
+                        Text(text = stringResource(resource = Res.string.enterPassword))
+                    },
+                    onValueChange = {
+                        password = it
+                    },
+                    isError = !password.isValidPassword(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = PasswordVisualTransformation(),
+                )
 
-        FilledTonalButton(
-            onClick = {
-                onProceed(email, password, name)
-            },
-            enabled = email.isValidMail() && name.isValidName() && password.isValidPassword(),
-            colors = colors,
-        ) {
-            Text(text = stringResource(resource = Res.string.signUp))
+                FilledTonalButton(
+                    onClick = {
+                        authenticationViewModel.signUpWithMail(
+                            email = email,
+                            password = password,
+                            name = name,
+                        )
+                    },
+                    enabled = email.isValidMail() && name.isValidName() && password.isValidPassword(),
+                    colors = colors,
+                ) {
+                    Text(text = stringResource(resource = Res.string.signUp))
+                }
+            }
+        }
+
+        Loading -> {
+            LoadingScreen()
+        }
+
+        is Error -> {
+            ErrorScreen(
+                text = state.message,
+                onButtonClick = {
+                    authenticationViewModel.resetState()
+                    password = ""
+                },
+            )
+        }
+
+        EmailSignInSuccess, EmailSignUpSuccess -> {
+            LaunchedEffect(authenticationState) {
+                authenticationViewModel.resetState()
+                onSuccess()
+            }
         }
     }
 }
@@ -106,7 +151,7 @@ fun SignUpWithMailScreenPreview() {
 
         SignUpWithMailScreen(
             email = "demo@test.com",
-            onProceed = { _, _, _ -> },
+            onSuccess = { },
         )
     }
 }
