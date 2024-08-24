@@ -2,10 +2,11 @@ package com.sjaindl.s11.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sjaindl.s11.profile.firestore.user.UserRepository
+import com.sjaindl.s11.core.firestore.user.UserRepository
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.storage.File
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -60,14 +61,20 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
         _userState.value = UserState.Loading
 
-        userRepository.setUserName(uid = uid, newName = newName)
+        try {
+            userRepository.setUserName(uid = uid, newName = newName)
 
-        _userState.value = UserState.User(
-            uid = uid,
-            name = newName,
-            email = currentUser.email,
-            photoUrl = currentUser.photoUrl
-        )
+            _userState.value = UserState.User(
+                uid = uid,
+                name = newName,
+                email = currentUser.email,
+                photoUrl = currentUser.photoUrl
+            )
+        } catch (exception: Exception) {
+            val message = exception.message ?: exception.toString()
+            Napier.e(message = message, throwable = exception, tag = tag)
+            _userState.value = UserState.Error(message = message)
+        }
     }
 
     fun uploadProfilePhoto(uid: String, file: File) = viewModelScope.launch {
@@ -75,14 +82,20 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
         _userState.value = UserState.Loading
 
-        userRepository.setUserPhotoRef(uid = uid, file = file)
+        try {
+            userRepository.setUserPhotoRef(uid = uid, file = file)
 
-        _userState.value = UserState.User(
-            uid = uid,
-            name = currentUser.name,
-            email = currentUser.email,
-            photoUrl = file.toString(),
-        )
+            _userState.value = UserState.User(
+                uid = uid,
+                name = currentUser.name,
+                email = currentUser.email,
+                photoUrl = file.toString(),
+            )
+        } catch (exception: Exception) {
+            val message = exception.message ?: exception.toString()
+            Napier.e(message = message, throwable = exception, tag = tag)
+            _userState.value = UserState.Error(message = message)
+        }
     }
 
     fun deleteProfilePhoto(uid: String) = viewModelScope.launch {
@@ -90,13 +103,19 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
         _userState.value = UserState.Loading
 
-        userRepository.deleteUserPhotoRef(uid = uid)
+        try {
+            userRepository.deleteUserPhotoRef(uid = uid)
 
-        _userState.value = UserState.User(
-            uid = uid,
-            name = currentUser.name,
-            email = currentUser.email,
-            photoUrl = null,
-        )
+            _userState.value = UserState.User(
+                uid = uid,
+                name = currentUser.name,
+                email = currentUser.email,
+                photoUrl = null,
+            )
+        } catch (exception: Exception) {
+            val message = exception.message ?: exception.toString()
+            Napier.e(message = message, throwable = exception, tag = tag)
+            _userState.value = UserState.Error(message = message)
+        }
     }
 }

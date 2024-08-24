@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
-import com.sjaindl.s11.core.baseui.S11AppBar
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.profile.UserState.Error
 import com.sjaindl.s11.profile.UserState.Initial
@@ -46,12 +45,9 @@ import startingeleven.profile.generated.resources.notSignedIn
 import startingeleven.profile.generated.resources.onProfilePictureDeleted
 import startingeleven.profile.generated.resources.onProfilePictureUpdated
 import startingeleven.profile.generated.resources.onUserNameChanged
-import startingeleven.profile.generated.resources.profile
 
 @Composable
-fun ProfileScreen(
-    navigateUp: () -> Unit,
-) {
+fun ProfileScreen() {
     val profileViewModel = viewModel {
         ProfileViewModel()
     }
@@ -69,15 +65,6 @@ fun ProfileScreen(
     val userNameChangedText = stringResource(Res.string.onUserNameChanged)
 
     Scaffold(
-        topBar = {
-            S11AppBar(
-                title = stringResource(resource = Res.string.profile),
-                userIsSignedIn = false,
-                isTopLevelAppBar = false,
-                canNavigateBack = true,
-                navigateUp = navigateUp,
-            )
-        },
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },

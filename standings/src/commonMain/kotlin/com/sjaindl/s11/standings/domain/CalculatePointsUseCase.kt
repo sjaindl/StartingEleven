@@ -12,13 +12,16 @@ class CalculatePointsUseCase(
 ) {
 
     suspend fun calculate(): List<UserWithPoints> {
-        return userRepository.getUsers().map { user ->
+        val users = userRepository.getUsers()
+        val matchDays = matchDayRepository.getMatchDays()
+
+        return users.map { user ->
             var totalPoints = 0F
             var pointsForRound = 0F
             var totalBetPoints = 0
             var betPointsForRound = 0
 
-            matchDayRepository.getMatchDays().forEach { matchday ->
+            matchDays.forEach { matchday ->
 
                 // Points for matchday lineup
                 pointsForRound = calculatePointsForMatchDayLineupUseCase.calculate(

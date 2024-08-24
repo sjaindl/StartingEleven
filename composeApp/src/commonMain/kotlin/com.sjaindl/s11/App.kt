@@ -102,6 +102,7 @@ fun App() {
                 Standings -> 3
                 else -> selectedItem
             }
+            showBottomBar = currentRoute?.isTopLevelRoute == true
         }
 
         val canNavigateBack by remember(navController.previousBackStackEntry, currentRoute) {
@@ -162,7 +163,6 @@ fun App() {
                         HomeScreen(
                             displayName = user?.displayName,
                             onAuthenticate = {
-                                showBottomBar = false
                                 navController.navigate(route = AuthNavGraphRoute)
                             },
                         )
@@ -185,7 +185,6 @@ fun App() {
                             navController.navigate(Home) {
                                 popUpTo<Home>()
                             }
-                            showBottomBar = true
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar(message = signInSuccessText)
                             }

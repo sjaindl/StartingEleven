@@ -59,7 +59,7 @@ fun PhotoPickerBottomSheet(
                 .fillMaxWidth(),
         ) {
             Text(
-                text = stringResource(resource = Res.string.profileDeletePhoto),
+                text = stringResource(resource = Res.string.profileChoosePhoto),
             )
         }
 
