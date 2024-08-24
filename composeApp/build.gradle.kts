@@ -159,6 +159,7 @@ kotlin {
             implementation(project(path = ":core"))
             implementation(project(path = ":auth"))
             implementation(project(path = ":profile"))
+            implementation(project(path = ":standings"))
         }
 
         iosMain {

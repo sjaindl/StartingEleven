@@ -19,6 +19,7 @@ import coil3.compose.SubcomposeAsyncImage
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.baseui.UnderlinedText
 import com.sjaindl.s11.core.firestore.player.model.Player
 import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.theme.HvtdpTheme
@@ -38,7 +39,7 @@ fun PlayerUI(
     val context = LocalPlatformContext.current
 
     val totalPointsOfPlayer = remember(key1 = player.points) {
-        player.points.values.fold(initial = 0,
+        player.points.values.fold(initial = 0F,
             operation = { sum, pointsOfMatchDay ->
                 sum + pointsOfMatchDay
             }

@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseApp
 import com.sjaindl.s11.core.di.coreModule
 import com.sjaindl.s11.di.androidAuthModule
 import com.sjaindl.s11.di.appModule
-import com.sjaindl.s11.profile.di.profileModule
+import com.sjaindl.s11.standings.di.standingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -25,7 +25,7 @@ class S11Application : Application() {
 
         startKoin {
             androidContext(this@S11Application)
-            modules(appModule, androidAuthModule, profileModule, coreModule)
+            modules(appModule, coreModule, androidAuthModule, standingsModule)
         }
     }
 }

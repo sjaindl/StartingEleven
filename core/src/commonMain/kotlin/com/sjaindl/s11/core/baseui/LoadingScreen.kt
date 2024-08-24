@@ -1,5 +1,6 @@
 package com.sjaindl.s11.core.baseui
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -12,10 +13,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LoadingScreen(
-      modifier: Modifier = Modifier
-         .padding(horizontal = spacing.md)
-         .fillMaxSize()
-         .wrapContentSize(),
+    paddingValues: PaddingValues = PaddingValues(horizontal = spacing.md),
+    modifier: Modifier = Modifier
+        .padding(paddingValues = paddingValues)
+        .fillMaxSize()
+        .wrapContentSize(),
 ) {
     CircularProgressIndicator(
         modifier = modifier,
@@ -25,7 +27,7 @@ fun LoadingScreen(
 @Preview
 @Composable
 private fun LoadingScreenPreview() {
-   HvtdpTheme {
-      LoadingScreen()
-   }
+    HvtdpTheme {
+        LoadingScreen()
+    }
 }
