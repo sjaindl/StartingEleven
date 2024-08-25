@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.dp
 
 class Dimensions {
    val spacing = Spacing()
+   val cardCornerRadius = 12.dp
+   val cardDefaultElevation = 8.dp
 
    class Spacing() {
       val none = 0.dp
