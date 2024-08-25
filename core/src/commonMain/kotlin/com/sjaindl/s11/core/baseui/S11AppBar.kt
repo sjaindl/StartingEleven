@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.appName
 import startingeleven.core.generated.resources.back
+import startingeleven.core.generated.resources.faqs
 import startingeleven.core.generated.resources.signOut
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +43,7 @@ fun S11AppBar(
     modifier: Modifier = Modifier,
     navigateUp: () -> Unit = { },
     navigateHome: () -> Unit = { },
+    navigateToFaqs: () -> Unit = { },
     onClickProfile: () -> Unit = { },
     customActionIcon: ImageVector? = null,
     onCustomAction: () -> Unit = { },
@@ -101,6 +104,21 @@ fun S11AppBar(
             if (currentRoute?.isTopLevelRoute == true) {
                 OverflowMenu(
                     menuItems = buildList {
+                        add(
+                            element = MenuItem(
+                                text = stringResource(resource = Res.string.faqs),
+                                onClick = navigateToFaqs,
+                                icon = {
+                                    Image(
+                                        imageVector = Icons.Default.QuestionAnswer,
+                                        contentDescription = stringResource(resource = Res.string.faqs),
+                                        modifier = Modifier
+                                            .padding(spacing.xxs),
+                                    )
+                                },
+                            )
+                        )
+
                         if (userIsSignedIn) {
                             add(
                                 element = MenuItem(

@@ -3,7 +3,7 @@ package com.sjaindl.s11.core.navigation
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import com.sjaindl.s11.core.navigation.Route.Auth
-import com.sjaindl.s11.core.navigation.Route.Faq
+import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.MailSignIn
 import com.sjaindl.s11.core.navigation.Route.MailSignInHome
@@ -75,7 +75,7 @@ sealed interface Route {
     }
 
     @Serializable
-    data object Faq: Route {
+    data object Faqs: Route {
         override val showBackButton = true
         override val isTopLevelRoute = false
     }
@@ -130,7 +130,7 @@ sealed interface Route {
                 Players -> Res.string.tabPlayers
                 Standings -> Res.string.tabStandings
                 Prices -> Res.string.routePrices
-                Faq -> Res.string.routeFaq
+                Faqs -> Res.string.routeFaq
                 Privacy -> Res.string.routePrivacy
                 Profile -> Res.string.routeProfile
                 Auth -> Res.string.routeAuth
@@ -149,7 +149,7 @@ fun NavBackStackEntry?.toRoute(): Route? = when (this?.destination?.route?.subst
     Players.toString() -> this.toRoute<Players>()
     Standings.toString() -> this.toRoute<Standings>()
     Prices.toString() -> this.toRoute<Prices>()
-    Faq.toString() -> this.toRoute<Faq>()
+    Faqs.toString() -> this.toRoute<Faqs>()
     Privacy.toString() -> this.toRoute<Privacy>()
     Profile.toString() -> this.toRoute<Profile>()
     Auth.toString() -> this.toRoute<Auth>()

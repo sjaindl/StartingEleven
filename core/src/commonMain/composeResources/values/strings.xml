@@ -21,4 +21,6 @@
     <string name="routeAuthMail">Sign-in with e-mail</string>
     <string name="routeMailSignIn">Sign-in with e-mail</string>
     <string name="routeMailSignUp">Sign-up with e-mail</string>
+
+    <string name="faqs">FAQs</string>
 </resources>

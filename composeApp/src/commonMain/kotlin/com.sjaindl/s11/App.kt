@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,12 +38,15 @@ import com.sjaindl.s11.core.baseui.S11AppBar
 import com.sjaindl.s11.core.baseui.S11BottomBar
 import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
 import com.sjaindl.s11.core.navigation.Route
+import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.Players
 import com.sjaindl.s11.core.navigation.Route.Standings
 import com.sjaindl.s11.core.navigation.Route.Team
 import com.sjaindl.s11.core.navigation.toRoute
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.faq.FaqViewModel
+import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
 import com.sjaindl.s11.profile.navigation.navigateToProfile
 import com.sjaindl.s11.profile.navigation.profileGraph
@@ -131,6 +135,9 @@ fun App() {
                                     popUpTo<Home>()
                                 }
                             },
+                            navigateToFaqs = {
+                                navController.navigate(route = Faqs)
+                            },
                             onClickProfile = {
                                 navController.navigateToProfile()
                             }
@@ -192,6 +199,21 @@ fun App() {
                     )
 
                     profileGraph()
+
+                    composable<Faqs> {
+                        val faqViewModel = viewModel {
+                            FaqViewModel()
+                        }
+
+                        val faqState by faqViewModel.faqState.collectAsState()
+
+                        Faqs(
+                            faqState = faqState,
+                            onRetry = {
+                                faqViewModel.loadFaq()
+                            },
+                        )
+                    }
                 }
             }
         }
