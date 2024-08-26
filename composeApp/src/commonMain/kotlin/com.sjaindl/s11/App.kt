@@ -51,6 +51,7 @@ import com.sjaindl.s11.home.HomeScreen
 import com.sjaindl.s11.profile.navigation.navigateToProfile
 import com.sjaindl.s11.profile.navigation.profileGraph
 import com.sjaindl.s11.standings.navigation.standingsGraph
+import com.sjaindl.s11.team.navigation.teamGraph
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -175,10 +176,15 @@ fun App() {
                         )
                     }
 
-                    composable<Team> {
-                        Text("Team")
+                    teamGraph()
+
+                    /*
+                    TODO:
+                    composable<Prices> {
+                        Text("Prices")
                         TestContent()
                     }
+                     */
 
                     composable<Players> {
                         PlayersScreen()

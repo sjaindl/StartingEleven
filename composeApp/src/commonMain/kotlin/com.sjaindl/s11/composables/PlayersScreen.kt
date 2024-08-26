@@ -14,6 +14,7 @@ import com.sjaindl.s11.PlayerState
 import com.sjaindl.s11.PlayerViewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
 
 @Composable

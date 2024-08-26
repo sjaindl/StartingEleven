@@ -26,21 +26,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.sjaindl.s11.core.model.OverFlowMenuItem
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.showMore
 
-data class MenuItem(
-      val text: String,
-      val onClick: () -> Unit,
-      val icon:  @Composable (() -> Unit)? = null,
-)
-
 @Composable
 fun OverflowMenu(
-    menuItems: List<MenuItem>,
+    menuItems: List<OverFlowMenuItem>,
     modifier: Modifier = Modifier,
 ) {
    var overflowMenuExpanded by remember {
@@ -100,21 +95,21 @@ fun OverflowMenuPreview() {
          ) {
             OverflowMenu(
                   menuItems = listOf(
-                        MenuItem(
+                      OverFlowMenuItem(
                               text = "Item 1",
                               onClick = { },
                               icon = {
                                  Icon(Icons.Filled.Refresh, contentDescription = null)
                               },
                         ),
-                        MenuItem(
+                      OverFlowMenuItem(
                               text = "Item 2",
                               onClick = { },
                               icon = {
                                  Icon(Icons.Filled.Close, contentDescription = null)
                               },
                         ),
-                        MenuItem(
+                      OverFlowMenuItem(
                               text = "Item 3",
                               onClick = { },
                               icon = {

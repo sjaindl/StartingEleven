@@ -15,8 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.Players
-import com.sjaindl.s11.core.navigation.Route.Team
 import com.sjaindl.s11.core.navigation.StandingsNavGraphRoute
+import com.sjaindl.s11.core.navigation.TeamNavGraphRoute
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -33,7 +33,7 @@ fun S11BottomBar(
     selectedItem: Int,
     onSetSelectedItem: (Int) -> Unit,
 ) {
-    val items = listOf(Home, Team, Players, StandingsNavGraphRoute)
+    val items = listOf(Home, TeamNavGraphRoute, Players, StandingsNavGraphRoute)
     val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(initial = Firebase.auth.currentUser)
 
     NavigationBar {
@@ -49,7 +49,7 @@ fun S11BottomBar(
                 icon = {
                     when (screen) {
                         Home -> Icon(Icons.Filled.Home, contentDescription = contentDescription)
-                        Team -> Icon(Icons.Filled.Favorite, contentDescription = contentDescription)
+                        TeamNavGraphRoute -> Icon(Icons.Filled.Favorite, contentDescription = contentDescription)
                         Players -> Icon(Icons.Filled.Person, contentDescription = contentDescription)
                         StandingsNavGraphRoute -> Icon(Icons.Filled.Calculate, contentDescription = contentDescription)
                         else -> { }
@@ -59,7 +59,7 @@ fun S11BottomBar(
                 label = {
                     when (screen) {
                         Home -> Text(text = stringResource(Res.string.tabHome))
-                        Team -> Text(text = stringResource(Res.string.tabTeam))
+                        TeamNavGraphRoute -> Text(text = stringResource(Res.string.tabTeam))
                         Players -> Text(text = stringResource(Res.string.tabPlayers))
                         StandingsNavGraphRoute -> Text(text = stringResource(Res.string.tabStandings))
                         else -> { }

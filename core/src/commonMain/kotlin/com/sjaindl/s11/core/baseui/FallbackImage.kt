@@ -22,8 +22,8 @@ import startingeleven.core.generated.resources.ic_user
 
 @Composable
 fun FallbackImage(
-    photoRefDownloadUrl: String?,
-    photoUrl: String?,
+    photoRefDownloadUrl: String? = null,
+    photoUrl: String? = null,
     fallback: DrawableResource = Res.drawable.ic_user,
 ) {
     Column {

@@ -23,4 +23,7 @@
     <string name="routeMailSignUp">Sign-up with e-mail</string>
 
     <string name="faqs">FAQs</string>
+
+    <string name="playerPoints">%1$d Punkte</string>
+    <string name="choosePlayer">Choose player...</string>
 </resources>

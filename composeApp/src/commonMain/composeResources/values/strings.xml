@@ -4,5 +4,4 @@
 
     <string name="hello">Hello</string>
     <string name="signInSuccess">Successfully signed in!</string>
-    <string name="playerPoints">%1$d Punkte</string>
 </resources>

@@ -160,6 +160,7 @@ kotlin {
             implementation(project(path = ":auth"))
             implementation(project(path = ":profile"))
             implementation(project(path = ":standings"))
+            implementation(project(path = ":team"))
         }
 
         iosMain {

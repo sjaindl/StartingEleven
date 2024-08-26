@@ -10,4 +10,8 @@ data class Player(
     val imageRef: String?,
     val downloadUrl: String?,
     val points: Map<String, Float>,
-)
+) {
+    companion object {
+        const val MISSING_PLAYER = "-1"
+    }
+}

@@ -40,6 +40,9 @@ data object AuthNavGraphRoute
 @Serializable
 data object ProfileNavGraphRoute
 
+@Serializable
+data object TeamNavGraphRoute
+
 sealed interface Route {
     val showBackButton: Boolean
     val isTopLevelRoute: Boolean
