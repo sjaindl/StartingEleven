@@ -38,7 +38,10 @@ internal class UserDataSourceImpl(
         val cachedValue = usersCache?.get()
         if (!cachedValue.isNullOrEmpty()) return cachedValue
 
-        val users = getCollection()
+        val users = getCollection().map {
+            it.copy(photoRefDownloadUrl = getUserImageDownloadUrl(user = it))
+        }
+
         usersCache = CachedValue(
             value = users,
         )
@@ -103,13 +106,17 @@ internal class UserDataSourceImpl(
 
     private suspend fun getUserWithImage(uid: String): User? {
         val user = getDocument(path = uid)
-        return user?.copy(
-            photoUrl = getUserImageDownloadUrl(user),
-        )
+        return user?.let {
+            it.copy(
+                photoRefDownloadUrl = getUserImageDownloadUrl(user = it),
+            )
+        }
     }
 
     private suspend fun getUserImageDownloadUrl(user: User): String? {
-        return user.photoRef?.let {
+        return user.photoRef?.takeIf {
+            it.isNotEmpty()
+        }?.let {
             storage.reference(location = it).getDownloadUrl()
         }
     }

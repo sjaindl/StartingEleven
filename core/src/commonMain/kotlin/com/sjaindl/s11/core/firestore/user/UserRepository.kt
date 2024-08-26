@@ -1,11 +1,11 @@
 package com.sjaindl.s11.core.firestore.user
 
 import com.sjaindl.s11.core.firestore.user.model.User
-import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 interface UserRepository {
     suspend fun getUsers(): List<User>
@@ -19,7 +19,9 @@ interface UserRepository {
 internal class UserRepositoryImpl(
     private val userDataSource: UserDataSource,
 ): UserRepository, KoinComponent {
-    private val auth: FirebaseAuth by inject()
+    private val auth by lazy {
+        Firebase.auth
+    }
 
     override suspend fun getUsers(): List<User> {
         return userDataSource.getUsers()

@@ -8,6 +8,7 @@ data class User(
     val email: String,
     val userName: String,
     val photoRef: String?,
+    val photoRefDownloadUrl: String?,
     val photoUrl: String?,
     val providerId: String?,
     val formation: String,
