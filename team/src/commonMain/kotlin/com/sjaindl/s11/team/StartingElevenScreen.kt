@@ -58,55 +58,14 @@ fun StartingElevenScreen(
         }
 
         is StartingElevenState.Content -> {
-            val possibleFormations  by remember {
-                mutableStateOf(value = state.possibleFormations)
-            }
-
-            var selectedFormation by remember {
-                mutableStateOf(value = state.formation)
-            }
-
-            var lineup by remember {
-                mutableStateOf(value = state.lineup)
-            }
-
             StartingElevenScreenContent(
                 players = state.players,
-                lineupData = lineup,
-                selectedFormation = selectedFormation,
-                possibleFormations = possibleFormations,
+                lineupData = state.lineup,
+                selectedFormation = state.formation,
+                possibleFormations = state.possibleFormations,
                 enabled = true,
-                onFormationSelected = {
-                    selectedFormation = it
-                },
-                onChoosePlayer = { position, index, playerId ->
-                    lineup = when (position) {
-                        Position.Goalkeeper -> {
-                            lineup.copy(goalkeeper = playerId)
-                        }
-                        Position.Defender ->  {
-                            val defenders = lineup.defenders.toMutableList().apply {
-                                removeAt(index)
-                                add(index, playerId)
-                            }
-                            lineup.copy(defenders = defenders)
-                        }
-                        Position.Midfielder -> {
-                            val midfielders = lineup.midfielders.toMutableList().apply {
-                                removeAt(index)
-                                add(index, playerId)
-                            }
-                            lineup.copy(midfielders = midfielders)
-                        }
-                        Position.Attacker -> {
-                            val attackers = lineup.attackers.toMutableList().apply {
-                                removeAt(index)
-                                add(index, playerId)
-                            }
-                            lineup.copy(attackers = attackers)
-                        }
-                    }
-                }
+                onFormationSelected = viewModel::onFormationSelected,
+                onChoosePlayer = viewModel::onChoosePlayer,
             )
         }
     }
@@ -149,14 +108,18 @@ fun StartingElevenScreenContent(
                 )
             }
 
-            val missingPlayers = when (position) {
-                Position.Goalkeeper -> if (lineupData.goalkeeper == null) 1 else 0
-                Position.Defender -> selectedFormation.defenders - lineupData.defenders.size
-                Position.Midfielder -> selectedFormation.midfielders - lineupData.midfielders.size
-                Position.Attacker -> selectedFormation.attackers - lineupData.attackers.size
+            val numMissingPlayers by remember(key1 = lineupData, key2 = selectedFormation) {
+                mutableStateOf(
+                    when (position) {
+                        Position.Goalkeeper -> if (lineupData.goalkeeper == null) 1 else 0
+                        Position.Defender -> selectedFormation.defenders - lineupData.defenders.size
+                        Position.Midfielder -> selectedFormation.midfielders - lineupData.midfielders.size
+                        Position.Attacker -> selectedFormation.attackers - lineupData.attackers.size
+                    }
+                )
             }
 
-            val linedUpPlayersAtPosition by remember(key1 = lineupData) {
+            val linedUpPlayersAtPosition by remember(key1 = lineupData, key2 = numMissingPlayers) {
                 mutableStateOf(
                     when (position) {
                         Position.Goalkeeper -> lineupData.goalkeeper?.let {
@@ -166,13 +129,12 @@ fun StartingElevenScreenContent(
                         Position.Midfielder -> lineupData.midfielders
                         Position.Attacker -> lineupData.attackers
                     }.toMutableList().apply {
-                        repeat(missingPlayers) {
+                        repeat(times = numMissingPlayers) {
                             add(element = MISSING_PLAYER)
                         }
                     }
                 )
             }
-
 
             val title = when (position) {
                 Position.Goalkeeper -> stringResource(Res.string.goalKeeper)
@@ -193,7 +155,10 @@ fun StartingElevenScreenContent(
 
                         PlayerUI(
                             player = player,
-                            possiblePlayers = playersAtPosition,
+                            possiblePlayers = playersAtPosition.filter {
+                                // prevent choosing same player twice
+                                it.playerId !in (linedUpPlayersAtPosition - player?.playerId)
+                            },
                             displayDropdown = true,
                             onPlayerSelected = {
                                 onChoosePlayer(position, index, it.playerId)

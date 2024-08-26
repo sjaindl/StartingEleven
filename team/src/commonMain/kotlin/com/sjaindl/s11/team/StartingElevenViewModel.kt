@@ -2,9 +2,11 @@ package com.sjaindl.s11.team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.core.extensions.insertAt
 import com.sjaindl.s11.core.firestore.formations.FormationRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
 import com.sjaindl.s11.core.firestore.player.model.Player
+import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.firestore.user.UserRepository
 import com.sjaindl.s11.core.firestore.userlineup.UserLineupRepository
 import com.sjaindl.s11.core.firestore.userlineup.model.LineupData
@@ -81,5 +83,46 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
             Napier.e(message = message, throwable = exception, tag = tag)
             _startingElevenState.value = StartingElevenState.Error(message = message)
         }
+    }
+
+    fun onFormationSelected(formation: Formation) {
+        val state = startingElevenState.value as? StartingElevenState.Content ?: return
+        if (formation == state.formation) return
+
+        _startingElevenState.value = state.copy(
+            formation = formation,
+            lineup = LineupData(
+                goalkeeper = null,
+                defenders = emptyList(),
+                midfielders = emptyList(),
+                attackers = emptyList(),
+            )
+        )
+    }
+
+    fun onChoosePlayer(position: Position, index: Int, playerId: String) {
+        val state = startingElevenState.value as? StartingElevenState.Content ?: return
+
+        val lineup = when (position) {
+            Position.Goalkeeper -> {
+                state.lineup.copy(goalkeeper = playerId)
+            }
+            Position.Defender ->  {
+                val defenders = state.lineup.defenders.insertAt(index = index, element = playerId)
+                state.lineup.copy(defenders = defenders)
+            }
+            Position.Midfielder -> {
+                val midfielders = state.lineup.midfielders.insertAt(index = index, element = playerId)
+                state.lineup.copy(midfielders = midfielders)
+            }
+            Position.Attacker -> {
+                val attackers = state.lineup.attackers.insertAt(index = index, element = playerId)
+                state.lineup.copy(attackers = attackers)
+            }
+        }
+
+        _startingElevenState.value = state.copy(
+            lineup = lineup
+        )
     }
 }

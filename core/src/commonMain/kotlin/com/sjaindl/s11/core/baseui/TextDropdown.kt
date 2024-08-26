@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,9 +40,15 @@ fun TextDropdown(
     menuItems: List<TextDropdownMenuItem>,
     onItemSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
+    expanded: Boolean = false,
+    onExpanded: (Boolean) -> Unit = { },
 ) {
     var dropdownMenuExpanded by remember {
         mutableStateOf(value = false)
+    }
+
+    LaunchedEffect(key1 = expanded) {
+        dropdownMenuExpanded = expanded
     }
 
     ExposedDropdownMenuBox(
@@ -53,6 +60,7 @@ fun TextDropdown(
             .fillMaxSize()
             .clickable {
                 dropdownMenuExpanded = !dropdownMenuExpanded
+                onExpanded(dropdownMenuExpanded)
             }
     ) {
         UnderlinedText(
@@ -97,8 +105,9 @@ fun TextDropdown(
                         }
                     },
                     onClick = {
-                        onItemSelected(item.text)
+                        onItemSelected(item.id)
                         dropdownMenuExpanded = false
+                        onExpanded(dropdownMenuExpanded)
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -123,9 +132,9 @@ fun TextDropdownPreview() {
                 TextDropdown(
                     text = "Test dropdown",
                     menuItems = listOf(
-                        TextDropdownMenuItem(text = "Item 1", checked = false),
-                        TextDropdownMenuItem(text = "Item 2", checked = true),
-                        TextDropdownMenuItem(text = "Item 3", checked = false),
+                        TextDropdownMenuItem(id = "1", text = "Item 1", checked = false),
+                        TextDropdownMenuItem(id = "2", text = "Item 2", checked = true),
+                        TextDropdownMenuItem(id = "3", text = "Item 3", checked = false),
                     ),
                     onItemSelected = { },
                 )

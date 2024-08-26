@@ -36,6 +36,7 @@ fun FormationChooser(
             text = selectedFormation.formationId,
             menuItems = possibleFormations.map {
                 TextDropdownMenuItem(
+                    id = it.formationId,
                     text = it.formationId,
                     checked = it.formationId == selectedFormation.formationId,
                 )
