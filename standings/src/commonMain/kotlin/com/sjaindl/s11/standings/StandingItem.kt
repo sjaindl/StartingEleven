@@ -63,6 +63,7 @@ fun StandingItem(
         backgroundColor = colorScheme.surfaceContainer,
         modifier = modifier
             .padding(vertical = 8.dp),
+        isElevated = true,
     ) {
         Box(
             modifier = Modifier
