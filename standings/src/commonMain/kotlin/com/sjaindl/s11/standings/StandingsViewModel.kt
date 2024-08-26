@@ -13,7 +13,7 @@ import org.koin.core.component.inject
 
 sealed class StandingsState {
     data object Initial: StandingsState()
-    data object Loading: StandingsState()
+    data class Loading(val user: String?): StandingsState()
     data class Calculated(val usersWithPoints: List<UserWithPoints>): StandingsState()
     data class Error(val message: String): StandingsState()
 }
@@ -34,10 +34,12 @@ class StandingsViewModel : ViewModel(), KoinComponent {
     }
 
     fun loadStandings() = viewModelScope.launch {
-        _standingsState.value = StandingsState.Loading
+        _standingsState.value = StandingsState.Loading(user = null)
 
         try {
-            val userWithPoints = calculatePointsUseCase.calculate()
+            val userWithPoints = calculatePointsUseCase.calculate() { userName ->
+                _standingsState.value = StandingsState.Loading(user = userName)
+            }
             _standingsState.value = StandingsState.Calculated(usersWithPoints = userWithPoints)
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()

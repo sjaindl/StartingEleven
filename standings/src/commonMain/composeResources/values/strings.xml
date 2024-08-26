@@ -3,4 +3,5 @@
     <string name="appName" translatable="false">Starting 11</string>
 
     <string name="standings">Standings</string>
+    <string name="placing">Placing %1$s</string>
 </resources>
