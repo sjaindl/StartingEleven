@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,6 +43,7 @@ import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.appName
 import startingeleven.core.generated.resources.back
 import startingeleven.core.generated.resources.faqs
+import startingeleven.core.generated.resources.privacyPolicy
 import startingeleven.core.generated.resources.signOut
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +56,7 @@ fun S11AppBar(
     navigateUp: () -> Unit = { },
     navigateHome: () -> Unit = { },
     navigateToFaqs: () -> Unit = { },
+    navigateToPrivacyPolicy: () -> Unit = { },
     onClickProfile: () -> Unit = { },
     customActionIcon: ImageVector? = null,
     onCustomAction: () -> Unit = { },
@@ -156,6 +159,21 @@ fun S11AppBar(
                                     Image(
                                         imageVector = Icons.Default.QuestionAnswer,
                                         contentDescription = stringResource(resource = Res.string.faqs),
+                                        modifier = Modifier
+                                            .padding(spacing.xxs),
+                                    )
+                                },
+                            )
+                        )
+
+                        add(
+                            element = OverFlowMenuItem(
+                                text = stringResource(resource = Res.string.privacyPolicy),
+                                onClick = navigateToPrivacyPolicy,
+                                icon = {
+                                    Image(
+                                        imageVector = Icons.Default.PrivacyTip,
+                                        contentDescription = stringResource(resource = Res.string.privacyPolicy),
                                         modifier = Modifier
                                             .padding(spacing.xxs),
                                     )

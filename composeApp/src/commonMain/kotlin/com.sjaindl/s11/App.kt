@@ -48,6 +48,7 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.faq.FaqViewModel
 import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
+import com.sjaindl.s11.privacypolicy.PrivacyPolicyScreen
 import com.sjaindl.s11.profile.navigation.navigateToProfile
 import com.sjaindl.s11.profile.navigation.profileGraph
 import com.sjaindl.s11.standings.navigation.standingsGraph
@@ -139,6 +140,9 @@ fun App() {
                             navigateToFaqs = {
                                 navController.navigate(route = Faqs)
                             },
+                            navigateToPrivacyPolicy = {
+                                navController.navigate(route = Route.Privacy)
+                            },
                             onClickProfile = {
                                 navController.navigateToProfile()
                             }
@@ -224,6 +228,10 @@ fun App() {
                                 faqViewModel.loadFaq()
                             },
                         )
+                    }
+
+                    composable<Route.Privacy> {
+                        PrivacyPolicyScreen()
                     }
                 }
             }

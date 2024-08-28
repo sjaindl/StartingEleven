@@ -12,6 +12,7 @@ androidx-material3 = "1.2.1"
 androidx-test-junit = "1.2.1"
 coil3 = "3.0.0-alpha06"
 composeMultiplatformVersion = "2.8.0-alpha08"
+composeWebviewMultiplatform = "1.3.0"
 credentialsVersion = "1.2.2"
 credentialsPlayServicesVersion = "1.2.2"
 compose-plugin = "1.6.11"
@@ -46,6 +47,7 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3"
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
+compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }
 credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesVersion" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookVersion" }
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseVersion" }
