@@ -36,7 +36,7 @@ fun FallbackImage(
                 painter = painterResource(fallback),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(120.dp),
+                    .size(40.dp),
             )
         }
     }

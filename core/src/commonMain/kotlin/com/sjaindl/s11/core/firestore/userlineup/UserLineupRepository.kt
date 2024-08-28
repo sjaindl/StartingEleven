@@ -5,6 +5,7 @@ import org.koin.core.component.KoinComponent
 
 interface UserLineupRepository {
     suspend fun getUserLineup(uid: String): LineupData
+    suspend fun setUserLineup(uid: String, userLineup: LineupData)
 }
 
 internal class UserLineupRepositoryImpl(
@@ -13,5 +14,9 @@ internal class UserLineupRepositoryImpl(
 
     override suspend fun getUserLineup(uid: String): LineupData {
         return userLineupDataSource.getUserLineup(uid = uid)
+    }
+
+    override suspend fun setUserLineup(uid: String, userLineup: LineupData) {
+        return userLineupDataSource.setUserLineup(uid = uid, userLineup = userLineup)
     }
 }

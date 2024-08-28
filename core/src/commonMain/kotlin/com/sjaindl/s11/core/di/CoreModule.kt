@@ -1,5 +1,7 @@
 package com.sjaindl.s11.core.di
 
+import com.sjaindl.s11.core.EventRepository
+import com.sjaindl.s11.core.EventRepositoryImpl
 import com.sjaindl.s11.core.firestore.bets.BetsDataSource
 import com.sjaindl.s11.core.firestore.bets.BetsDataSourceImpl
 import com.sjaindl.s11.core.firestore.bets.BetsRepository
@@ -58,4 +60,6 @@ val coreModule = module {
 
     single<UserMatchDayRepository> { UserMatchDayRepositoryImpl(userMatchDayDataSource = get()) }
     single<UserMatchDayDataSource> { UserMatchDayDataSourceImpl(firestore = get()) }
+
+    single<EventRepository> { EventRepositoryImpl() }
 }

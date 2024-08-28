@@ -14,6 +14,7 @@ interface UserRepository {
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
+    suspend fun setFormation(uid: String, formationId: String)
 }
 
 internal class UserRepositoryImpl(
@@ -45,5 +46,9 @@ internal class UserRepositoryImpl(
 
     override suspend fun deleteUserPhotoRef(uid: String) {
         userDataSource.deleteUserPhotoRef(uid = uid)
+    }
+
+    override suspend fun setFormation(uid: String, formationId: String) {
+        userDataSource.setFormation(uid = uid, formationId = formationId)
     }
 }

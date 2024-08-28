@@ -2,6 +2,8 @@ package com.sjaindl.s11.team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.core.Event
+import com.sjaindl.s11.core.EventRepository
 import com.sjaindl.s11.core.extensions.insertAt
 import com.sjaindl.s11.core.firestore.formations.FormationRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
@@ -38,6 +40,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
     private val userRepository: UserRepository by inject()
     private val playerRepository: PlayerRepository by inject()
     private val lineupRepository: UserLineupRepository by inject()
+    private val eventRepository: EventRepository by inject()
 
     private var _startingElevenState: MutableStateFlow<StartingElevenState> = MutableStateFlow(
         StartingElevenState.Initial
@@ -46,6 +49,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
 
     init {
         loadTeam()
+        initObservers()
     }
 
     fun loadTeam() = viewModelScope.launch {
@@ -98,6 +102,10 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                 attackers = emptyList(),
             )
         )
+
+        viewModelScope.launch {
+            eventRepository.teamChanged()
+        }
     }
 
     fun onChoosePlayer(position: Position, index: Int, playerId: String) {
@@ -124,5 +132,50 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
         _startingElevenState.value = state.copy(
             lineup = lineup
         )
+
+        viewModelScope.launch {
+            eventRepository.teamChanged()
+        }
+    }
+
+    private fun saveTeam() {
+        val state = startingElevenState.value as? StartingElevenState.Content ?: return
+
+        viewModelScope.launch {
+            val currentUser = userRepository.getCurrentUser()
+            if (currentUser == null) {
+                _startingElevenState.value = StartingElevenState.Error(message = "Please sign in")
+                return@launch
+            }
+
+            _startingElevenState.value = StartingElevenState.Loading
+
+            lineupRepository.setUserLineup(
+                uid = currentUser.uid,
+                userLineup = state.lineup,
+            )
+
+            userRepository.setFormation(
+                uid = currentUser.uid,
+                formationId = state.formation.formationId,
+            )
+
+            _startingElevenState.value = StartingElevenState.Content(
+                possibleFormations = state.possibleFormations,
+                formation = state.formation,
+                players = state.players,
+                lineup = state.lineup,
+            )
+        }
+    }
+
+    private fun initObservers() {
+        viewModelScope.launch {
+            eventRepository.onNewEvent.collect {
+                if (it == Event.SaveTeam) {
+                    saveTeam()
+                }
+            }
+        }
     }
 }

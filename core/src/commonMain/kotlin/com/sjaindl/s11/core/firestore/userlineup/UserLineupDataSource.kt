@@ -9,6 +9,7 @@ import org.koin.core.component.KoinComponent
 
 interface UserLineupDataSource {
     suspend fun getUserLineup(uid: String): LineupData
+    suspend fun setUserLineup(uid: String, userLineup: LineupData)
 }
 
 internal class UserLineupDataSourceImpl(
@@ -36,5 +37,17 @@ internal class UserLineupDataSourceImpl(
             value = userLineup,
         )
         return userLineup
+    }
+
+    override suspend fun setUserLineup(uid: String, userLineup: LineupData) {
+        val userLineupDoc = getDocumentRef(path = uid)
+            .collection(collectionPath = "lineup")
+            .document(documentPath = "lineupData")
+
+        userLineupDoc.set(data = userLineup, merge = true)
+
+        cache[uid] = CachedValue(
+            value = userLineup,
+        )
     }
 }

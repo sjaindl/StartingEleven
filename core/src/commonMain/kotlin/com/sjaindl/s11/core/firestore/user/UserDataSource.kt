@@ -18,6 +18,7 @@ interface UserDataSource {
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
+    suspend fun setFormation(uid: String, formationId: String)
 }
 
 internal class UserDataSourceImpl(
@@ -70,6 +71,10 @@ internal class UserDataSourceImpl(
 
             val userDocRef = getDocumentRef(path = uid)
             userDocRef.set(data = newUser, merge = true)
+
+            userCache[uid] = CachedValue(
+                value = newUser,
+            )
         }
     }
 
@@ -87,6 +92,10 @@ internal class UserDataSourceImpl(
 
             val userDocRef = getDocumentRef(path = uid)
             userDocRef.set(data = newUser, merge = true)
+
+            userCache[uid] = CachedValue(
+                value = newUser,
+            )
         }
     }
 
@@ -101,6 +110,25 @@ internal class UserDataSourceImpl(
 
             val userDocRef = getDocumentRef(path = uid)
             userDocRef.set(data = newUser, merge = true)
+
+            userCache[uid] = CachedValue(
+                value = newUser,
+            )
+        }
+    }
+
+    override suspend fun setFormation(uid: String, formationId: String) {
+        getUser(uid = uid)?.let { user ->
+            if (user.formation == formationId) return
+
+            val newUser = user.copy(formation = formationId)
+
+            val userDocRef = getDocumentRef(path = uid)
+            userDocRef.set(data = newUser, merge = true)
+
+            userCache[uid] = CachedValue(
+                value = newUser,
+            )
         }
     }
 
