@@ -10,4 +10,8 @@
     <string name="noBets">There are currently no active bets</string>
     <string name="betsSaved">Bets saved</string>
     <string name="submitBet">Tipp abgeben/ändern</string>
+
+    <string name="mvpPoints">MVPs (Punkte)</string>
+    <string name="topEleven">Top 11 der Runde (Punkte)</string>
+    <string name="noMatches">No matches yet</string>
 </resources>

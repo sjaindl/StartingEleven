@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.composeapp.generated.resources.Res
@@ -40,8 +41,8 @@ fun BetUI(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 12.dp),
+            .padding(horizontal = spacing.md),
+        verticalArrangement = Arrangement.spacedBy(space = spacing.s),
     ) {
         Text(
             text = stringResource(resource = Res.string.betGame),
@@ -54,7 +55,7 @@ fun BetUI(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(space = 32.dp),
+            horizontalArrangement = Arrangement.spacedBy(space = spacing.xl),
             verticalAlignment = Alignment.Top,
         ) {
             TextField(

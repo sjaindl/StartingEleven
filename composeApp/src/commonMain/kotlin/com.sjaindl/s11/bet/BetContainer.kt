@@ -49,10 +49,10 @@ fun BetContainer(
     }
 
     S11Card(
-        backgroundColor = colorScheme.surfaceContainer,
         modifier = modifier
             .padding(horizontal = spacing.md)
             .padding(bottom = spacing.md),
+        backgroundColor = colorScheme.surfaceContainer,
         isElevated = true,
     ) {
 
