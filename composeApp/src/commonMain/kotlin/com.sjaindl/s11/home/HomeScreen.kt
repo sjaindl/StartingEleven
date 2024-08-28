@@ -17,6 +17,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import com.sjaindl.s11.bet.BetContainer
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -28,6 +29,7 @@ import startingeleven.composeapp.generated.resources.home
 fun HomeScreen(
     displayName: String?,
     onAuthenticate: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
 
     LaunchedEffect(displayName) {
@@ -39,7 +41,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(spacing.md),
+        verticalArrangement = Arrangement.spacedBy(spacing.xl),
     ) {
         Image(
             painter = painterResource(Res.drawable.home),
@@ -68,5 +70,9 @@ fun HomeScreen(
                     .padding(horizontal = spacing.md),
             )
         }
+
+        BetContainer(
+            onShowSnackBar = onShowSnackBar
+        )
     }
 }

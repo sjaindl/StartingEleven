@@ -9,6 +9,7 @@ import org.koin.core.component.KoinComponent
 
 interface UserMatchDayDataSource {
     suspend fun getUserMatchDays(uid: String): List<UserMatchDay>
+    suspend fun submitBet(uid: String, matchDay: String, homeScore: Int, awayScore: Int)
 }
 
 internal class UserMatchDayDataSourceImpl(
@@ -37,5 +38,19 @@ internal class UserMatchDayDataSourceImpl(
         )
 
         return userMatchDays
+    }
+
+    override suspend fun submitBet(uid: String, matchDay: String, homeScore: Int, awayScore: Int) {
+        val userMatchDayDocRef = getDocumentRef(path = uid)
+            .collection(collectionPath = "matchdays")
+            .document(documentPath = matchDay)
+
+        val docData = userMatchDayDocRef.get().data<UserMatchDay>()
+        val newDocData = docData.copy(
+            homeScore = homeScore,
+            awayScore = awayScore,
+        )
+
+        userMatchDayDocRef.set(data = newDocData, merge = true)
     }
 }

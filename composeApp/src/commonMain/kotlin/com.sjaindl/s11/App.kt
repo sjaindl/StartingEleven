@@ -173,6 +173,11 @@ fun App() {
                             onAuthenticate = {
                                 navController.navigate(route = AuthNavGraphRoute)
                             },
+                            onShowSnackBar = {
+                                coroutineScope.launch {
+                                    snackBarHostState.showSnackbar(message = it)
+                                }
+                            }
                         )
                     }
 

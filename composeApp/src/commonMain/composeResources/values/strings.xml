@@ -4,4 +4,10 @@
 
     <string name="hello">Hello</string>
     <string name="signInSuccess">Successfully signed in!</string>
+
+    <string name="betGame">Betting game</string>
+    <string name="yourBet">Your bet for the next game:</string>
+    <string name="noBets">There are currently no active bets</string>
+    <string name="betsSaved">Bets saved</string>
+    <string name="submitBet">Tipp abgeben/ändern</string>
 </resources>
