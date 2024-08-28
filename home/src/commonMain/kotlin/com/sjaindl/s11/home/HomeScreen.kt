@@ -17,15 +17,15 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import com.sjaindl.s11.bet.BetContainer
+import com.sjaindl.s11.home.bet.BetContainer
 import com.sjaindl.s11.core.theme.spacing
-import com.sjaindl.s11.stats.Mvps
-import com.sjaindl.s11.stats.Top11OfRound
+import com.sjaindl.s11.home.stats.Mvps
+import com.sjaindl.s11.home.stats.Top11OfRound
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.hello
-import startingeleven.composeapp.generated.resources.home
+import startingeleven.home.generated.resources.Res
+import startingeleven.home.generated.resources.hello
+import startingeleven.home.generated.resources.home
 
 @Composable
 fun HomeScreen(

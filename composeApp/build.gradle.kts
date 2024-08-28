@@ -158,6 +158,7 @@ kotlin {
 
             implementation(project(path = ":core"))
             implementation(project(path = ":auth"))
+            implementation(project(path = ":home"))
             implementation(project(path = ":profile"))
             implementation(project(path = ":standings"))
             implementation(project(path = ":team"))

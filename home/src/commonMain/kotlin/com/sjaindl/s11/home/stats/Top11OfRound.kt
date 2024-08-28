@@ -1,4 +1,4 @@
-package com.sjaindl.s11.stats
+package com.sjaindl.s11.home.stats
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -11,19 +11,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
-import com.sjaindl.s11.stats.StatsState.Content
-import com.sjaindl.s11.stats.StatsState.Error
-import com.sjaindl.s11.stats.StatsState.Initial
-import com.sjaindl.s11.stats.StatsState.Loading
-import com.sjaindl.s11.stats.StatsState.NoMatches
+import com.sjaindl.s11.home.stats.StatsState.Content
+import com.sjaindl.s11.home.stats.StatsState.Error
+import com.sjaindl.s11.home.stats.StatsState.Initial
+import com.sjaindl.s11.home.stats.StatsState.Loading
+import com.sjaindl.s11.home.stats.StatsState.NoMatches
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.mvpPoints
-import startingeleven.composeapp.generated.resources.noMatches
+import startingeleven.home.generated.resources.Res
+import startingeleven.home.generated.resources.noMatches
+import startingeleven.home.generated.resources.topEleven
 
 @Composable
-fun Mvps(
+fun Top11OfRound(
     modifier: Modifier = Modifier,
 ) {
     val viewModel = viewModel {
@@ -39,8 +39,8 @@ fun Mvps(
 
         is Content -> {
             S11PlayerCard(
-                title = stringResource(resource = Res.string.mvpPoints),
-                items = state.mvps,
+                title = stringResource(resource = Res.string.topEleven),
+                items = state.topElevenLastRound,
                 modifier = modifier,
             )
         }
@@ -63,9 +63,9 @@ fun Mvps(
 
 @Preview
 @Composable
-fun MvpsPreview() {
+fun Top11OfRoundPreview() {
     HvtdpTheme {
-        Mvps(
+        Top11OfRound(
             modifier = Modifier.padding(8.dp)
         )
     }

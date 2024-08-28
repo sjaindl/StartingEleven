@@ -1,4 +1,4 @@
-package com.sjaindl.s11.bet
+package com.sjaindl.s11.home.bet
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -10,11 +10,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sjaindl.s11.bet.BetState.Content
-import com.sjaindl.s11.bet.BetState.Error
-import com.sjaindl.s11.bet.BetState.Initial
-import com.sjaindl.s11.bet.BetState.Loading
-import com.sjaindl.s11.bet.BetState.NoBets
+import com.sjaindl.s11.home.bet.BetState.Content
+import com.sjaindl.s11.home.bet.BetState.Error
+import com.sjaindl.s11.home.bet.BetState.Initial
+import com.sjaindl.s11.home.bet.BetState.Loading
+import com.sjaindl.s11.home.bet.BetState.NoBets
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.baseui.S11Card
@@ -22,9 +22,9 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.betsSaved
-import startingeleven.composeapp.generated.resources.noBets
+import startingeleven.home.generated.resources.Res
+import startingeleven.home.generated.resources.betsSaved
+import startingeleven.home.generated.resources.noBets
 
 @Composable
 fun BetContainer(

@@ -1,4 +1,4 @@
-package com.sjaindl.s11.stats.model
+package com.sjaindl.s11.home.stats.model
 
 data class PlayerCardItem(
     val name: String,

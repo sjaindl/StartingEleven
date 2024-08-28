@@ -1,4 +1,4 @@
-package com.sjaindl.s11.stats
+package com.sjaindl.s11.home.stats
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.S11Card
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
-import com.sjaindl.s11.stats.model.PlayerCardItem
+import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

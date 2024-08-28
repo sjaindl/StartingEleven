@@ -39,6 +39,7 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":auth")
 include(":core")
+include(":home")
 include(":profile")
 include(":standings")
 include(":team")

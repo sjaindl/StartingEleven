@@ -2,16 +2,5 @@
 <resources>
     <string name="appName" translatable="false">Starting 11</string>
 
-    <string name="hello">Hello</string>
     <string name="signInSuccess">Successfully signed in!</string>
-
-    <string name="betGame">Betting game</string>
-    <string name="yourBet">Your bet for the next game:</string>
-    <string name="noBets">There are currently no active bets</string>
-    <string name="betsSaved">Bets saved</string>
-    <string name="submitBet">Tipp abgeben/ändern</string>
-
-    <string name="mvpPoints">MVPs (Punkte)</string>
-    <string name="topEleven">Top 11 der Runde (Punkte)</string>
-    <string name="noMatches">No matches yet</string>
 </resources>

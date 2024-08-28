@@ -1,11 +1,11 @@
-package com.sjaindl.s11.stats
+package com.sjaindl.s11.home.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sjaindl.s11.core.firestore.matchday.MatchDayRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
 import com.sjaindl.s11.core.firestore.user.UserRepository
-import com.sjaindl.s11.stats.model.PlayerCardItem
+import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
