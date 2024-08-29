@@ -24,6 +24,7 @@
 
     <string name="faqs">FAQs</string>
     <string name="privacyPolicy">Privacy Policy</string>
+    <string name="prices">Preise</string>
 
     <string name="playerPoints">%1$d Punkte</string>
     <string name="choosePlayer">Choose player...</string>

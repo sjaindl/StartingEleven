@@ -1,15 +1,10 @@
 package com.sjaindl.s11
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,11 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -32,11 +23,8 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
-import com.sjaindl.s11.auth.navigation.authenticationGraph
-import com.sjaindl.s11.composables.PlayersScreen
 import com.sjaindl.s11.core.baseui.S11AppBar
 import com.sjaindl.s11.core.baseui.S11BottomBar
-import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
 import com.sjaindl.s11.core.navigation.Route
 import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
@@ -45,26 +33,15 @@ import com.sjaindl.s11.core.navigation.Route.Standings
 import com.sjaindl.s11.core.navigation.Route.Team
 import com.sjaindl.s11.core.navigation.toRoute
 import com.sjaindl.s11.core.theme.HvtdpTheme
-import com.sjaindl.s11.faq.FaqViewModel
-import com.sjaindl.s11.faq.Faqs
-import com.sjaindl.s11.home.HomeScreen
-import com.sjaindl.s11.privacypolicy.PrivacyPolicyScreen
+import com.sjaindl.s11.navigation.S11NavHost
 import com.sjaindl.s11.profile.navigation.navigateToProfile
-import com.sjaindl.s11.profile.navigation.profileGraph
-import com.sjaindl.s11.standings.navigation.standingsGraph
-import com.sjaindl.s11.team.navigation.teamGraph
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import okio.FileSystem
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.compose_multiplatform
-import startingeleven.composeapp.generated.resources.signInSuccess
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -81,6 +58,8 @@ fun App() {
             SnackbarHostState()
         }
 
+        val coroutineScope = rememberCoroutineScope()
+
         var showBottomBar by remember {
             mutableStateOf(value = true)
         }
@@ -92,8 +71,6 @@ fun App() {
         var selectedItem by remember {
             mutableStateOf(value = 0)
         }
-
-        val coroutineScope = rememberCoroutineScope()
 
         val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(
             initial = Firebase.auth.currentUser
@@ -118,8 +95,6 @@ fun App() {
             )
         }
 
-        val signInSuccessText = stringResource(resource = Res.string.signInSuccess)
-
         HvtdpTheme {
             Scaffold(
                 topBar = {
@@ -139,6 +114,9 @@ fun App() {
                             },
                             navigateToFaqs = {
                                 navController.navigate(route = Faqs)
+                            },
+                            navigateToPrices = {
+                                navController.navigate(route = Route.Prices)
                             },
                             navigateToPrivacyPolicy = {
                                 navController.navigate(route = Route.Privacy)
@@ -164,97 +142,17 @@ fun App() {
                     SnackbarHost(hostState = snackBarHostState)
                 },
             ) {
-                NavHost(
+                S11NavHost(
                     navController = navController,
-                    startDestination = Home,
+                    userName = user?.displayName,
+                    onShowSnackBar = {
+                        coroutineScope.launch {
+                            snackBarHostState.showSnackbar(message = it)
+                        }
+                    },
                     modifier = Modifier
                         .padding(paddingValues = it),
-                ) {
-
-                    composable<Home> {
-                        HomeScreen(
-                            displayName = user?.displayName,
-                            onAuthenticate = {
-                                navController.navigate(route = AuthNavGraphRoute)
-                            },
-                            onShowSnackBar = {
-                                coroutineScope.launch {
-                                    snackBarHostState.showSnackbar(message = it)
-                                }
-                            }
-                        )
-                    }
-
-                    teamGraph()
-
-                    /*
-                    TODO:
-                    composable<Prices> {
-                        Text("Prices")
-                        TestContent()
-                    }
-                     */
-
-                    composable<Players> {
-                        PlayersScreen()
-                    }
-
-                    standingsGraph()
-
-                    authenticationGraph(
-                        navController = navController,
-                        onSuccess = {
-                            navController.navigate(Home) {
-                                popUpTo<Home>()
-                            }
-                            coroutineScope.launch {
-                                snackBarHostState.showSnackbar(message = signInSuccessText)
-                            }
-                        }
-                    )
-
-                    profileGraph()
-
-                    composable<Faqs> {
-                        val faqViewModel = viewModel {
-                            FaqViewModel()
-                        }
-
-                        val faqState by faqViewModel.faqState.collectAsState()
-
-                        Faqs(
-                            faqState = faqState,
-                            onRetry = {
-                                faqViewModel.loadFaq()
-                            },
-                        )
-                    }
-
-                    composable<Route.Privacy> {
-                        PrivacyPolicyScreen()
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun TestContent() {
-    var showContent by remember {
-        mutableStateOf(false)
-    }
-
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Button(onClick = { showContent = !showContent }) {
-            Text("Click me!")
-        }
-
-        AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
-                Text("Compose: $greeting")
+                )
             }
         }
     }
