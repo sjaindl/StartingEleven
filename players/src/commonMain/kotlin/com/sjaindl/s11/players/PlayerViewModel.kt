@@ -28,7 +28,11 @@ class PlayerViewModel : ViewModel(), KoinComponent {
         _playerState.value = PlayerState.Loading
 
         viewModelScope.launch {
-            _playerState.value = PlayerState.Success(players = playerRepository.getPlayers())
+            _playerState.value = PlayerState.Success(
+                players = playerRepository.getPlayers().sortedByDescending {
+                    it.points.values.sum()
+                }
+            )
         }
     }
 }
