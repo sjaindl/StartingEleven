@@ -43,13 +43,14 @@ class ProfileViewModel : ViewModel(), KoinComponent {
     fun loadUser() = viewModelScope.launch {
         _userState.value = UserState.Loading
 
-        val user = auth.currentUser
+        val user = userRepository.getCurrentUser()
+
         if (user != null) {
             _userState.value = UserState.User(
                 uid = user.uid,
-                name = user.displayName,
+                name = user.userName,
                 email = user.email,
-                photoUrl = user.photoURL,
+                photoUrl = user.photoUrl,
             )
         } else {
             _userState.value = UserState.NoUser
@@ -58,6 +59,7 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
     fun changeUserName(uid: String, newName: String) = viewModelScope.launch {
         val currentUser = userState.value as? UserState.User ?: return@launch
+        if (currentUser.name == newName) return@launch
 
         _userState.value = UserState.Loading
 
