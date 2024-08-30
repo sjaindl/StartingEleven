@@ -121,6 +121,9 @@ fun App() {
                             navigateToPrivacyPolicy = {
                                 navController.navigate(route = Route.Privacy)
                             },
+                            navigateToDebugInfo = {
+                                navController.navigate(route = Route.DebugInfo)
+                            },
                             onClickProfile = {
                                 navController.navigateToProfile()
                             }

@@ -3,4 +3,6 @@
     <string name="appName" translatable="false">Starting 11</string>
 
     <string name="signInSuccess">Successfully signed in!</string>
+    <string name="versionCode">Version code</string>
+    <string name="versionName">Version name</string>
 </resources>

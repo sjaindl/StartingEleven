@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.sjaindl.s11.debuginfo.DebugInfoScreen
 import com.sjaindl.s11.auth.navigation.authenticationGraph
 import com.sjaindl.s11.composables.PlayersScreen
 import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
@@ -96,6 +97,10 @@ fun S11NavHost(
 
         composable<Route.Privacy> {
             PrivacyPolicyScreen()
+        }
+
+        composable<Route.DebugInfo> {
+            DebugInfoScreen()
         }
     }
 }

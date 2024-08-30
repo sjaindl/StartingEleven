@@ -19,6 +19,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.StringResource
 import startingeleven.core.generated.resources.Res
+import startingeleven.core.generated.resources.debugInfo
 import startingeleven.core.generated.resources.routeAuth
 import startingeleven.core.generated.resources.routeFaq
 import startingeleven.core.generated.resources.routeMailSignIn
@@ -90,6 +91,12 @@ sealed interface Route {
     }
 
     @Serializable
+    data object DebugInfo: Route {
+        override val showBackButton = true
+        override val isTopLevelRoute = false
+    }
+
+    @Serializable
     data object Profile: Route {
         override val showBackButton = true
         override val isTopLevelRoute = false
@@ -135,6 +142,7 @@ sealed interface Route {
                 Prices -> Res.string.routePrices
                 Faqs -> Res.string.routeFaq
                 Privacy -> Res.string.routePrivacy
+                DebugInfo -> Res.string.debugInfo
                 Profile -> Res.string.routeProfile
                 Auth -> Res.string.routeAuth
                 SignInChooser -> Res.string.routeAuth
