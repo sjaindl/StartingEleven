@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LineupData(
-    val goalkeeper: String?,
+    val goalkeeper: String? = null,
     val defenders: List<String> = emptyList(),
     val midfielders: List<String> = emptyList(),
     val attackers: List<String> = emptyList(),

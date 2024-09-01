@@ -29,8 +29,12 @@ internal class UserMatchDayDataSourceImpl(
 
         val userMatchDays = getDocumentRef(path = uid)
             .collection(collectionPath = "matchdays")
-            .get().documents.map {
-                mapper(it).copy(matchDay = it.id)
+            .get().documents.mapNotNull { documentSnapshot ->
+                if (documentSnapshot.exists) {
+                    mapper(documentSnapshot).copy(matchDay = documentSnapshot.id)
+                } else {
+                    null
+                }
             }
 
         cache[uid] = CachedValue(
@@ -45,7 +49,18 @@ internal class UserMatchDayDataSourceImpl(
             .collection(collectionPath = "matchdays")
             .document(documentPath = matchDay)
 
-        val docData = userMatchDayDocRef.get().data<UserMatchDay>()
+        val userMatchDayDoc = userMatchDayDocRef.get()
+
+        val docData = if (userMatchDayDoc.exists) {
+            userMatchDayDoc.data<UserMatchDay>()
+        } else {
+            UserMatchDay(
+                matchDay = matchDay,
+                homeScore = homeScore,
+                awayScore = awayScore,
+            )
+        }
+
         val newDocData = docData.copy(
             homeScore = homeScore,
             awayScore = awayScore,

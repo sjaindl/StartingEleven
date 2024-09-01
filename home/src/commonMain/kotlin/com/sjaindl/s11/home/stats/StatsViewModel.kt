@@ -9,6 +9,7 @@ import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -42,6 +43,7 @@ class StatsViewModel : ViewModel(), KoinComponent {
 
     init {
         loadStatistics()
+        setObservers()
     }
 
     fun loadStatistics() = viewModelScope.launch {
@@ -92,6 +94,16 @@ class StatsViewModel : ViewModel(), KoinComponent {
             val message = exception.message ?: exception.toString()
             Napier.e(message = message, throwable = exception, tag = tag)
             _statsState.value = StatsState.Error(message = message)
+        }
+    }
+
+    private fun setObservers() {
+        viewModelScope.launch {
+            userRepository.getCurrentUserFlow().distinctUntilChanged().collect { user ->
+                if (user != null) {
+                    loadStatistics()
+                }
+            }
         }
     }
 }

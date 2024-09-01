@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -52,6 +53,12 @@ fun App() {
     }
 
     KoinContext {
+        val viewModel = viewModel {
+            AppViewModel()
+        }
+
+        val displayName by viewModel.userName.collectAsState()
+
         val navController = rememberNavController()
 
         val snackBarHostState = remember {
@@ -147,7 +154,7 @@ fun App() {
             ) {
                 S11NavHost(
                     navController = navController,
-                    userName = user?.displayName,
+                    userName = displayName,
                     onShowSnackBar = {
                         coroutineScope.launch {
                             snackBarHostState.showSnackbar(message = it)

@@ -27,11 +27,21 @@ internal class UserLineupDataSourceImpl(
         val cachedValue = cache[uid]?.get()
         if (cachedValue != null) return cachedValue
 
-        val userLineup = getDocumentRef(path = uid)
+        val userDocRef = getDocumentRef(path = uid).get()
+        if (!userDocRef.exists) {
+            return LineupData()
+        }
+
+        val userLineupDocRef = getDocumentRef(path = uid)
             .collection(collectionPath = "lineup")
             .document(documentPath = "lineupData")
             .get()
-            .data<LineupData>()
+
+        if (!userLineupDocRef.exists) {
+            return LineupData()
+        }
+
+        val userLineup = userLineupDocRef.data<LineupData>()
 
         cache[uid] = CachedValue(
             value = userLineup,

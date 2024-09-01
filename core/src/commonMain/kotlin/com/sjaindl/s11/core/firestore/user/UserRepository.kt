@@ -2,6 +2,7 @@ package com.sjaindl.s11.core.firestore.user
 
 import com.sjaindl.s11.core.firestore.user.model.User
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,8 @@ interface UserRepository {
     suspend fun getUsers(): List<User>
     fun getUsersFlow(): Flow<List<User>>
     suspend fun getCurrentUser(): User?
+    suspend fun getCurrentUserFlow(): Flow<User?>
+    suspend fun createUser(user: FirebaseUser)
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
@@ -34,6 +37,14 @@ internal class UserRepositoryImpl(
 
     override suspend fun getCurrentUser() = auth.currentUser?.uid?.let {
         userDataSource.getUser(uid = it)
+    }
+
+    override suspend fun getCurrentUserFlow(): Flow<User?> {
+        return userDataSource.getUserFlow()
+    }
+
+    override suspend fun createUser(user: FirebaseUser) {
+        userDataSource.createUser(user = user)
     }
 
     override suspend fun setUserName(uid: String, newName: String) {

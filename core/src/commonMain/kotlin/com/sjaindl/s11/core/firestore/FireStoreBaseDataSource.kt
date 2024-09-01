@@ -15,8 +15,12 @@ abstract class FireStoreBaseDataSource<T>(
     protected suspend fun getCollection(): List<T> {
         val snapshotResponse = firestore.collection(collectionPath = collectionPath).get()
 
-        return snapshotResponse.documents.map {
-            mapper(it)
+        return snapshotResponse.documents.mapNotNull { documentSnapshot ->
+            if (documentSnapshot.exists) {
+                mapper(documentSnapshot)
+            } else {
+                null
+            }
         }
     }
 
@@ -24,8 +28,12 @@ abstract class FireStoreBaseDataSource<T>(
         val snapshotResponse = firestore.collection(collectionPath = collectionPath).snapshots
 
         return snapshotResponse.map  { querySnapshot ->
-            querySnapshot.documents.map { documentSnapshot ->
-                mapper(documentSnapshot)
+            querySnapshot.documents.mapNotNull { documentSnapshot ->
+                if (documentSnapshot.exists) {
+                    mapper(documentSnapshot)
+                } else {
+                    null
+                }
             }
         }
     }
@@ -33,7 +41,11 @@ abstract class FireStoreBaseDataSource<T>(
     protected suspend fun getDocument(path: String): T? {
         val document = getDocumentRef(path = path).get()
 
-        return mapper(document)
+        return if (document.exists) {
+            mapper(document)
+        } else {
+            null
+        }
     }
 
     protected fun getDocumentFlow(path: String): Flow<T?> {
@@ -41,7 +53,11 @@ abstract class FireStoreBaseDataSource<T>(
         val documentSnapshots = collectionRef.document(documentPath = path).snapshots
 
         return documentSnapshots.map  { documentSnapshot ->
-            mapper(documentSnapshot)
+            if (documentSnapshot.exists) {
+                mapper(documentSnapshot)
+            } else {
+                null
+            }
         }
     }
 

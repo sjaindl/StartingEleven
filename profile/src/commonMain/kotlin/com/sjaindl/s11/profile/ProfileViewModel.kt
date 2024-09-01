@@ -3,8 +3,6 @@ package com.sjaindl.s11.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sjaindl.s11.core.firestore.user.UserRepository
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.storage.File
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,10 +29,6 @@ sealed class UserState {
 class ProfileViewModel : ViewModel(), KoinComponent {
 
     private val tag = "ProfileViewModel"
-
-    private val auth by lazy {
-        Firebase.auth
-    }
 
     private val userRepository: UserRepository by inject()
 

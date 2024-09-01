@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserMatchDay(
     val matchDay: String,
-    val goalkeeper: String?,
+    val goalkeeper: String? = null,
     val defenders: List<String> = emptyList(),
     val midfielders: List<String> = emptyList(),
     val attackers: List<String> = emptyList(),
-    val homeScore: Int?,
-    val awayScore: Int?,
+    val homeScore: Int? = null,
+    val awayScore: Int? = null,
 )

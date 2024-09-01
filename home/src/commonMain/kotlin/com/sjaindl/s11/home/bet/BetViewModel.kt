@@ -10,6 +10,7 @@ import com.sjaindl.s11.core.firestore.usermatchday.UserMatchDayRepository
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -55,6 +56,7 @@ class BetViewModel : ViewModel(), KoinComponent {
 
     init {
         loadBets()
+        setObservers()
     }
 
     fun loadBets() = viewModelScope.launch {
@@ -140,5 +142,15 @@ class BetViewModel : ViewModel(), KoinComponent {
 
     fun resetSavedBetState() {
         _savedBet.value = false
+    }
+
+    private fun setObservers() {
+        viewModelScope.launch {
+            userRepository.getCurrentUserFlow().distinctUntilChanged().collect { user ->
+                if (user != null) {
+                    loadBets()
+                }
+            }
+        }
     }
 }

@@ -8,4 +8,8 @@ data class Formation(
     val defense: Int,
     val midfield: Int,
     val attack: Int,
-)
+) {
+    companion object {
+        const val DEFAULT_FORMATION = "4-4--2"
+    }
+}

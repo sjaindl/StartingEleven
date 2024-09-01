@@ -2,12 +2,17 @@ package com.sjaindl.s11.core.firestore.user
 
 import com.sjaindl.s11.core.CachedValue
 import com.sjaindl.s11.core.firestore.FireStoreBaseDataSource
+import com.sjaindl.s11.core.firestore.formations.model.Formation
 import com.sjaindl.s11.core.firestore.user.model.User
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.File
 import dev.gitlive.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -16,6 +21,8 @@ interface UserDataSource {
     suspend fun getUsers(): List<User>
     fun getUsersFlow(): Flow<List<User>>
     suspend fun getUser(uid: String): User?
+    suspend fun getUserFlow(): Flow<User?>
+    suspend fun createUser(user: FirebaseUser)
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
@@ -36,12 +43,16 @@ internal class UserDataSourceImpl(
         it.data()
     }
 
+    private val auth by lazy {
+        Firebase.auth
+    }
+
     override suspend fun getUsers(): List<User> {
         val cachedValue = usersCache?.get()
         if (!cachedValue.isNullOrEmpty()) return cachedValue
 
         val users = getCollection().map {
-            it.copy(photoRefDownloadUrl = getUserImageDownloadUrl(user = it))
+            it.copy(photoRefDownloadUrl = getUserImageDownloadUrl(photoRef = it.photoRef))
         }
 
         usersCache = CachedValue(
@@ -62,6 +73,36 @@ internal class UserDataSourceImpl(
         )
 
         return user
+    }
+
+    override suspend fun getUserFlow(): Flow<User?> {
+        return getUsersFlow().map {
+            it.firstOrNull { user ->
+                user.uid == auth.currentUser?.uid
+            }
+        }
+    }
+
+    override suspend fun createUser(user: FirebaseUser) {
+        val newUser = User(
+            uid = user.uid,
+            email = user.email,
+            userName = user.displayName ?: "Anonymous",
+            photoRef = null,
+            photoRefDownloadUrl = null,
+            profilePhotoRefTimestamp = null,
+            photoUrl = user.photoURL,
+            providerId = user.providerId,
+            formation = Formation.DEFAULT_FORMATION,
+            isAdmin = false,
+        )
+
+        val userDocRef = getDocumentRef(path = user.uid)
+        userDocRef.set(data = newUser)
+
+        userCache[user.uid] = CachedValue(
+            value = newUser,
+        )
     }
 
     override suspend fun setUserName(uid: String, newName: String) {
@@ -88,6 +129,7 @@ internal class UserDataSourceImpl(
         getUser(uid = uid)?.let { user ->
             val newUser = user.copy(
                 photoRef = photoRef,
+                photoRefDownloadUrl = getUserImageDownloadUrl(photoRef = photoRef),
                 profilePhotoRefTimestamp = Clock.System.now().toString(),
             )
 
@@ -137,13 +179,13 @@ internal class UserDataSourceImpl(
         val user = getDocument(path = uid)
         return user?.let {
             it.copy(
-                photoRefDownloadUrl = getUserImageDownloadUrl(user = it),
+                photoRefDownloadUrl = getUserImageDownloadUrl(photoRef = it.photoRef),
             )
         }
     }
 
-    private suspend fun getUserImageDownloadUrl(user: User): String? {
-        return user.photoRef?.takeIf {
+    private suspend fun getUserImageDownloadUrl(photoRef: String?): String? {
+        return photoRef?.takeIf {
             it.isNotEmpty()
         }?.let {
             storage.reference(location = it).getDownloadUrl()
