@@ -3,6 +3,7 @@ package com.sjaindl.s11.core.navigation
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import com.sjaindl.s11.core.navigation.Route.Auth
+import com.sjaindl.s11.core.navigation.Route.DebugInfo
 import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.MailSignIn
@@ -161,6 +162,7 @@ fun NavBackStackEntry?.toRoute(): Route? = when (this?.destination?.route?.subst
     Standings.toString() -> this.toRoute<Standings>()
     Prices.toString() -> this.toRoute<Prices>()
     Faqs.toString() -> this.toRoute<Faqs>()
+    DebugInfo.toString() -> this.toRoute<DebugInfo>()
     Privacy.toString() -> this.toRoute<Privacy>()
     Profile.toString() -> this.toRoute<Profile>()
     Auth.toString() -> this.toRoute<Auth>()
