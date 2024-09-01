@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Starting Eleven</string>
+    <string name="app_name">Starting 11</string>
     <string name="facebook_app_id" translatable="false">514045645749391</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb514045645749391</string>
 </resources>
