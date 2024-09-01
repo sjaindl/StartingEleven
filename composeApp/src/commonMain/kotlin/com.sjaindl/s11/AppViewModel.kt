@@ -16,7 +16,9 @@ class AppViewModel : ViewModel(), KoinComponent {
 
     private val userRepository: UserRepository by inject<UserRepository>()
 
-    private var _userName: MutableStateFlow<String?> = MutableStateFlow(value = null)
+    private var _userName: MutableStateFlow<String?> = MutableStateFlow(
+        value = Firebase.auth.currentUser?.displayName,
+    )
     var userName = _userName.asStateFlow()
 
     init {
