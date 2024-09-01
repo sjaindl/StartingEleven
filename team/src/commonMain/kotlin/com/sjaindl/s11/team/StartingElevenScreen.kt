@@ -136,14 +136,30 @@ fun StartingElevenScreenContent(
                 )
             }
 
-            val title = when (position) {
-                Position.Goalkeeper -> stringResource(Res.string.goalKeeper)
-                Position.Defender -> stringResource(Res.string.defender)
-                Position.Midfielder -> stringResource(Res.string.midfielder)
-                Position.Attacker -> stringResource(Res.string.attacker)
+            val numOfRequiredPlayersAtPosition by remember(key1 = lineupData, key2 = selectedFormation) {
+                mutableStateOf(
+                    when (position) {
+                        Position.Goalkeeper -> 1
+                        Position.Defender -> selectedFormation.defenders
+                        Position.Midfielder -> selectedFormation.midfielders
+                        Position.Attacker -> selectedFormation.attackers
+                    }
+                )
             }
 
-            ExpandableCard(title = title) {
+            val lineupCount = "(${numOfRequiredPlayersAtPosition - numMissingPlayers}/$numOfRequiredPlayersAtPosition)"
+
+            val title = when (position) {
+                Position.Goalkeeper -> stringResource(Res.string.goalKeeper) + " $lineupCount"
+                Position.Defender -> stringResource(Res.string.defender) + " $lineupCount"
+                Position.Midfielder -> stringResource(Res.string.midfielder) + " $lineupCount"
+                Position.Attacker -> stringResource(Res.string.attacker) + " $lineupCount"
+            }
+
+            ExpandableCard(
+                title = title,
+                initiallyExpanded = numMissingPlayers > 0
+            ) {
                 Column(
                     modifier = Modifier
                         .padding(all = 8.dp),

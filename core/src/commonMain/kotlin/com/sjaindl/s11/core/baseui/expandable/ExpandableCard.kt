@@ -38,11 +38,12 @@ private const val EXPAND_ANIMATION_DURATION = 400
 @Composable
 fun ExpandableCard(
     title: String,
+    initiallyExpanded: Boolean,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     var expanded by remember {
-        mutableStateOf(value = false)
+        mutableStateOf(value = initiallyExpanded)
     }
 
     val transitionState = remember {
@@ -123,6 +124,7 @@ fun ExpandableCardPreview() {
     HvtdpTheme {
         ExpandableCard(
             title = "Expandable Content",
+            initiallyExpanded = true,
             content = {
                 Text("Some content to expand or shrink")
             }

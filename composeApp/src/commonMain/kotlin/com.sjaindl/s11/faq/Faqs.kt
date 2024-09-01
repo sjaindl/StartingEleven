@@ -71,6 +71,7 @@ fun ExpandableFAQCard(
 ) {
     ExpandableCard(
         title = title,
+        initiallyExpanded = false,
         modifier = modifier,
     ) {
         Text(
