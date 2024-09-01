@@ -60,38 +60,41 @@ class BetViewModel : ViewModel(), KoinComponent {
     fun loadBets() = viewModelScope.launch {
         _betState.value = BetState.Loading
 
-        try {
-            val currentUser = userRepository.getCurrentUser()
-            if (currentUser == null) {
-                _betState.value = BetState.Error(message = "Please sign in")
-                return@launch
+        val currentUser = userRepository.getCurrentUser()
+        if (currentUser == null) {
+            _betState.value = BetState.Error(message = "Please sign in")
+            return@launch
+        }
+
+        val currentBet = betsRepository.getBets().lastOrNull()
+        if (currentBet == null) {
+            _betState.value = BetState.NoBets
+            return@launch
+        }
+
+        configRepository.getConfigFlow().collect { config ->
+            try {
+                val enabled = config?.bets ?: false
+
+                val userMatchDay =
+                    userMatchDayRepository.getUserMatchDays(uid = currentUser.uid).find {
+                        it.matchDay == currentBet.id
+                    }
+
+                _userBet.value = UserBet(
+                    homeBet = userMatchDay?.homeScore ?: 0,
+                    awayBet = userMatchDay?.awayScore ?: 0,
+                )
+
+                _betState.value = BetState.Content(
+                    bet = currentBet,
+                    enabled = enabled,
+                )
+            } catch (exception: Exception) {
+                val message = exception.message ?: exception.toString()
+                Napier.e(message = message, throwable = exception, tag = tag)
+                _betState.value = BetState.Error(message = message)
             }
-
-            val currentBet = betsRepository.getBets().lastOrNull()
-            if (currentBet == null) {
-                _betState.value = BetState.NoBets
-                return@launch
-            }
-
-            val enabled = configRepository.getConfig()?.bets ?: false
-
-            val userMatchDay = userMatchDayRepository.getUserMatchDays(uid = currentUser.uid).find {
-                it.matchDay == currentBet.id
-            }
-
-            _userBet.value = UserBet(
-                homeBet = userMatchDay?.homeScore ?: 0,
-                awayBet = userMatchDay?.awayScore ?: 0,
-            )
-
-            _betState.value = BetState.Content(
-                bet = currentBet,
-                enabled = enabled,
-            )
-        } catch (exception: Exception) {
-            val message = exception.message ?: exception.toString()
-            Napier.e(message = message, throwable = exception, tag = tag)
-            _betState.value = BetState.Error(message = message)
         }
     }
 
