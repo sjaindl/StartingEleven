@@ -1,4 +1,4 @@
-package com.sjaindl.s11.profile
+package com.sjaindl.s11.photopicker
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,18 +11,18 @@ import androidx.compose.ui.Modifier
 import com.sjaindl.s11.core.baseui.S11BottomSheet
 import com.sjaindl.s11.core.theme.LocalDimensions
 import org.jetbrains.compose.resources.stringResource
-import startingeleven.profile.generated.resources.Res
-import startingeleven.profile.generated.resources.profileChoosePhoto
-import startingeleven.profile.generated.resources.profileDeletePhoto
-import startingeleven.profile.generated.resources.profileTakePhoto
+import startingeleven.photopicker.generated.resources.Res
+import startingeleven.photopicker.generated.resources.profileChoosePhoto
+import startingeleven.photopicker.generated.resources.profileDeletePhoto
+import startingeleven.photopicker.generated.resources.profileTakePhoto
 
 @Composable
 fun PhotoPickerBottomSheet(
     onDismiss: () -> Unit,
-    onDeleteImage: () -> Unit,
-    // photoCaptureRequest: PhotoPickerResult,
-    // photoPickerRequest: PhotoPickerResult,
-    canDeleteImage: Boolean,
+    onPickPhoto: () -> Unit,
+    onTakePhoto: () -> Unit,
+    onDeletePhoto: () -> Unit,
+    canDeletePhoto: Boolean,
 ) {
     val dimensions = LocalDimensions.current
 
@@ -31,7 +31,7 @@ fun PhotoPickerBottomSheet(
     ) {
         Button(
             onClick = {
-                //photoCaptureRequest.launchPicker()
+                onTakePhoto()
                 onDismiss()
             },
             Modifier
@@ -48,7 +48,7 @@ fun PhotoPickerBottomSheet(
 
         Button(
             onClick = {
-                //photoPickerRequest.launchPicker()
+                onPickPhoto()
                 onDismiss()
             },
             modifier = Modifier
@@ -63,7 +63,7 @@ fun PhotoPickerBottomSheet(
             )
         }
 
-        if (canDeleteImage) {
+        if (canDeletePhoto) {
             HorizontalDivider(
                 Modifier
                     .padding(
@@ -74,7 +74,7 @@ fun PhotoPickerBottomSheet(
             )
             Button(
                 onClick = {
-                    onDeleteImage()
+                    onDeletePhoto()
                     onDismiss()
                 },
                 modifier = Modifier

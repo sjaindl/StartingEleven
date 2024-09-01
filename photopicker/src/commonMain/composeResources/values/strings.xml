@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="profileTakePhoto">Take photo</string>
+    <string name="profileChoosePhoto">Choose photo</string>
+    <string name="profileDeletePhoto">Delete photo</string>
+    <string name="permissionRationaleTitle">Permission Required</string>
+    <string name="permissionRationaleMessage">To change your profile picture, please grant this permission. You can manage permissions in your device settings.</string>
+    <string name="permissionRationalePositiveButtonText">Settings</string>
+    <string name="permissionRationaleNegativeButtonText">Cancel</string>
+</resources>
