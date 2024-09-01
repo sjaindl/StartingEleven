@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sjaindl.s11.core.Event
 import com.sjaindl.s11.core.EventRepository
 import com.sjaindl.s11.core.extensions.insertAt
+import com.sjaindl.s11.core.firestore.config.ConfigRepository
 import com.sjaindl.s11.core.firestore.formations.FormationRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
 import com.sjaindl.s11.core.firestore.player.model.Player
@@ -28,6 +29,7 @@ sealed class StartingElevenState {
         val formation: Formation,
         val players: List<Player>,
         val lineup: LineupData,
+        val enabled: Boolean,
     ): StartingElevenState()
     data class Error(val message: String): StartingElevenState()
 }
@@ -36,6 +38,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
 
     private val tag = "StartingElevenViewModel"
 
+    private val configRepository: ConfigRepository by inject()
     private val formationRepository: FormationRepository by inject()
     private val userRepository: UserRepository by inject()
     private val playerRepository: PlayerRepository by inject()
@@ -61,31 +64,36 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
             return@launch
         }
 
-        try {
-            val possibleFormations = formationRepository.getFormations().map {
-                Formation(
-                    formationId = it.formation,
-                    defenders = it.defense,
-                    midfielders = it.midfield,
-                    attackers = it.attack,
-                )
-            }
-            val userFormation = possibleFormations.find {
-                it.formationId == currentUser.formation
-            } ?: Formation.defaultFormation
-            val players = playerRepository.getPlayers()
-            val lineupData = lineupRepository.getUserLineup(uid = currentUser.uid)
+        configRepository.getConfigFlow().collect { config ->
+            try {
+                val enabled = config?.freeze?.not() ?: false
 
-            _startingElevenState.value = StartingElevenState.Content(
-                possibleFormations = possibleFormations,
-                formation = userFormation,
-                players = players,
-                lineup = lineupData,
-            )
-        } catch (exception: Exception) {
-            val message = exception.message ?: exception.toString()
-            Napier.e(message = message, throwable = exception, tag = tag)
-            _startingElevenState.value = StartingElevenState.Error(message = message)
+                val possibleFormations = formationRepository.getFormations().map {
+                    Formation(
+                        formationId = it.formation,
+                        defenders = it.defense,
+                        midfielders = it.midfield,
+                        attackers = it.attack,
+                    )
+                }
+                val userFormation = possibleFormations.find {
+                    it.formationId == currentUser.formation
+                } ?: Formation.defaultFormation
+                val players = playerRepository.getPlayers()
+                val lineupData = lineupRepository.getUserLineup(uid = currentUser.uid)
+
+                _startingElevenState.value = StartingElevenState.Content(
+                    possibleFormations = possibleFormations,
+                    formation = userFormation,
+                    players = players,
+                    lineup = lineupData,
+                    enabled = enabled,
+                )
+            } catch (exception: Exception) {
+                val message = exception.message ?: exception.toString()
+                Napier.e(message = message, throwable = exception, tag = tag)
+                _startingElevenState.value = StartingElevenState.Error(message = message)
+            }
         }
     }
 
@@ -165,6 +173,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                 formation = state.formation,
                 players = state.players,
                 lineup = state.lineup,
+                enabled = state.enabled,
             )
         }
     }

@@ -63,7 +63,7 @@ fun StartingElevenScreen(
                 lineupData = state.lineup,
                 selectedFormation = state.formation,
                 possibleFormations = state.possibleFormations,
-                enabled = true,
+                enabled = state.enabled,
                 onFormationSelected = viewModel::onFormationSelected,
                 onChoosePlayer = viewModel::onChoosePlayer,
             )
@@ -159,7 +159,7 @@ fun StartingElevenScreenContent(
                                 // prevent choosing same player twice
                                 it.playerId !in (linedUpPlayersAtPosition - player?.playerId)
                             },
-                            displayDropdown = true,
+                            displayDropdown = enabled,
                             onPlayerSelected = {
                                 onChoosePlayer(position, index, it.playerId)
                             },

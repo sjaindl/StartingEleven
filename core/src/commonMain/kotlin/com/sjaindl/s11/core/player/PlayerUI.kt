@@ -49,9 +49,13 @@ fun PlayerUI(
     Row(
         modifier = modifier
             .padding(8.dp)
-            .clickable {
-                dropdownExpanded = !dropdownExpanded
-            },
+            .then(if (displayDropdown) {
+                Modifier.clickable {
+                    dropdownExpanded = !dropdownExpanded
+                }
+            } else {
+                Modifier
+            }),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -87,12 +91,14 @@ fun PlayerUI(
             } else {
                 UnderlinedText(
                     text = player?.name ?: stringResource(Res.string.choosePlayer),
+                    enabled = false,
                 )
             }
 
             totalPointsOfPlayer?.let {
                 UnderlinedText(
                     text = stringResource(Res.string.playerPoints, it),
+                    enabled = displayDropdown,
                 )
             }
 
