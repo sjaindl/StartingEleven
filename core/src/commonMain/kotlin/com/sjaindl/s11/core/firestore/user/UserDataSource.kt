@@ -8,6 +8,7 @@ import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.File
 import dev.gitlive.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -82,13 +83,13 @@ internal class UserDataSourceImpl(
         val photoRef = "/users/$uid"
         val storageRef = storage.reference(location = photoRef)
 
-        // TODO: ev. make resumable
         storageRef.putFile(file = file)
 
         getUser(uid = uid)?.let { user ->
-            if (user.photoRef == photoRef) return
-
-            val newUser = user.copy(photoRef = photoRef)
+            val newUser = user.copy(
+                photoRef = photoRef,
+                profilePhotoRefTimestamp = Clock.System.now().toString(),
+            )
 
             val userDocRef = getDocumentRef(path = uid)
             userDocRef.set(data = newUser, merge = true)

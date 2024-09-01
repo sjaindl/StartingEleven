@@ -132,6 +132,7 @@ fun StandingItemPreview() {
                     userName = "Daniel Fabian",
                     photoRef = "",
                     photoRefDownloadUrl = "",
+                    profilePhotoRefTimestamp = null,
                     photoUrl = "",
                     providerId = "GOOGLE",
                     formation = "4-4-2",

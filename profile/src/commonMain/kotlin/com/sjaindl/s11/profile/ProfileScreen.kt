@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,13 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.firestore.convertToFirebaseFile
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.photopicker.PhotoPickerScreen
+import com.sjaindl.s11.photopicker.files.FileHandler
 import com.sjaindl.s11.profile.UserState.Error
 import com.sjaindl.s11.profile.UserState.Initial
 import com.sjaindl.s11.profile.UserState.Loading
 import com.sjaindl.s11.profile.UserState.NoUser
 import com.sjaindl.s11.profile.UserState.User
-import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -43,6 +44,7 @@ import startingeleven.profile.generated.resources.email
 import startingeleven.profile.generated.resources.noMail
 import startingeleven.profile.generated.resources.notSignedIn
 import startingeleven.profile.generated.resources.onProfilePictureDeleted
+import startingeleven.profile.generated.resources.onProfilePictureError
 import startingeleven.profile.generated.resources.onProfilePictureUpdated
 import startingeleven.profile.generated.resources.onUserNameChanged
 
@@ -60,6 +62,11 @@ fun ProfileScreen() {
 
     val coroutineScope = rememberCoroutineScope()
 
+    val fileHandler = remember {
+        FileHandler()
+    }
+
+    val profilePictureErrorText = stringResource(Res.string.onProfilePictureError)
     val profilePictureUpdatedText = stringResource(Res.string.onProfilePictureUpdated)
     val profilePictureDeletedText = stringResource(Res.string.onProfilePictureDeleted)
     val userNameChangedText = stringResource(Res.string.onUserNameChanged)
@@ -94,11 +101,21 @@ fun ProfileScreen() {
                     userName = state.name,
                     email = state.email,
                     profileImageUri = state.photoUrl,
+                    profilePhotoRefImageUri = state.photoRefDownloadUrl,
+                    profilePhotoRefTimestamp = state.profilePhotoRefTimestamp,
                     onImagePicked = {
-                        profileViewModel.uploadProfilePhoto(uid = state.uid, file = it)
+                        val filePath = fileHandler.getTemporaryFilePath(it)
+                        if (filePath == null) {
+                            coroutineScope.launch {
+                                snackBarHostState.showSnackbar(message = profilePictureErrorText)
+                            }
+                        } else {
+                            val file = convertToFirebaseFile(filePath = filePath)
+                            profileViewModel.uploadProfilePhoto(uid = state.uid, file = file)
 
-                        coroutineScope.launch {
-                            snackBarHostState.showSnackbar(message = profilePictureUpdatedText)
+                            coroutineScope.launch {
+                                snackBarHostState.showSnackbar(message = profilePictureUpdatedText)
+                            }
                         }
                     },
                     onUserNameChanged = { newName ->
@@ -129,12 +146,14 @@ private fun ProfileScreenContent(
     userName: String?,
     email: String?,
     profileImageUri: String?,
-    onImagePicked: (File) -> Unit, // TODO
+    profilePhotoRefImageUri: String?,
+    profilePhotoRefTimestamp: String?,
+    onImagePicked: (ByteArray) -> Unit,
     onUserNameChanged: (String) -> Unit,
     onDeleteProfileImage: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showPhotoPickerBottomSheet by rememberSaveable {
+    var showPhotoPickerBottomSheet by remember {
         mutableStateOf(value = false)
     }
 
@@ -142,12 +161,9 @@ private fun ProfileScreenContent(
         mutableStateOf(value = userName.orEmpty())
     }
 
-    var userNameEditMode by rememberSaveable {
+    var userNameEditMode by remember {
         mutableStateOf(value = false)
     }
-
-    // val photoCaptureRequest by rememberPhotoCapture()
-    // val photoPickerRequest by rememberPhotoPicker()
 
     Column(
         modifier = modifier
@@ -155,7 +171,14 @@ private fun ProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Avatar(imageUri = profileImageUri)
+        Avatar(
+            profileImageUri = profileImageUri,
+            profilePhotoRefImageUri = profilePhotoRefImageUri,
+            profilePhotoRefTimestamp = profilePhotoRefTimestamp,
+            onAddButtonClicked = {
+                showPhotoPickerBottomSheet = true
+            },
+        )
 
         TextField(
             value = displayName,
@@ -203,12 +226,18 @@ private fun ProfileScreenContent(
     }
 
     if (showPhotoPickerBottomSheet) {
-        PhotoPickerBottomSheet(
-            onDismiss = { showPhotoPickerBottomSheet = false },
-            onDeleteImage = onDeleteProfileImage,
-            //photoCaptureRequest = photoCaptureRequest,
-            //photoPickerRequest = photoPickerRequest,
-            canDeleteImage = profileImageUri != null
+        PhotoPickerScreen(
+            onByteArray = {
+                it?.let {
+                    onImagePicked(it)
+                }
+
+                showPhotoPickerBottomSheet = false
+            },
+            onDeletePhoto = {
+                onDeleteProfileImage()
+                showPhotoPickerBottomSheet = false
+            },
         )
     }
 }
@@ -221,6 +250,8 @@ fun ProfileScreenPreview() {
             userName = "Daniel Fabian",
             email = "df@hvtdp.at",
             profileImageUri = "dummy",
+            profilePhotoRefImageUri = null,
+            profilePhotoRefTimestamp = null,
             onImagePicked = { },
             onUserNameChanged = { },
             onDeleteProfileImage = { },

@@ -17,7 +17,14 @@ sealed class UserState {
     data object Initial: UserState()
     data object Loading: UserState()
     data object NoUser: UserState()
-    data class User(val uid: String, val name: String?, val email: String?, val photoUrl: String?): UserState()
+    data class User(
+        val uid: String,
+        val name: String?,
+        val email: String?,
+        val photoUrl: String?,
+        val photoRefDownloadUrl: String?,
+        val profilePhotoRefTimestamp: String?,
+    ): UserState()
     data class Error(val message: String): UserState()
 }
 
@@ -51,6 +58,8 @@ class ProfileViewModel : ViewModel(), KoinComponent {
                 name = user.userName,
                 email = user.email,
                 photoUrl = user.photoUrl,
+                photoRefDownloadUrl = user.photoRefDownloadUrl,
+                profilePhotoRefTimestamp = user.profilePhotoRefTimestamp,
             )
         } else {
             _userState.value = UserState.NoUser
@@ -70,7 +79,9 @@ class ProfileViewModel : ViewModel(), KoinComponent {
                 uid = uid,
                 name = newName,
                 email = currentUser.email,
-                photoUrl = currentUser.photoUrl
+                photoUrl = currentUser.photoUrl,
+                photoRefDownloadUrl = currentUser.photoRefDownloadUrl,
+                profilePhotoRefTimestamp = currentUser.profilePhotoRefTimestamp,
             )
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()
@@ -86,12 +97,15 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
         try {
             userRepository.setUserPhotoRef(uid = uid, file = file)
+            val user = userRepository.getCurrentUser()
 
             _userState.value = UserState.User(
                 uid = uid,
                 name = currentUser.name,
                 email = currentUser.email,
-                photoUrl = file.toString(),
+                photoUrl = user?.photoUrl,
+                photoRefDownloadUrl = user?.photoRefDownloadUrl,
+                profilePhotoRefTimestamp = user?.profilePhotoRefTimestamp,
             )
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()
@@ -113,6 +127,8 @@ class ProfileViewModel : ViewModel(), KoinComponent {
                 name = currentUser.name,
                 email = currentUser.email,
                 photoUrl = null,
+                photoRefDownloadUrl = null,
+                profilePhotoRefTimestamp = null,
             )
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()

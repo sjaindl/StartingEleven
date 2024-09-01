@@ -17,38 +17,27 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.LocalPlatformContext
-import coil3.compose.SubcomposeAsyncImage
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
-import com.sjaindl.s11.core.baseui.ErrorScreen
-import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.baseui.FallbackImage
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.LocalDimensions
-import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Avatar(
-    imageUri: String?,
+    profileImageUri: String?,
+    profilePhotoRefImageUri: String?,
+    profilePhotoRefTimestamp: String?,
     modifier: Modifier = Modifier,
     onAddButtonClicked: () -> Unit = { },
 ) {
-    val context = LocalPlatformContext.current
     val spacing = LocalDimensions.current.spacing
 
-    var showError: Throwable? by remember {
-        mutableStateOf(value = null)
-    }
+    val hasImage = profileImageUri != null || profilePhotoRefImageUri != null
 
     Box(
         contentAlignment = Alignment.Center,
@@ -70,31 +59,12 @@ fun Avatar(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .clip(CircleShape)
+                .clip(shape = CircleShape)
         ) {
-            val imageRequest = ImageRequest.Builder(context = context)
-                .data(imageUri)
-                .dispatcher(Dispatchers.Default)
-                .memoryCacheKey(imageUri.toString())
-                .diskCacheKey(imageUri.toString())
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-                .build()
-
-            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .size(120.dp),
-                model = imageRequest,
-                loading = {
-                    LoadingScreen()
-                },
-                onError = {
-                    it.result.throwable
-                    //Icon(imageVector = Icons.Default.Error, contentDescription = null)
-                    // ErrorScreen!
-                },
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null,
+            FallbackImage(
+                photoRefDownloadUrl = profilePhotoRefImageUri,
+                photoUrl = profileImageUri,
+                additionalCacheKey = profilePhotoRefTimestamp,
             )
         }
 
@@ -106,19 +76,13 @@ fun Avatar(
                 .align(Alignment.BottomEnd),
         ) {
             Icon(
-                imageVector = if (imageUri == null) Icons.Default.Add else Icons.Default.Edit,
+                imageVector = if (!hasImage) Icons.Default.Add else Icons.Default.Edit,
                 contentDescription = null,
                 tint = colorScheme.onSecondary,
                 modifier = Modifier
-                    .padding(all = if (imageUri == null) spacing.xxs else spacing.xs),
+                    .padding(all = if (!hasImage) spacing.xxs else spacing.xs),
             )
         }
-    }
-
-    showError?.let {
-        ErrorScreen(
-            text = it.message ?: it.toString(),
-        )
     }
 }
 
@@ -127,7 +91,9 @@ fun Avatar(
 fun AvatarPreview() {
     HvtdpTheme {
         Avatar(
-            imageUri = null,
+            profileImageUri = null,
+            profilePhotoRefImageUri = null,
+            profilePhotoRefTimestamp = null,
         )
     }
 }

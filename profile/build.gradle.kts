@@ -60,7 +60,10 @@ kotlin {
                 implementation(libs.coil.mp)
                 implementation(libs.coil.network.ktor)
 
+                implementation(libs.accompanist.permissions)
+
                 implementation(project(":core"))
+                implementation(project(":photopicker"))
             }
         }
 

@@ -9,6 +9,7 @@ data class User(
     val userName: String,
     val photoRef: String?,
     val photoRefDownloadUrl: String?,
+    val profilePhotoRefTimestamp: String?,
     val photoUrl: String?,
     val providerId: String?,
     val formation: String,

@@ -25,12 +25,14 @@ fun FallbackImage(
     photoRefDownloadUrl: String? = null,
     photoUrl: String? = null,
     fallback: DrawableResource = Res.drawable.ic_user,
+    cacheEnabled: Boolean = true,
+    additionalCacheKey: String? = null,
 ) {
     Column {
         if (!photoRefDownloadUrl.isNullOrEmpty()) {
-            AsyncImage(url = photoRefDownloadUrl)
+            AsyncImage(url = photoRefDownloadUrl, cacheEnabled = cacheEnabled, additionalCacheKey = additionalCacheKey)
         } else if (!photoUrl.isNullOrEmpty()) {
-            AsyncImage(url = photoUrl)
+            AsyncImage(url = photoUrl, cacheEnabled = cacheEnabled, additionalCacheKey = additionalCacheKey)
         } else {
             Image(
                 painter = painterResource(fallback),
@@ -43,16 +45,24 @@ fun FallbackImage(
 }
 
 @Composable
-private fun AsyncImage(url: String?) {
+private fun AsyncImage(url: String, cacheEnabled: Boolean, additionalCacheKey: String?) {
     val context = LocalPlatformContext.current
+
+    val cachePolicy = if (cacheEnabled) {
+        CachePolicy.ENABLED
+    } else {
+        CachePolicy.DISABLED
+    }
+
+    val cacheKey = url + additionalCacheKey.orEmpty()
 
     val imageRequest = ImageRequest.Builder(context = context)
         .data(data = url)
         .dispatcher(dispatcher = Dispatchers.Default)
-        .memoryCacheKey(key = url)
-        .diskCacheKey(key = url)
-        .diskCachePolicy(policy = CachePolicy.ENABLED)
-        .memoryCachePolicy(policy = CachePolicy.ENABLED)
+        .memoryCacheKey(key = cacheKey)
+        .diskCacheKey(key = cacheKey)
+        .diskCachePolicy(policy = cachePolicy)
+        .memoryCachePolicy(policy = cachePolicy)
         .build()
 
     SubcomposeAsyncImage(
@@ -67,7 +77,7 @@ private fun AsyncImage(url: String?) {
                     .padding(all = 16.dp),
             )
         },
-        contentScale = ContentScale.Fit,
+        contentScale = ContentScale.Crop,
         contentDescription = null,
     )
 }
