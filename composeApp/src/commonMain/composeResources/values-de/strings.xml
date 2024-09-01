@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="signInSuccess">Erfolgreich angemeldet!</string>
+    <string name="versionCode">Versionscode</string>
+    <string name="versionName">Versionsname</string>
+</resources>

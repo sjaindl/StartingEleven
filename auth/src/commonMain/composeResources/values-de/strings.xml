@@ -1,0 +1,14 @@
+<resources>
+    <string name="appName">Starting 11</string>
+
+    <string name="signIn">Anmelden</string>
+    <string name="signUp">Konto erstellen</string>
+    <string name="email">E-Mail</string>
+    <string name="enterMail">E-Mail eingeben</string>
+    <string name="enterPassword">Passwort eingeben</string>
+    <string name="enterName">Name eingeben</string>
+    <string name="signInWithGoogle">Mit Google anmelden</string>
+    <string name="signInWithFacebook">Mit Facebook anmelden</string>
+    <string name="signInWithEmail">Mit E-Mail anmelden</string>
+    <string name="signInCancel">Anmeldung abgebrochen</string>
+</resources>

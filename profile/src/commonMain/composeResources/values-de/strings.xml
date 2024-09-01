@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="profile">Profil</string>
+    <string name="notSignedIn">Du bist nicht angemeldet!</string>
+    <string name="email">E-Mail</string>
+    <string name="noMail">Keine E-Mail-Adresse</string>
+    <string name="onProfilePictureUpdated">Profilbild erfolgreich aktualisiert</string>
+    <string name="onProfilePictureError">Fehler beim Speichern des Profilbilds</string>
+    <string name="onProfilePictureDeleted">Profilbild erfolgreich gelöscht</string>
+    <string name="onUserNameChanged">Benutzername erfolgreich geändert</string>
+    <string name="profileTakePhoto">Foto aufnehmen</string>
+    <string name="profileChoosePhoto">Foto auswählen</string>
+    <string name="profileDeletePhoto">Foto löschen</string>
+</resources>

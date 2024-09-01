@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="hello">Hallo</string>
+
+    <string name="betGame">Tippspiel</string>
+    <string name="yourBet">Dein Tipp für das nächste Spiel:</string>
+    <string name="noBets">Es gibt aktuell keine aktiven Tipps</string>
+    <string name="betsSaved">Tipps gespeichert</string>
+    <string name="submitBet">Tipp abgeben/ändern</string>
+
+    <string name="mvpPoints">MVPs (Punkte)</string>
+    <string name="topEleven">Top 11 der Runde (Punkte)</string>
+    <string name="noMatches">Noch keine Spiele</string>
+</resources>

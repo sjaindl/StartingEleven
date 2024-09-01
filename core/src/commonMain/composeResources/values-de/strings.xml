@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="back">Zurück</string>
+    <string name="signOut">Abmelden</string>
+    <string name="errorTitle">Es ist ein Fehler aufgetreten</string>
+    <string name="errorDescription">Derzeit können keine Daten angezeigt werden</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="showMore">Mehr anzeigen</string>
+
+    <string name="tabHome">Home</string>
+    <string name="tabTeam">Team</string>
+    <string name="tabPlayers">Spieler</string>
+    <string name="tabStandings">Tabelle</string>
+    <string name="routePrices">Preise</string>
+    <string name="routeFaq">FAQ</string>
+    <string name="routePrivacy">Datenschutz</string>
+    <string name="routeProfile">Profil</string>
+    <string name="routeAuth">Anmelden</string>
+    <string name="routeAuthMail">Mit E-Mail anmelden</string>
+    <string name="routeMailSignIn">Mit E-Mail anmelden</string>
+    <string name="routeMailSignUp">Mit E-Mail registrieren</string>
+
+    <string name="faqs">FAQs</string>
+    <string name="privacyPolicy">Datenschutzerklärung</string>
+    <string name="prices">Preise</string>
+    <string name="debugInfo">Debug-Informationen</string>
+
+    <string name="playerPoints">%1$d Punkte</string>
+    <string name="choosePlayer">Spieler auswählen...</string>
+</resources>
