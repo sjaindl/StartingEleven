@@ -183,6 +183,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
             eventRepository.onNewEvent.collect {
                 if (it == Event.SaveTeam) {
                     saveTeam()
+                    eventRepository.teamSaved()
                 }
             }
         }

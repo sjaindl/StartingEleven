@@ -80,6 +80,8 @@ fun S11AppBar(
         eventRepository.onNewEvent.collect { event ->
             if (event == Event.TeamChanged) {
                 saveTeamEnabled = true
+            } else if (event == Event.TeamSaved) {
+                saveTeamEnabled = false
             }
         }
     }
