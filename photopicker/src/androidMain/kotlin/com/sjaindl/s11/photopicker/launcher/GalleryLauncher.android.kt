@@ -1,6 +1,5 @@
 package com.sjaindl.s11.photopicker.launcher
 
-import android.content.ContentResolver
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,8 +16,10 @@ actual fun rememberGalleryLauncher(onResult: (SharedImage?) -> Unit): GalleryLau
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            uri?.let {
-                onResult.invoke(
+            if (uri == null) {
+                onResult(null)
+            } else {
+                onResult(
                     SharedImage(
                         bitmap = BitmapUtils.getBitmapFromUri(
                             uri = uri,

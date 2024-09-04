@@ -26,7 +26,7 @@ actual fun rememberCameraLauncher(onResult: (SharedImage?) -> Unit): CameraLaunc
         contract = ActivityResultContracts.TakePicture(),
         onResult = { success ->
             if (success) {
-                onResult.invoke(
+                onResult(
                     SharedImage(
                         BitmapUtils.getBitmapFromUri(
                             uri = tempPhotoUri,
@@ -34,6 +34,8 @@ actual fun rememberCameraLauncher(onResult: (SharedImage?) -> Unit): CameraLaunc
                         )
                     )
                 )
+            } else {
+                onResult(null)
             }
         }
     )

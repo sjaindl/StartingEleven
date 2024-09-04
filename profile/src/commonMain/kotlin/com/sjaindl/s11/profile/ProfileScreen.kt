@@ -153,7 +153,7 @@ private fun ProfileScreenContent(
     onDeleteProfileImage: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showPhotoPickerBottomSheet by remember {
+    var showPhotoPickerBottomScreen by remember {
         mutableStateOf(value = false)
     }
 
@@ -176,7 +176,7 @@ private fun ProfileScreenContent(
             profilePhotoRefImageUri = profilePhotoRefImageUri,
             profilePhotoRefTimestamp = profilePhotoRefTimestamp,
             onAddButtonClicked = {
-                showPhotoPickerBottomSheet = true
+                showPhotoPickerBottomScreen = true
             },
         )
 
@@ -225,18 +225,18 @@ private fun ProfileScreenContent(
         )
     }
 
-    if (showPhotoPickerBottomSheet) {
+    if (showPhotoPickerBottomScreen) {
         PhotoPickerScreen(
             onByteArray = {
                 it?.let {
                     onImagePicked(it)
                 }
 
-                showPhotoPickerBottomSheet = false
+                showPhotoPickerBottomScreen = false
             },
             onDeletePhoto = {
                 onDeleteProfileImage()
-                showPhotoPickerBottomSheet = false
+                showPhotoPickerBottomScreen = false
             },
         )
     }
