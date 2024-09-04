@@ -37,7 +37,7 @@ class StandingsViewModel : ViewModel(), KoinComponent {
         _standingsState.value = StandingsState.Loading(user = null)
 
         try {
-            val userWithPoints = calculatePointsUseCase.calculate() { userName ->
+            val userWithPoints = calculatePointsUseCase.calculate { userName ->
                 _standingsState.value = StandingsState.Loading(user = userName)
             }
             _standingsState.value = StandingsState.Calculated(usersWithPoints = userWithPoints)

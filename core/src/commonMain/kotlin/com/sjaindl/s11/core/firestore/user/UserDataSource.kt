@@ -117,6 +117,14 @@ internal class UserDataSourceImpl(
             userCache[uid] = CachedValue(
                 value = newUser,
             )
+
+            usersCache = CachedValue(
+                value = usersCache?.get()?.filter {
+                    it.uid != uid
+                }?.toMutableList()?.apply {
+                    add(element = newUser)
+                }
+            )
         }
     }
 
@@ -139,6 +147,14 @@ internal class UserDataSourceImpl(
             userCache[uid] = CachedValue(
                 value = newUser,
             )
+
+            usersCache = CachedValue(
+                value = usersCache?.get()?.filter {
+                    it.uid != uid
+                }?.toMutableList()?.apply {
+                    add(element = newUser)
+                }
+            )
         }
     }
 
@@ -157,6 +173,14 @@ internal class UserDataSourceImpl(
             userCache[uid] = CachedValue(
                 value = newUser,
             )
+
+            usersCache = CachedValue(
+                value = usersCache?.get()?.filter {
+                    it.uid != uid
+                }?.toMutableList()?.apply {
+                    add(element = newUser)
+                }
+            )
         }
     }
 
@@ -171,6 +195,14 @@ internal class UserDataSourceImpl(
 
             userCache[uid] = CachedValue(
                 value = newUser,
+            )
+
+            usersCache = CachedValue(
+                value = usersCache?.get()?.filter {
+                    it.uid != uid
+                }?.toMutableList()?.apply {
+                    add(element = newUser)
+                }
             )
         }
     }

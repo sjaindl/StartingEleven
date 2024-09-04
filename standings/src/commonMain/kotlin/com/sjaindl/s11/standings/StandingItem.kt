@@ -103,6 +103,7 @@ fun StandingItem(
             FallbackImage(
                 photoRefDownloadUrl = userWithPoints.user.photoRefDownloadUrl,
                 photoUrl = userWithPoints.user.photoUrl,
+                additionalCacheKey = userWithPoints.user.profilePhotoRefTimestamp,
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
