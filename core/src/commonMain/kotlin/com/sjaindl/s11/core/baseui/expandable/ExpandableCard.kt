@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,6 +61,12 @@ fun ExpandableCard(
         label = "rotationDegreeTransition",
     ) {
         if (expanded) 0f else -180f
+    }
+
+    LaunchedEffect(initiallyExpanded) {
+        if (initiallyExpanded != expanded) {
+            expanded = initiallyExpanded
+        }
     }
 
     S11Card(

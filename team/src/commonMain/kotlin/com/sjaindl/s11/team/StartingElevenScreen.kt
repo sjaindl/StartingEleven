@@ -149,7 +149,9 @@ fun StartingElevenScreenContent(
                 )
             }
 
-            val lineupCount = "(${numOfRequiredPlayersAtPosition - numMissingPlayers}/$numOfRequiredPlayersAtPosition)"
+            val lineupCount by remember(numOfRequiredPlayersAtPosition, numMissingPlayers) {
+                mutableStateOf(value = "(${numOfRequiredPlayersAtPosition - numMissingPlayers}/$numOfRequiredPlayersAtPosition)")
+            }
 
             val title = when (position) {
                 Position.Goalkeeper -> stringResource(Res.string.goalKeeper) + " $lineupCount"
