@@ -28,5 +28,6 @@
     <string name="debugInfo">Debug-Informationen</string>
 
     <string name="playerPoints">%1$d Punkte</string>
+    <string name="playerLineups">%1$d Aufstellungen</string>
     <string name="choosePlayer">Spieler auswählen...</string>
 </resources>

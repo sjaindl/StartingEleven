@@ -11,4 +11,11 @@ data class UserMatchDay(
     val attackers: List<String> = emptyList(),
     val homeScore: Int? = null,
     val awayScore: Int? = null,
-)
+) {
+    fun includesPlayer(playerId: String): Boolean {
+        return goalkeeper == playerId
+                || defenders.contains(element = playerId)
+                || midfielders.contains(element = playerId)
+                || attackers.contains(element = playerId)
+    }
+}

@@ -1,4 +1,4 @@
-package com.sjaindl.s11.composables
+package com.sjaindl.s11.players
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -10,12 +10,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sjaindl.s11.PlayerState
-import com.sjaindl.s11.PlayerViewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import org.jetbrains.compose.resources.stringResource
+import startingeleven.players.generated.resources.Res
+import startingeleven.players.generated.resources.calculating
 
 @Composable
 fun PlayersScreen(
@@ -43,8 +44,20 @@ fun PlayersScreen(
                 },
             )
         }
-        PlayerState.Initial, PlayerState.Loading -> {
+
+        PlayerState.Initial -> {
             LoadingScreen(
+                modifier = modifier
+                    .fillMaxSize()
+                    .wrapContentSize(),
+            )
+        }
+
+        is PlayerState.Loading -> {
+            LoadingScreen(
+                loadingInfo = state.playerName?.let {
+                    stringResource(resource = Res.string.calculating, it)
+                },
                 modifier = modifier
                     .fillMaxSize()
                     .wrapContentSize(),
@@ -56,7 +69,7 @@ fun PlayersScreen(
                 modifier = modifier,
             ) {
                 items(state.players) {
-                    PlayerUI(player = it)
+                    PlayerUI(player = it.player, lineupCount = it.lineupCount)
                 }
             }
         }

@@ -24,11 +24,13 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.choosePlayer
+import startingeleven.core.generated.resources.playerLineups
 import startingeleven.core.generated.resources.playerPoints
 
 @Composable
 fun PlayerUI(
     player: Player?,
+    lineupCount: Int? = null,
     possiblePlayers: List<Player> = emptyList(),
     displayDropdown: Boolean = false,
     onPlayerSelected: (Player) -> Unit = { },
@@ -102,7 +104,12 @@ fun PlayerUI(
                 )
             }
 
-            // TODO: # Aufstellungen Spieltag
+            lineupCount?.let {
+                UnderlinedText(
+                    text = stringResource(Res.string.playerLineups, it),
+                    enabled = displayDropdown,
+                )
+            }
         }
     }
 }

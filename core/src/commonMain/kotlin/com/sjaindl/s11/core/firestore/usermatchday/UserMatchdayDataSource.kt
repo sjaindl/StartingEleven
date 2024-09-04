@@ -25,7 +25,7 @@ internal class UserMatchDayDataSourceImpl(
 
     override suspend fun getUserMatchDays(uid: String): List<UserMatchDay> {
         val cachedValue = cache[uid]?.get()
-        if (!cachedValue.isNullOrEmpty()) return cachedValue
+        if (cachedValue != null) return cachedValue
 
         val userMatchDays = getDocumentRef(path = uid)
             .collection(collectionPath = "matchdays")

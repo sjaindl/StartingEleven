@@ -61,6 +61,7 @@ kotlin {
                 implementation(libs.coil.network.ktor)
 
                 implementation(project(":core"))
+                implementation(project(":players"))
             }
         }
 

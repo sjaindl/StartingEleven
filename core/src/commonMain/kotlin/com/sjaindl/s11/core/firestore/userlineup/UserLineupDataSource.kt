@@ -29,6 +29,9 @@ internal class UserLineupDataSourceImpl(
 
         val userDocRef = getDocumentRef(path = uid).get()
         if (!userDocRef.exists) {
+            cache[uid] = CachedValue(
+                value = LineupData(),
+            )
             return LineupData()
         }
 
@@ -38,6 +41,9 @@ internal class UserLineupDataSourceImpl(
             .get()
 
         if (!userLineupDocRef.exists) {
+            cache[uid] = CachedValue(
+                value = LineupData(),
+            )
             return LineupData()
         }
 

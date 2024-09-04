@@ -23,6 +23,7 @@ import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.firestore.userlineup.model.LineupData
 import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.players.PlayerWithLineupCount
 import com.sjaindl.s11.team.model.Formation
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -59,7 +60,7 @@ fun StartingElevenScreen(
 
         is StartingElevenState.Content -> {
             StartingElevenScreenContent(
-                players = state.players,
+                playersWithLineupCount = state.playersWithLineupCount,
                 lineupData = state.lineup,
                 selectedFormation = state.formation,
                 possibleFormations = state.possibleFormations,
@@ -73,7 +74,7 @@ fun StartingElevenScreen(
 
 @Composable
 fun StartingElevenScreenContent(
-    players: List<Player>,
+    playersWithLineupCount: List<PlayerWithLineupCount>,
     lineupData: LineupData,
     selectedFormation: Formation,
     possibleFormations: List<Formation>,
@@ -100,10 +101,10 @@ fun StartingElevenScreenContent(
         )
 
         Position.entries.forEach { position ->
-            val playersAtPosition by remember(key1 = players) {
+            val playersAtPosition by remember(key1 = playersWithLineupCount) {
                 mutableStateOf(
-                    players.filter { player ->
-                        player.position == position
+                    playersWithLineupCount.filter { playerWithLineupCount ->
+                        playerWithLineupCount.player.position == position
                     }
                 )
             }
@@ -165,15 +166,18 @@ fun StartingElevenScreenContent(
                         .padding(all = 8.dp),
                 ) {
                     linedUpPlayersAtPosition.forEachIndexed { index, linedUpPlayerId ->
-                        val player = players.firstOrNull { player ->
-                            player.playerId == linedUpPlayerId
+                        val playerWithLineupCount = playersWithLineupCount.firstOrNull {
+                            it.player.playerId == linedUpPlayerId
                         }
 
                         PlayerUI(
-                            player = player,
+                            player = playerWithLineupCount?.player,
+                            lineupCount = playerWithLineupCount?.lineupCount,
                             possiblePlayers = playersAtPosition.filter {
                                 // prevent choosing same player twice
-                                it.playerId !in (linedUpPlayersAtPosition - player?.playerId)
+                                it.player.playerId !in (linedUpPlayersAtPosition - it.player.playerId)
+                            }.map {
+                                it.player
                             },
                             displayDropdown = enabled,
                             onPlayerSelected = {
@@ -190,78 +194,105 @@ fun StartingElevenScreenContent(
 @Preview
 @Composable
 fun StartingElevenScreenPreview() {
-    val players = listOf(
-        Player(
-            playerId = "1",
-            name = "Gigi Buffon",
-            position = Position.Goalkeeper,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+    val playerWithLineupCount = listOf(
+        PlayerWithLineupCount(
+            Player(
+                playerId = "1",
+                name = "Gigi Buffon",
+                position = Position.Goalkeeper,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 1,
         ),
-        Player(
-            playerId = "2",
-            name = "Gigi Donnaruma",
-            position = Position.Goalkeeper,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "2",
+                name = "Gigi Donnaruma",
+                position = Position.Goalkeeper,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 2,
         ),
-        Player(
-            playerId = "3",
-            name = "Paolo Maldini",
-            position = Position.Defender,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "3",
+                name = "Paolo Maldini",
+                position = Position.Defender,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 3,
         ),
-        Player(
-            playerId = "4",
-            name = "Gregory Wüthrich",
-            position = Position.Defender,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "4",
+                name = "Gregory Wüthrich",
+                position = Position.Defender,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 4,
         ),
-        Player(
-            playerId = "5",
-            name = "Jakob Jantscher",
-            position = Position.Midfielder,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "5",
+                name = "Jakob Jantscher",
+                position = Position.Midfielder,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 5,
         ),
-        Player(
-            playerId = "6",
-            name = "Otar Kiteischvili",
-            position = Position.Midfielder,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "6",
+                name = "Otar Kiteischvili",
+                position = Position.Midfielder,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 6,
         ),
-        Player(
-            playerId = "7",
-            name = "Alessandro Del Piero",
-            position = Position.Attacker,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "7",
+                name = "Alessandro Del Piero",
+                position = Position.Attacker,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 7,
         ),
-        Player(
-            playerId = "8",
-            name = "Francesco Totti",
-            position = Position.Attacker,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "8",
+                name = "Francesco Totti",
+                position = Position.Attacker,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 8,
         ),
-        Player(
-            playerId = "9",
-            name = "Ivica Vastic",
-            position = Position.Attacker,
-            imageRef = null,
-            downloadUrl = null,
-            points = emptyMap(),
+        PlayerWithLineupCount(
+            Player(
+                playerId = "9",
+                name = "Ivica Vastic",
+                position = Position.Attacker,
+                imageRef = null,
+                downloadUrl = null,
+                points = emptyMap(),
+            ),
+            lineupCount = 9,
         ),
     )
 
@@ -276,7 +307,7 @@ fun StartingElevenScreenPreview() {
 
     HvtdpTheme {
         StartingElevenScreenContent(
-            players = players,
+            playersWithLineupCount = playerWithLineupCount,
             lineupData = LineupData(
                 goalkeeper = null,
                 defenders = emptyList(),

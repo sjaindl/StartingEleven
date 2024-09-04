@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName" translatable="false">Starting 11</string>
+
+    <string name="calculating">Calculating %1$s</string>
 </resources>

@@ -28,5 +28,6 @@
     <string name="debugInfo">Debug Info</string>
 
     <string name="playerPoints">%1$d Punkte</string>
+    <string name="playerLineups">%1$d Lineups</string>
     <string name="choosePlayer">Choose player...</string>
 </resources>

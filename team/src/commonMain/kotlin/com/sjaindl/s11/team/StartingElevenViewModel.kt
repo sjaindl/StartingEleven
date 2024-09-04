@@ -8,11 +8,12 @@ import com.sjaindl.s11.core.extensions.insertAt
 import com.sjaindl.s11.core.firestore.config.ConfigRepository
 import com.sjaindl.s11.core.firestore.formations.FormationRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
-import com.sjaindl.s11.core.firestore.player.model.Player
 import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.firestore.user.UserRepository
 import com.sjaindl.s11.core.firestore.userlineup.UserLineupRepository
 import com.sjaindl.s11.core.firestore.userlineup.model.LineupData
+import com.sjaindl.s11.players.CalculatePlayerLineupsUseCase
+import com.sjaindl.s11.players.PlayerWithLineupCount
 import com.sjaindl.s11.team.model.Formation
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,7 @@ sealed class StartingElevenState {
     data class Content(
         val possibleFormations: List<Formation>,
         val formation: Formation,
-        val players: List<Player>,
+        val playersWithLineupCount: List<PlayerWithLineupCount>,
         val lineup: LineupData,
         val enabled: Boolean,
     ): StartingElevenState()
@@ -44,6 +45,8 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
     private val playerRepository: PlayerRepository by inject()
     private val lineupRepository: UserLineupRepository by inject()
     private val eventRepository: EventRepository by inject()
+
+    private val calculatePlayerLineupsUseCase: CalculatePlayerLineupsUseCase by inject()
 
     private var _startingElevenState: MutableStateFlow<StartingElevenState> = MutableStateFlow(
         StartingElevenState.Initial
@@ -79,13 +82,19 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                 val userFormation = possibleFormations.find {
                     it.formationId == currentUser.formation
                 } ?: Formation.defaultFormation
-                val players = playerRepository.getPlayers()
+                val playersWithLineupCount = playerRepository.getPlayers().map { player ->
+                    val lineupCount = calculatePlayerLineupsUseCase.calculate(playerId = player.playerId)
+                    PlayerWithLineupCount(
+                        player = player,
+                        lineupCount = lineupCount,
+                    )
+                }
                 val lineupData = lineupRepository.getUserLineup(uid = currentUser.uid)
 
                 _startingElevenState.value = StartingElevenState.Content(
                     possibleFormations = possibleFormations,
                     formation = userFormation,
-                    players = players,
+                    playersWithLineupCount = playersWithLineupCount,
                     lineup = lineupData,
                     enabled = enabled,
                 )
@@ -171,7 +180,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
             _startingElevenState.value = StartingElevenState.Content(
                 possibleFormations = state.possibleFormations,
                 formation = state.formation,
-                players = state.players,
+                playersWithLineupCount = state.playersWithLineupCount,
                 lineup = state.lineup,
                 enabled = state.enabled,
             )
