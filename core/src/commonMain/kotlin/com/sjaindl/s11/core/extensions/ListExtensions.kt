@@ -5,7 +5,8 @@ fun <T: Any> List<T>.insertAt(index: Int, element: T): List<T> {
         if (size > index) {
             removeAt(index = index)
             add(index = index, element = element)
+        } else {
+            add(element = element)
         }
-        add(element = element)
     }
 }

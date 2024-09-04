@@ -20,7 +20,7 @@ interface EventRepository {
 
 class EventRepositoryImpl: EventRepository {
 
-    private val _onNewEvent = MutableSharedFlow<Event>()
+    private val _onNewEvent = MutableSharedFlow<Event>(replay = 1)
     override val onNewEvent = _onNewEvent.asSharedFlow()
 
     override suspend fun teamChanged() {

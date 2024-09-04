@@ -23,6 +23,7 @@ import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.firestore.userlineup.model.LineupData
 import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.core.theme.spacing
 import com.sjaindl.s11.players.PlayerWithLineupCount
 import com.sjaindl.s11.team.model.Formation
 import org.jetbrains.compose.resources.stringResource
@@ -163,7 +164,7 @@ fun StartingElevenScreenContent(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(all = 8.dp),
+                        .padding(all = spacing.xs),
                 ) {
                     linedUpPlayersAtPosition.forEachIndexed { index, linedUpPlayerId ->
                         val playerWithLineupCount = playersWithLineupCount.firstOrNull {
@@ -175,7 +176,7 @@ fun StartingElevenScreenContent(
                             lineupCount = playerWithLineupCount?.lineupCount,
                             possiblePlayers = playersAtPosition.filter {
                                 // prevent choosing same player twice
-                                it.player.playerId !in (linedUpPlayersAtPosition - it.player.playerId)
+                                it.player.playerId !in (linedUpPlayersAtPosition - playerWithLineupCount?.player?.playerId)
                             }.map {
                                 it.player
                             },

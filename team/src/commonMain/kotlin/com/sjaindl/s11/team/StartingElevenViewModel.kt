@@ -79,9 +79,11 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                         attackers = it.attack,
                     )
                 }
+
                 val userFormation = possibleFormations.find {
                     it.formationId == currentUser.formation
                 } ?: Formation.defaultFormation
+
                 val playersWithLineupCount = playerRepository.getPlayers().map { player ->
                     val lineupCount = calculatePlayerLineupsUseCase.calculate(playerId = player.playerId)
                     PlayerWithLineupCount(
@@ -89,6 +91,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                         lineupCount = lineupCount,
                     )
                 }
+
                 val lineupData = lineupRepository.getUserLineup(uid = currentUser.uid)
 
                 _startingElevenState.value = StartingElevenState.Content(
