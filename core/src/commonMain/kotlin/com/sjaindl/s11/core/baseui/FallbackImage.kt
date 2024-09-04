@@ -129,35 +129,35 @@ fun FallbackImage(
 
             }
         }
+    }
+
+    if (!photoRefDownloadUrl.isNullOrEmpty()) {
+        AsyncImage(
+            url = photoRefDownloadUrl,
+            cacheEnabled = cacheEnabled,
+            additionalCacheKey = additionalCacheKey,
+            modifier = Modifier
+                .clickable {
+                    isFullscreen = true
+                },
+        )
+    } else if (!photoUrl.isNullOrEmpty()) {
+        AsyncImage(
+            url = photoUrl,
+            cacheEnabled = cacheEnabled,
+            additionalCacheKey = additionalCacheKey,
+            modifier = Modifier
+                .clickable {
+                    isFullscreen = true
+                },
+        )
     } else {
-        if (!photoRefDownloadUrl.isNullOrEmpty()) {
-            AsyncImage(
-                url = photoRefDownloadUrl,
-                cacheEnabled = cacheEnabled,
-                additionalCacheKey = additionalCacheKey,
-                modifier = Modifier
-                    .clickable {
-                        isFullscreen = true
-                    },
-            )
-        } else if (!photoUrl.isNullOrEmpty()) {
-            AsyncImage(
-                url = photoUrl,
-                cacheEnabled = cacheEnabled,
-                additionalCacheKey = additionalCacheKey,
-                modifier = Modifier
-                    .clickable {
-                        isFullscreen = true
-                    },
-            )
-        } else {
-            Image(
-                painter = painterResource(fallback),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(size = 40.dp),
-            )
-        }
+        Image(
+            painter = painterResource(fallback),
+            contentDescription = null,
+            modifier = Modifier
+                .size(size = 40.dp),
+        )
     }
 }
 
