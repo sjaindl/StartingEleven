@@ -123,6 +123,7 @@ fun FallbackImage(
                         Icon(
                             imageVector = Icons.Rounded.Close,
                             contentDescription = null,
+                            tint = colorScheme.primary,
                         )
                     }
                 )
