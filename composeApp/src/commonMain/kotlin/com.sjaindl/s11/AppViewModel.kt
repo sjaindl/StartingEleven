@@ -28,13 +28,15 @@ class AppViewModel : ViewModel(), KoinComponent {
     private fun setObservers() {
         viewModelScope.launch {
             Firebase.auth.authStateChanged.distinctUntilChanged().collect { user ->
-                user?.let {
+                if (user != null) {
                     val dbUser = userRepository.getCurrentUser()
                     if (dbUser == null) {
                         userRepository.createUser(user)
                     }
 
                     _userName.value = dbUser?.userName ?: user.displayName
+                } else {
+                    _userName.value = null
                 }
             }
         }

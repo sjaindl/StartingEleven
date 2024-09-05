@@ -14,6 +14,7 @@ import com.sjaindl.s11.core.navigation.Route
 import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.Players
+import com.sjaindl.s11.core.navigation.toRoute
 import com.sjaindl.s11.debuginfo.DebugInfoScreen
 import com.sjaindl.s11.faq.FaqViewModel
 import com.sjaindl.s11.faq.Faqs
@@ -46,8 +47,16 @@ fun S11NavHost(
         composable<Home> {
             HomeScreen(
                 displayName = userName,
-                onAuthenticate = {
-                    navController.navigate(route = AuthNavGraphRoute)
+                onAuthenticated = { authenticated ->
+                    val currentRoute = navController.currentBackStackEntry.toRoute()
+
+                    if (authenticated) {
+                        if (currentRoute != Home) {
+                            navController.navigate(route = Home)
+                        }
+                    } else {
+                        navController.navigate(route = AuthNavGraphRoute)
+                    }
                 },
                 onShowSnackBar = onShowSnackBar,
             )

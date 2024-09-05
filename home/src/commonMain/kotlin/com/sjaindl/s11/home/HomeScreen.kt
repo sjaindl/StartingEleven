@@ -30,14 +30,12 @@ import startingeleven.home.generated.resources.home
 @Composable
 fun HomeScreen(
     displayName: String?,
-    onAuthenticate: () -> Unit,
+    onAuthenticated: (Boolean) -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
 
     LaunchedEffect(displayName) {
-        if (displayName == null) {
-            onAuthenticate()
-        }
+        onAuthenticated(displayName != null)
     }
 
     Column(
