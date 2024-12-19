@@ -28,7 +28,10 @@ internal class BetsDataSourceImpl(
         val cachedValue = cache?.get()
         if (!cachedValue.isNullOrEmpty()) return cachedValue
 
-        val bets = getCollection()
+        val bets = getCollection().sortedBy {
+            it.id.substringAfter(delimiter = "_").toIntOrNull()
+        }
+
         cache = CachedValue(
             value = bets,
         )
