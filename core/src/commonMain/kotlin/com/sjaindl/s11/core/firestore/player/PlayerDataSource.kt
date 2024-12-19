@@ -48,8 +48,10 @@ internal class PlayerDataSourceImpl(
     }
 
     private suspend fun getPlayerImageDownloadUrl(player: Player): String? {
-        return player.imageRef?.let {
-            storage.reference(location = it).getDownloadUrl()
+        return if (player.imageRef.isNullOrEmpty()) {
+            null
+        } else {
+            storage.reference(location = player.imageRef).getDownloadUrl()
         }
     }
 }
