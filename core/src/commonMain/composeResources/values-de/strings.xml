@@ -10,8 +10,8 @@
     <string name="showMore">Mehr anzeigen</string>
 
     <string name="tabHome">Home</string>
-    <string name="tabTeam">Team</string>
-    <string name="tabPlayers">Spieler</string>
+    <string name="tabTeam">Tippabgabe</string>
+    <string name="tabPlayers">Spielerstatisik</string>
     <string name="tabStandings">Tabelle</string>
     <string name="routePrices">Preise</string>
     <string name="routeFaq">FAQ</string>

@@ -187,7 +187,7 @@ private fun ProfileScreenContent(
             },
             enabled = userNameEditMode,
             label = {
-                Text(text = "Benutzername")
+                Text(text = "Name")
             },
             trailingIcon = {
                 if (userNameEditMode) {
