@@ -77,6 +77,7 @@ class BetViewModel : ViewModel(), KoinComponent {
         configRepository.getConfigFlow().collect { config ->
             try {
                 val enabled = config?.bets ?: false
+                val frozen = config?.freeze ?: true
 
                 val userMatchDay =
                     userMatchDayRepository.getUserMatchDays(uid = currentUser.uid).find {
@@ -90,7 +91,7 @@ class BetViewModel : ViewModel(), KoinComponent {
 
                 _betState.value = BetState.Content(
                     bet = currentBet,
-                    enabled = enabled,
+                    enabled = enabled && !frozen,
                 )
             } catch (exception: Exception) {
                 val message = exception.message ?: exception.toString()
