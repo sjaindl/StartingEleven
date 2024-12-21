@@ -1,9 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -47,13 +43,10 @@ kotlin {
         binaries.executable()
     }
      */
-    
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
+
+    jvmToolchain(jdkVersion = 17)
+
+    androidTarget()
 
     iosX64()
     iosArm64()
@@ -85,16 +78,26 @@ kotlin {
 
         pod(name = "GoogleSignIn")
 
-        pod(name = "FirebaseCore")
-        pod(name = "FirebaseAuth")
-        pod(name = "FirebaseFirestore") {
+        pod(name = "FirebaseCore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "11.6.0"
         }
+
+        pod(name = "FirebaseAuth") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "11.6.0"
+        }
+
         pod(name = "FirebaseStorage") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "10.21.0"
+            version = "11.6.0"
             // needed because of error:
             // Caused by: java.lang.IllegalStateException: Executing of 'xcodebuild -project Pods.xcodeproj -scheme FirebaseStorage -sdk iphoneos -configuration Release' failed with code 65 and message:
+        }
+
+        pod(name = "FirebaseFirestore") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "11.6.0"
         }
 
         pod(name = "FBSDKCoreKit") {
@@ -202,23 +205,23 @@ android {
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+
     buildFeatures {
         compose = true
     }
+
     dependencies {
         debugImplementation(compose.uiTooling)
         testImplementation(libs.junit)

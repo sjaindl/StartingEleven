@@ -114,7 +114,7 @@
 				7555FF79242A565900829871 /* Resources */,
 				70B2591107B50852034931CC /* Frameworks */,
 				92D936EC3DFC246C8BEAB6FA /* [CP] Embed Pods Frameworks */,
-				320AF4017AA48FCA80934A8F /* [CP] Copy Pods Resources */,
+				14778D84E0EFBC9915410DA1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -173,7 +173,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		320AF4017AA48FCA80934A8F /* [CP] Copy Pods Resources */ = {
+		14778D84E0EFBC9915410DA1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -366,6 +366,7 @@
 			baseConfigurationReference = CAD114B85CB900AE6E1039BE /* Pods-iosApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
@@ -391,6 +392,7 @@
 			baseConfigurationReference = 7B308DB8A232EDC456560CE1 /* Pods-iosApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";

@@ -11,10 +11,10 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target    = '15.5'
     spec.dependency 'FBSDKCoreKit'
     spec.dependency 'FBSDKLoginKit', '16.3.1'
-    spec.dependency 'FirebaseAuth'
-    spec.dependency 'FirebaseCore'
-    spec.dependency 'FirebaseFirestore'
-    spec.dependency 'FirebaseStorage', '10.21.0'
+    spec.dependency 'FirebaseAuth', '11.6.0'
+    spec.dependency 'FirebaseCore', '11.6.0'
+    spec.dependency 'FirebaseFirestore', '11.6.0'
+    spec.dependency 'FirebaseStorage', '11.6.0'
     spec.dependency 'GoogleSignIn'
                 
     if !Dir.exist?('build/cocoapods/framework/composeApp.framework') || Dir.empty?('build/cocoapods/framework/composeApp.framework')
