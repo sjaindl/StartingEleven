@@ -34,6 +34,7 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import com.sjaindl.s11.core.theme.spacing
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import startingeleven.core.generated.resources.Res
@@ -182,7 +183,7 @@ private fun AsyncImage(
 
     val imageRequest = ImageRequest.Builder(context = context)
         .data(data = url)
-        .dispatcher(dispatcher = Dispatchers.Default)
+        .coroutineContext(context = Dispatchers.IO)
         .memoryCacheKey(key = cacheKey)
         .diskCacheKey(key = cacheKey)
         .diskCachePolicy(policy = cachePolicy)
