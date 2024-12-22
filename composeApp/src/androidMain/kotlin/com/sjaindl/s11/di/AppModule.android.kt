@@ -5,5 +5,5 @@ import com.google.firebase.firestore.firestore
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 
 actual fun getFirebaseFirestore(): FirebaseFirestore {
-    return FirebaseFirestore(android = Firebase.firestore(database = "s11-prod"))
+    return FirebaseFirestore(native = Firebase.firestore(database = "s11-prod"))
 }
