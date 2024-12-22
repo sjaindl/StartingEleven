@@ -14,7 +14,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.sjaindl.s11.core.extensions.none
 import com.sjaindl.s11.core.theme.HvtdpTheme
 
 @Composable
@@ -34,7 +33,6 @@ fun S11BottomSheet(
         containerColor = containerColor,
         scrimColor = scrimColor,
         contentColor = contentColor,
-        windowInsets = WindowInsets.none,
     ) {
         HvtdpTheme {
             Column {

@@ -26,7 +26,7 @@ actual class AppVersionInfo actual constructor(): KoinComponent  {
         try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
             val versionName = packageInfo.versionName
-            return versionName
+            return versionName ?: "Unknown"
         } catch (e: PackageManager.NameNotFoundException) {
             return "Unknown"
         }
