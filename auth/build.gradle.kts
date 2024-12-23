@@ -42,10 +42,14 @@ kotlin {
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "16.3.1"
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
+            // TODO: Support Facebook Limited Sign-In with >= 17.4.0, as soon as the following issues are resolved:
+            // https://github.com/firebase/firebase-ios-sdk/issues/8048
+            // https://github.com/facebook/facebook-ios-sdk/issues/2455
         }
     }
 

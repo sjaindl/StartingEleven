@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/auth.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '15.5'
-    spec.dependency 'FBSDKCoreKit'
+    spec.dependency 'FBSDKCoreKit', '16.3.1'
     spec.dependency 'FBSDKLoginKit', '16.3.1'
     spec.dependency 'GoogleSignIn'
                 
