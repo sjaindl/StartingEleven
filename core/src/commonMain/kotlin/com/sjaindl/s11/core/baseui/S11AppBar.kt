@@ -48,7 +48,7 @@ import startingeleven.core.generated.resources.appName
 import startingeleven.core.generated.resources.back
 import startingeleven.core.generated.resources.debugInfo
 import startingeleven.core.generated.resources.faqs
-import startingeleven.core.generated.resources.prices
+import startingeleven.core.generated.resources.prizes
 import startingeleven.core.generated.resources.privacyPolicy
 import startingeleven.core.generated.resources.signOut
 
@@ -178,12 +178,12 @@ fun S11AppBar(
 
                         add(
                             element = OverFlowMenuItem(
-                                text = stringResource(resource = Res.string.prices),
+                                text = stringResource(resource = Res.string.prizes),
                                 onClick = navigateToPrices,
                                 icon = {
                                     Image(
                                         imageVector = Icons.Default.PriceCheck,
-                                        contentDescription = stringResource(resource = Res.string.prices),
+                                        contentDescription = stringResource(resource = Res.string.prizes),
                                         modifier = Modifier
                                             .padding(spacing.xxs),
                                     )

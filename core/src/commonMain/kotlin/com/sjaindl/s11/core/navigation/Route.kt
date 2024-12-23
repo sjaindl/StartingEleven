@@ -25,7 +25,7 @@ import startingeleven.core.generated.resources.routeAuth
 import startingeleven.core.generated.resources.routeFaq
 import startingeleven.core.generated.resources.routeMailSignIn
 import startingeleven.core.generated.resources.routeMailSignUp
-import startingeleven.core.generated.resources.routePrices
+import startingeleven.core.generated.resources.routePrizes
 import startingeleven.core.generated.resources.routePrivacy
 import startingeleven.core.generated.resources.routeProfile
 import startingeleven.core.generated.resources.tabHome
@@ -140,7 +140,7 @@ sealed interface Route {
                 Team -> Res.string.tabTeam
                 Players -> Res.string.tabPlayers
                 Standings -> Res.string.tabStandings
-                Prices -> Res.string.routePrices
+                Prices -> Res.string.routePrizes
                 Faqs -> Res.string.routeFaq
                 Privacy -> Res.string.routePrivacy
                 DebugInfo -> Res.string.debugInfo

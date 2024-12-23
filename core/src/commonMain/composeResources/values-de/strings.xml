@@ -13,7 +13,7 @@
     <string name="tabTeam">Tippabgabe</string>
     <string name="tabPlayers">Spielerstatisik</string>
     <string name="tabStandings">Tabelle</string>
-    <string name="routePrices">Preise</string>
+    <string name="routePrizes">Preise</string>
     <string name="routeFaq">FAQ</string>
     <string name="routePrivacy">Datenschutz</string>
     <string name="routeProfile">Profil</string>
@@ -24,7 +24,7 @@
 
     <string name="faqs">FAQs</string>
     <string name="privacyPolicy">Datenschutzerklärung</string>
-    <string name="prices">Preise</string>
+    <string name="prizes">Preise</string>
     <string name="debugInfo">Debug-Informationen</string>
 
     <string name="playerPoints">%1$d Punkte</string>

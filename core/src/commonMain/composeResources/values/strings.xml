@@ -13,7 +13,7 @@
     <string name="tabTeam">Team</string>
     <string name="tabPlayers">Players</string>
     <string name="tabStandings">Standings</string>
-    <string name="routePrices">Prices</string>
+    <string name="routePrizes">Prizes</string>
     <string name="routeFaq">FAQ</string>
     <string name="routePrivacy">Privacy</string>
     <string name="routeProfile">Profile</string>
@@ -24,10 +24,10 @@
 
     <string name="faqs">FAQs</string>
     <string name="privacyPolicy">Privacy Policy</string>
-    <string name="prices">Preise</string>
+    <string name="prizes">Prizes</string>
     <string name="debugInfo">Debug Info</string>
 
-    <string name="playerPoints">%1$d Punkte</string>
-    <string name="playerLineups">%1$d Lineups</string>
+    <string name="playerPoints">%1$d points</string>
+    <string name="playerLineups">%1$d lineups</string>
     <string name="choosePlayer">Choose player...</string>
 </resources>
