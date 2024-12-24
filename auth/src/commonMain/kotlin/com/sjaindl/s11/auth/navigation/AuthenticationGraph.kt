@@ -5,12 +5,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.sjaindl.s11.auth.SignInChooserScreen
 import com.sjaindl.s11.auth.SignInWithMailHomeScreen
 import com.sjaindl.s11.auth.SignInWithMailScreen
 import com.sjaindl.s11.auth.SignUpWithMailScreen
+import com.sjaindl.s11.core.extensions.primaryScreenComposable
+import com.sjaindl.s11.core.extensions.secondaryScreenComposable
 import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
 import com.sjaindl.s11.core.navigation.Route.MailSignIn
 import com.sjaindl.s11.core.navigation.Route.MailSignInHome
@@ -41,11 +42,9 @@ fun NavGraphBuilder.authenticationGraph(
         startDestination = SignInChooser
     ) {
 
-        composable<SignInChooser> { navBackStackEntry ->
+        primaryScreenComposable<SignInChooser> { navBackStackEntry ->
             SignInChooserScreen(
-                onSignInWithMail = {
-                    navController.navigateToMailSignInHome()
-                },
+                onSignInWithMail = navController::navigateToMailSignInHome,
                 onRetry = {
                     navController.navigate(route = SignInChooser)
                 },
@@ -58,7 +57,7 @@ fun NavGraphBuilder.authenticationGraph(
         }
     }
 
-    composable<MailSignInHome> {
+    secondaryScreenComposable<MailSignInHome> {
         SignInWithMailHomeScreen(
             signIn = { email ->
                 navController.navigateToMailSignIn(email = email)
@@ -70,7 +69,7 @@ fun NavGraphBuilder.authenticationGraph(
         )
     }
 
-    composable<MailSignIn> { navBackStackEntry ->
+    secondaryScreenComposable<MailSignIn> { navBackStackEntry ->
         val email = navBackStackEntry.arguments?.getString(MAIL_ARG).orEmpty()
 
         SignInWithMailScreen(
@@ -82,7 +81,7 @@ fun NavGraphBuilder.authenticationGraph(
         }
     }
 
-    composable<MailSignUp> { navBackStackEntry ->
+    secondaryScreenComposable<MailSignUp> { navBackStackEntry ->
         val email = navBackStackEntry.arguments?.getString(MAIL_ARG).orEmpty()
 
         SignUpWithMailScreen(

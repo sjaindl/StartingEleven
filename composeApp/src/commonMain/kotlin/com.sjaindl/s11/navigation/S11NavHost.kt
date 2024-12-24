@@ -1,14 +1,19 @@
 package com.sjaindl.s11.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.sjaindl.s11.auth.navigation.authenticationGraph
+import com.sjaindl.s11.core.extensions.primaryScreenComposable
+import com.sjaindl.s11.core.extensions.secondaryScreenComposable
 import com.sjaindl.s11.core.navigation.AuthNavGraphRoute
 import com.sjaindl.s11.core.navigation.Route
 import com.sjaindl.s11.core.navigation.Route.Faqs
@@ -21,6 +26,7 @@ import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
 import com.sjaindl.s11.players.PlayersScreen
 import com.sjaindl.s11.prices.PricesScreen
+import com.sjaindl.s11.prices.model.PricesData
 import com.sjaindl.s11.privacypolicy.PrivacyPolicyScreen
 import com.sjaindl.s11.profile.navigation.profileGraph
 import com.sjaindl.s11.standings.navigation.standingsGraph
@@ -44,7 +50,7 @@ fun S11NavHost(
         modifier = modifier,
     ) {
 
-        composable<Home> {
+        primaryScreenComposable<Home> {
             HomeScreen(
                 displayName = userName,
                 onAuthenticated = { authenticated ->
@@ -64,14 +70,21 @@ fun S11NavHost(
 
         teamGraph()
 
-        composable<Route.Prices>(
-            enterTransition = fadeInFromTop(),
-            exitTransition = fadeOutToTop(),
-        ) {
-            PricesScreen()
+        secondaryScreenComposable<Route.Prices> {
+            var pricesData: PricesData? by remember {
+                mutableStateOf(value = null)
+            }
+
+            LaunchedEffect(Unit) {
+                pricesData = PricesData.default2024()
+            }
+
+            pricesData?.let {
+                PricesScreen(pricesData = it)
+            }
         }
 
-        composable<Players> {
+        primaryScreenComposable<Players> {
             PlayersScreen()
         }
 
@@ -89,7 +102,7 @@ fun S11NavHost(
 
         profileGraph()
 
-        composable<Faqs> {
+        secondaryScreenComposable<Faqs> {
             val faqViewModel = viewModel {
                 FaqViewModel()
             }
@@ -104,11 +117,11 @@ fun S11NavHost(
             )
         }
 
-        composable<Route.Privacy> {
+        secondaryScreenComposable<Route.Privacy> {
             PrivacyPolicyScreen()
         }
 
-        composable<Route.DebugInfo> {
+        secondaryScreenComposable<Route.DebugInfo> {
             DebugInfoScreen()
         }
     }

@@ -6,8 +6,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.sjaindl.s11.core.extensions.primaryScreenComposable
 import com.sjaindl.s11.core.navigation.Route.Standings
 import com.sjaindl.s11.core.navigation.StandingsNavGraphRoute
 import com.sjaindl.s11.standings.StandingsScreen
@@ -21,7 +21,7 @@ fun NavGraphBuilder.standingsGraph() {
     navigation<StandingsNavGraphRoute>(
         startDestination = Standings
     ) {
-        composable<Standings> {
+        primaryScreenComposable<Standings> {
             val standingsViewModel = viewModel {
                 StandingsViewModel()
             }
