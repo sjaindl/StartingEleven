@@ -5,4 +5,15 @@
     <string name="signInSuccess">Successfully signed in!</string>
     <string name="versionCode">Version code</string>
     <string name="versionName">Version name</string>
+
+    <string name="prices2024Headline1">Sign up now for the Starting Eleven competition 2024/2025</string>
+    <string name="prices2024Headline2">Develop the perfect formation and lineup for your team</string>
+    <string name="prices2024Headline3">Score as many points as possible</string>
+    <string name="prices2024Headline4">...and win one of the following great prizes at the end of the season</string>
+    <string name="prices2024place1">€50 voucher for the HV TDP Stainz fan shop</string>
+    <string name="prices2024place2">€30 voucher for the HV TDP Stainz fan shop</string>
+    <string name="prices2024place3">€10 voucher for the HV TDP Stainz fan shop</string>
+    <string name="prices2024place4To5">1 drink &amp; meal at an HV TDP Stainz home game</string>
+    <string name="place">Place %1$d</string>
+    <string name="places">Places %1$d-%1$d</string>
 </resources>

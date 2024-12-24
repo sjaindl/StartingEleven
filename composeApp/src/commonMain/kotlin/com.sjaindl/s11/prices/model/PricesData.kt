@@ -6,38 +6,51 @@ import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Euro
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.getString
+import startingeleven.composeapp.generated.resources.Res
+import startingeleven.composeapp.generated.resources.place
+import startingeleven.composeapp.generated.resources.places
+import startingeleven.composeapp.generated.resources.prices2024Headline1
+import startingeleven.composeapp.generated.resources.prices2024Headline2
+import startingeleven.composeapp.generated.resources.prices2024Headline3
+import startingeleven.composeapp.generated.resources.prices2024Headline4
+import startingeleven.composeapp.generated.resources.prices2024place1
+import startingeleven.composeapp.generated.resources.prices2024place2
+import startingeleven.composeapp.generated.resources.prices2024place3
+import startingeleven.composeapp.generated.resources.prices2024place4To5
 
 data class PricesData(
-    val headlines: List<String>,
+    val headlines: List<StringResource>,
     val prices: List<Price>,
 ) {
     companion object {
-        val default2024 = PricesData(
+        suspend fun default2024() = PricesData(
             headlines = listOf(
-                "Melde dich jetzt an für den Starting Eleven Wettbewerb 2024/2025",
-                "Entwickle für dein Team die perfekte Formation und Aufstellung",
-                "Erziele möglichst viele Punkte",
-                "...und gewinne am Ende der Saison einen der folgenden großartigen Preise"
+                Res.string.prices2024Headline1,
+                Res.string.prices2024Headline2,
+                Res.string.prices2024Headline3,
+                Res.string.prices2024Headline4,
             ),
             prices = listOf(
                 Price(
-                    place = "Platz 1",
-                    description = "50 € Gutschein im HV TDP Stainz Fanshop",
+                    place = getString(resource = Res.string.place, 1),
+                    description = Res.string.prices2024place1,
                     icon = Icons.Default.EmojiEvents,
                 ),
                 Price(
-                    place = "Platz 2",
-                    description = "30 € Gutschein im HV TDP Stainz Fanshop",
+                    place = getString(resource = Res.string.place, 2),
+                    description = Res.string.prices2024place2,
                     icon = Icons.Default.Euro,
                 ),
                 Price(
-                    place = "Platz 3",
-                    description = "10 € Gutschein im HV TDP Stainz Fanshop",
+                    place = getString(resource = Res.string.place, 3),
+                    description = Res.string.prices2024place3,
                     icon = Icons.Default.Campaign,
                 ),
                 Price(
-                    place = "Plätze 4-5",
-                    description = "1 Getränk & Essen bei einem HV TDP Stainz Heimspiel",
+                    place = getString(resource = Res.string.places, 4, 5),
+                    description = Res.string.prices2024place4To5,
                     icon = Icons.Default.Celebration,
                 ),
             ),
@@ -47,6 +60,6 @@ data class PricesData(
 
 data class Price(
     val place: String,
-    val description: String,
+    val description: StringResource,
     val icon: ImageVector,
 )

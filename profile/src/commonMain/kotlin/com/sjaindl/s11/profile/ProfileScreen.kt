@@ -47,6 +47,7 @@ import startingeleven.profile.generated.resources.onProfilePictureDeleted
 import startingeleven.profile.generated.resources.onProfilePictureError
 import startingeleven.profile.generated.resources.onProfilePictureUpdated
 import startingeleven.profile.generated.resources.onUserNameChanged
+import startingeleven.profile.generated.resources.profileName
 
 @Composable
 fun ProfileScreen() {
@@ -187,7 +188,7 @@ private fun ProfileScreenContent(
             },
             enabled = userNameEditMode,
             label = {
-                Text(text = "Name")
+                Text(text = stringResource(resource = Res.string.profileName))
             },
             trailingIcon = {
                 if (userNameEditMode) {

@@ -27,7 +27,14 @@
     <string name="prizes">Prizes</string>
     <string name="debugInfo">Debug Info</string>
 
-    <string name="playerPoints">%1$d points</string>
-    <string name="playerLineups">%1$d lineups</string>
+    <plurals name="playerPoints">
+        <item quantity="one">%1$d point</item>
+        <item quantity="other">%1$d points</item>
+    </plurals>
+    <plurals name="playerLineups">
+        <item quantity="one">%1$d lineup</item>
+        <item quantity="other">%1$d lineups</item>
+    </plurals>
+
     <string name="choosePlayer">Choose player...</string>
 </resources>

@@ -5,4 +5,15 @@
     <string name="signInSuccess">Erfolgreich angemeldet!</string>
     <string name="versionCode">Versionscode</string>
     <string name="versionName">Versionsname</string>
+
+    <string name="prices2024Headline1">Melde dich jetzt an für den Starting Eleven Wettbewerb 2024/2025</string>
+    <string name="prices2024Headline2">Entwickle für dein Team die perfekte Formation und Aufstellung</string>
+    <string name="prices2024Headline3">Erziele möglichst viele Punkte</string>
+    <string name="prices2024Headline4">...und gewinne am Ende der Saison einen der folgenden großartigen Preise</string>
+    <string name="prices2024place1">50 € Gutschein im HV TDP Stainz Fanshop</string>
+    <string name="prices2024place2">30 € Gutschein im HV TDP Stainz Fanshop</string>
+    <string name="prices2024place3">10 € Gutschein im HV TDP Stainz Fanshop</string>
+    <string name="prices2024place4To5">1 Getränk &amp; Essen bei einem HV TDP Stainz Heimspiel</string>
+    <string name="place">Platz %1$d</string>
+    <string name="places">Plätze %1$d-%1$d</string>
 </resources>

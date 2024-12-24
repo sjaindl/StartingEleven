@@ -20,12 +20,14 @@ import com.sjaindl.s11.core.firestore.player.model.Player
 import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.model.TextDropdownMenuItem
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.choosePlayer
 import startingeleven.core.generated.resources.playerLineups
 import startingeleven.core.generated.resources.playerPoints
+import kotlin.math.roundToInt
 
 @Composable
 fun PlayerUI(
@@ -98,15 +100,17 @@ fun PlayerUI(
             }
 
             totalPointsOfPlayer?.let {
+                val rounded = if (it < 1) 0 else it.roundToInt()
+
                 UnderlinedText(
-                    text = stringResource(Res.string.playerPoints, it),
+                    text = pluralStringResource(resource = Res.plurals.playerPoints, quantity = rounded, it),
                     enabled = displayDropdown,
                 )
             }
 
             lineupCount?.let {
                 UnderlinedText(
-                    text = stringResource(Res.string.playerLineups, it),
+                    text = pluralStringResource(resource = Res.plurals.playerLineups, quantity = it, it),
                     enabled = displayDropdown,
                 )
             }

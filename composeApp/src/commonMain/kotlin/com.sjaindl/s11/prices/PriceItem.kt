@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -15,8 +17,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.theme.HvtdpTheme
-import com.sjaindl.s11.prices.model.PricesData
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.composeapp.generated.resources.Res
+import startingeleven.composeapp.generated.resources.place
+import startingeleven.composeapp.generated.resources.prices2024place1
 
 @Composable
 fun PriceItem(
@@ -68,15 +73,11 @@ fun PriceItem(
 @Preview
 @Composable
 fun PriceItemPreview() {
-    val item = PricesData.default2024.prices.first()
-
     HvtdpTheme {
-        with(item) {
-            PriceItem(
-                title = place,
-                subTitle = description,
-                leadingIcon = icon,
-            )
-        }
+        PriceItem(
+            title = stringResource(resource = Res.string.place, 1),
+            subTitle = stringResource(resource = Res.string.prices2024place1),
+            leadingIcon = Icons.Default.EmojiEvents,
+        )
     }
 }

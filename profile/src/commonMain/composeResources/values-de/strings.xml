@@ -13,4 +13,5 @@
     <string name="profileTakePhoto">Foto aufnehmen</string>
     <string name="profileChoosePhoto">Foto auswählen</string>
     <string name="profileDeletePhoto">Foto löschen</string>
+    <string name="profileName">Name</string>
 </resources>
