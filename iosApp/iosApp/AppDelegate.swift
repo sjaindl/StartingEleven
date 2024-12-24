@@ -16,9 +16,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
-        
+
         FirebaseApp.configure()
-        
+
         return true
     }
 }
