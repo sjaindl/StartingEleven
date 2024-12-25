@@ -4,6 +4,9 @@
 
     <string name="hello">Hallo</string>
 
+    <string name="recommendationTitle">Aufstellungsvorschlag</string>
+    <string name="noRecommendation">Noch kein Vorschlag verfügbar</string>
+
     <string name="betGame">Tippspiel</string>
     <string name="yourBet">Dein Tipp für das nächste Spiel:</string>
     <string name="noBets">Es gibt aktuell keine aktiven Tipps</string>

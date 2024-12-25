@@ -4,6 +4,9 @@
 
     <string name="hello">Hello</string>
 
+    <string name="recommendationTitle">Lineup recommendation</string>
+    <string name="noRecommendation">No recommendation available yet</string>
+
     <string name="betGame">Betting game</string>
     <string name="yourBet">Your bet for the next game:</string>
     <string name="noBets">There are currently no active bets</string>

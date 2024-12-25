@@ -13,6 +13,7 @@ import com.sjaindl.s11.auth.SignInChooserScreen
 import com.sjaindl.s11.auth.SignInWithMailHomeScreen
 import com.sjaindl.s11.auth.SignInWithMailScreen
 import com.sjaindl.s11.auth.SignUpWithMailScreen
+import com.sjaindl.s11.auth.SocialAuthenticationViewModel
 import com.sjaindl.s11.core.extensions.primaryScreenComposable
 import com.sjaindl.s11.core.extensions.secondaryScreenComposable
 import com.sjaindl.s11.core.navigation.AuthNavGraphRoute

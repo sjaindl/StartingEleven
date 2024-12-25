@@ -88,9 +88,7 @@ fun BetContainer(
                 ErrorScreen(
                     modifier = modifier,
                     text = state.message,
-                    onButtonClick = {
-                        loadBets()
-                    },
+                    onButtonClick = loadBets,
                 )
             }
 

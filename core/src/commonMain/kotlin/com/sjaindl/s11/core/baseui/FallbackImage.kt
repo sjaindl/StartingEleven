@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -47,6 +48,7 @@ fun FallbackImage(
     fallback: DrawableResource = Res.drawable.ic_user,
     cacheEnabled: Boolean = true,
     additionalCacheKey: String? = null,
+    maxSize: Dp? = null,
 ) {
     var isFullscreen by remember {
         mutableStateOf(value = false)
@@ -141,7 +143,11 @@ fun FallbackImage(
             modifier = Modifier
                 .clickable {
                     isFullscreen = true
-                },
+                }.then(if (maxSize != null) {
+                    Modifier.size(maxSize)
+                } else {
+                    Modifier
+                }),
         )
     } else if (!photoUrl.isNullOrEmpty()) {
         AsyncImage(
@@ -151,7 +157,11 @@ fun FallbackImage(
             modifier = Modifier
                 .clickable {
                     isFullscreen = true
-                },
+                }.then(if (maxSize != null) {
+                    Modifier.size(maxSize)
+                } else {
+                    Modifier
+                }),
         )
     } else {
         Image(
