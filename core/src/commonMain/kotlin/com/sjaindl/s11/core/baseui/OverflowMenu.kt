@@ -30,6 +30,7 @@ import com.sjaindl.s11.core.model.OverFlowMenuItem
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.showMore
 
@@ -81,6 +82,7 @@ fun OverflowMenu(
    }
 }
 
+@Preview
 @Composable
 fun OverflowMenuPreview() {
    HvtdpTheme {

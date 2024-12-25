@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Bet(
     val id: String,
-    val away: String,
     val home: String,
-    val resultScoreAway: Int?,
+    val away: String,
     val resultScoreHome: Int?,
+    val resultScoreAway: Int?,
 )

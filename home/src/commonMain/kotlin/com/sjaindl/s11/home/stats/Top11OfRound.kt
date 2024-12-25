@@ -16,6 +16,7 @@ import com.sjaindl.s11.home.stats.StatsState.Error
 import com.sjaindl.s11.home.stats.StatsState.Initial
 import com.sjaindl.s11.home.stats.StatsState.Loading
 import com.sjaindl.s11.home.stats.StatsState.NoMatches
+import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
@@ -24,14 +25,10 @@ import startingeleven.home.generated.resources.topEleven
 
 @Composable
 fun Top11OfRound(
+    statsState: StatsState,
+    loadStatistics: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = viewModel {
-        StatsViewModel()
-    }
-
-    val statsState by viewModel.statsState.collectAsState()
-
     when (val state = statsState) {
         Initial, Loading -> {
             LoadingScreen()
@@ -49,9 +46,7 @@ fun Top11OfRound(
             ErrorScreen(
                 modifier = modifier,
                 text = state.message,
-                onButtonClick = {
-                    viewModel.loadStatistics()
-                },
+                onButtonClick = loadStatistics,
             )
         }
 
@@ -66,7 +61,16 @@ fun Top11OfRound(
 fun Top11OfRoundPreview() {
     HvtdpTheme {
         Top11OfRound(
-            modifier = Modifier.padding(8.dp)
+            statsState = Content(
+                topElevenLastRound = listOf(
+                    PlayerCardItem(name = "Del Piero", points = 10f),
+                    PlayerCardItem(name = "Inzaghi", points = 9f),
+                ),
+                mvps = emptyList(),
+            ),
+            loadStatistics = { },
+            modifier = Modifier
+                .padding(8.dp),
         )
     }
 }

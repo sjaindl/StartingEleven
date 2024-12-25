@@ -58,7 +58,9 @@ fun S11AppBar(
     userIsSignedIn: Boolean,
     currentRoute: Route?,
     canNavigateBack: Boolean,
+    saveTeamEnabled: Boolean,
     modifier: Modifier = Modifier,
+    saveTeam: () -> Unit = { },
     navigateUp: () -> Unit = { },
     navigateHome: () -> Unit = { },
     navigateToFaqs: () -> Unit = { },
@@ -69,22 +71,7 @@ fun S11AppBar(
     customActionIcon: ImageVector? = null,
     onCustomAction: () -> Unit = { },
 ) {
-    val eventRepository = koinInject<EventRepository>()
     val coroutineScope = rememberCoroutineScope()
-
-    var saveTeamEnabled by rememberSaveable {
-        mutableStateOf(value = false)
-    }
-
-    coroutineScope.launch {
-        eventRepository.onNewEvent.collect { event ->
-            if (event == Event.TeamChanged) {
-                saveTeamEnabled = true
-            } else if (event == Event.TeamSaved) {
-                saveTeamEnabled = false
-            }
-        }
-    }
 
     TopAppBar(
         title = {
@@ -126,11 +113,7 @@ fun S11AppBar(
 
             if (currentRoute == Team) {
                 IconButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            eventRepository.saveTeam()
-                        }
-                    },
+                    onClick = saveTeam,
                     enabled = saveTeamEnabled,
                 ) {
                     Image(
@@ -260,6 +243,7 @@ fun S11AppBarPreview() {
             userIsSignedIn = true,
             currentRoute = Route.Home,
             canNavigateBack = true,
+            saveTeamEnabled = true,
             navigateUp = { },
             onClickProfile = { },
         )

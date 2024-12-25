@@ -127,6 +127,7 @@ fun StartingElevenScreenContent(
                         Position.Goalkeeper -> lineupData.goalkeeper?.let {
                             listOf(it)
                         } ?: emptyList()
+
                         Position.Defender -> lineupData.defenders
                         Position.Midfielder -> lineupData.midfielders
                         Position.Attacker -> lineupData.attackers

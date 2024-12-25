@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -89,7 +86,10 @@ android {
     buildFeatures {
         compose = true
     }
-}
-dependencies {
-    implementation(libs.androidx.exifinterface)
+
+    dependencies {
+        debugImplementation(compose.uiTooling)
+        testImplementation(libs.junit)
+        testImplementation(libs.kotlin.test.junit)
+    }
 }

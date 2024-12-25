@@ -12,27 +12,27 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
+import com.sjaindl.s11.core.firestore.player.model.Player
+import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.players.generated.resources.Res
 import startingeleven.players.generated.resources.calculating
 
 @Composable
 fun PlayersScreen(
+    playerState: PlayerState,
+    loadPlayers: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val playerViewModel = viewModel {
-        PlayerViewModel()
-    }
 
     LaunchedEffect(Unit) {
-        playerViewModel.loadPlayers()
+        loadPlayers()
     }
 
-    val players by playerViewModel.playerState.collectAsState()
-
-    when (val state = players) {
+    when (val state = playerState) {
         is PlayerState.Error -> {
             ErrorScreen(
                 modifier = modifier
@@ -40,7 +40,7 @@ fun PlayersScreen(
                     .wrapContentSize(),
                 text = state.message,
                 onButtonClick = {
-                  playerViewModel.loadPlayers()
+                    loadPlayers()
                 },
             )
         }
@@ -76,9 +76,38 @@ fun PlayersScreen(
     }
 }
 
+@Preview
 @Composable
 fun PlayersScreenPreview() {
+    val players = listOf(
+        PlayerWithLineupCount(
+            player = Player(
+                playerId = "delPiero",
+                name = "Del Piero",
+                position = Position.Attacker,
+                imageRef = null,
+                downloadUrl = null,
+                points = mapOf("delPiero" to 5f),
+            ),
+            lineupCount = 10,
+        ),
+        PlayerWithLineupCount(
+            player = Player(
+                playerId = "inzaghi",
+                name = "Inzaghi",
+                position = Position.Attacker,
+                imageRef = null,
+                downloadUrl = null,
+                points = mapOf("inzaghi" to 4f),
+            ),
+            lineupCount = 9,
+        ),
+    )
+
     HvtdpTheme {
-        PlayersScreen()
+        PlayersScreen(
+            playerState = PlayerState.Success(players = players),
+            loadPlayers = { },
+        )
     }
 }

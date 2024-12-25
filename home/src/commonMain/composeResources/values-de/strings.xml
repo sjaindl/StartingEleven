@@ -7,7 +7,7 @@
     <string name="betGame">Tippspiel</string>
     <string name="yourBet">Dein Tipp für das nächste Spiel:</string>
     <string name="noBets">Es gibt aktuell keine aktiven Tipps</string>
-    <string name="betsSaved">Tipps gespeichert</string>
+    <string name="betSaved">Tipp gespeichert</string>
     <string name="submitBet">Tipp abgeben</string>
 
     <string name="mvpPoints">MVPs (Punkte)</string>

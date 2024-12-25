@@ -17,12 +17,19 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import com.sjaindl.s11.core.firestore.bets.model.Bet
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.home.bet.BetContainer
 import com.sjaindl.s11.core.theme.spacing
+import com.sjaindl.s11.home.bet.BetState
+import com.sjaindl.s11.home.bet.UserBet
 import com.sjaindl.s11.home.stats.Mvps
+import com.sjaindl.s11.home.stats.StatsState
 import com.sjaindl.s11.home.stats.Top11OfRound
+import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
 import startingeleven.home.generated.resources.hello
 import startingeleven.home.generated.resources.home
@@ -31,9 +38,18 @@ import startingeleven.home.generated.resources.home
 fun HomeScreen(
     displayName: String?,
     onAuthenticated: (Boolean) -> Unit,
+    betState: BetState,
+    userBetState: UserBet,
+    statsState: StatsState,
+    savedBet: Boolean,
+    resetSavedBetState: () -> Unit,
+    setHomeBet: (Int) -> Unit,
+    setAwayBet: (Int) -> Unit,
+    submitBet: () -> Unit,
+    loadBets: () -> Unit,
+    loadStatistics: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
-
     LaunchedEffect(displayName) {
         onAuthenticated(displayName != null)
     }
@@ -72,18 +88,70 @@ fun HomeScreen(
         }
 
         BetContainer(
-            onShowSnackBar = onShowSnackBar
+            betState = betState,
+            userBetState = userBetState,
+            savedBet = savedBet,
+            resetSavedBetState = resetSavedBetState,
+            setHomeBet = setHomeBet,
+            setAwayBet = setAwayBet,
+            submitBet = submitBet,
+            loadBets = loadBets,
+            onShowSnackBar = onShowSnackBar,
         )
 
         Top11OfRound(
+            statsState = statsState,
+            loadStatistics = loadStatistics,
             modifier = Modifier
                 .padding(horizontal = spacing.md),
         )
 
         Mvps(
+            statsState = statsState,
+            loadStatistics = loadStatistics,
             modifier = Modifier
                 .padding(horizontal = spacing.md)
                 .padding(bottom = spacing.xl),
+        )
+    }
+}
+
+@Composable
+@Preview
+fun HomeScreenPreview() {
+    HvtdpTheme {
+        HomeScreen(
+            displayName = "User Name",
+            onAuthenticated = { },
+            betState = BetState.Content(
+                Bet(
+                    id = "1",
+                    home = "HVTDP Stainz",
+                    away = "Sturm Graz",
+                    resultScoreHome = null,
+                    resultScoreAway = null,
+                ),
+                enabled = true,
+            ),
+            userBetState = UserBet(homeBet = 1, awayBet = 1),
+            statsState = StatsState.Content(
+                topElevenLastRound = listOf(
+                    PlayerCardItem(name = "Del Piero", points = 10f),
+                    PlayerCardItem(name = "Inzaghi", points = 9f),
+                ),
+                mvps = listOf(
+                    PlayerCardItem(name = "Inzaghi", points = 10f),
+                    PlayerCardItem(name = "Del Piero", points = 9f),
+                ),
+            ),
+            savedBet = false,
+            resetSavedBetState = { },
+            setHomeBet = { },
+            setAwayBet = { },
+            submitBet = { },
+            loadBets = { },
+            loadStatistics = { },
+            onShowSnackBar = { },
         )
     }
 }

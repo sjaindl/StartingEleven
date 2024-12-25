@@ -17,7 +17,6 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.auth.SocialAuthenticationState.Error
 import com.sjaindl.s11.auth.SocialAuthenticationState.FacebookSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.GoogleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Initial
 import com.sjaindl.s11.auth.SocialAuthenticationState.Loading
+import com.sjaindl.s11.auth.model.FacebookAuthResponse
+import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import com.sjaindl.s11.core.BackHandler
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -49,18 +49,16 @@ import startingeleven.auth.generated.resources.signInWithGoogle
 
 @Composable
 fun SignInChooserScreen(
+    authenticationState: SocialAuthenticationState,
     onSignInWithMail: () -> Unit,
     onRetry: () -> Unit,
     onSuccess: () -> Unit,
+    handleGoogleSignIn: (GoogleAuthResponse, String) -> Unit,
+    handleFacebookSignIn: (FacebookAuthResponse, String) -> Unit,
+    resetState: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val authenticationViewModel = viewModel {
-        SocialAuthenticationViewModel()
-    }
-
     val cancelMessage = stringResource(resource = Res.string.signInCancel)
-
-    val authenticationState by authenticationViewModel.authenticationState.collectAsState()
 
     var signInWithGoogle by remember {
         mutableStateOf(value = false)
@@ -79,10 +77,7 @@ fun SignInChooserScreen(
         GoogleSignIn {
             signInWithGoogle = false
 
-            authenticationViewModel.handleGoogleSignIn(
-                googleAuthResponse = it,
-                cancelMessage = cancelMessage,
-            )
+            handleGoogleSignIn(it, cancelMessage)
         }
     }
 
@@ -90,10 +85,7 @@ fun SignInChooserScreen(
         signInWithFacebook = false
 
         FacebookSignIn {
-            authenticationViewModel.handleFacebookSignIn(
-                facebookAuthResponse = it,
-                cancelMessage = cancelMessage,
-            )
+            handleFacebookSignIn(it, cancelMessage)
         }
     }
 
@@ -119,7 +111,7 @@ fun SignInChooserScreen(
             ErrorScreen(
                 text = state.message,
                 onButtonClick = {
-                    authenticationViewModel.resetState()
+                    resetState()
                     onRetry()
                 },
             )
@@ -127,7 +119,7 @@ fun SignInChooserScreen(
 
         FacebookSignInSuccess, GoogleSignInSuccess -> {
             LaunchedEffect(authenticationState) {
-                authenticationViewModel.resetState()
+                resetState()
                 onSuccess()
             }
         }
@@ -226,6 +218,10 @@ fun SignInChooserScreenPreview() {
             onSignInWithMail = { },
             onRetry = { },
             onSuccess = { },
+            authenticationState = SocialAuthenticationState.Initial,
+            handleGoogleSignIn = { _, _ -> },
+            handleFacebookSignIn = { _, _ -> },
+            resetState = { },
         )
     }
 }

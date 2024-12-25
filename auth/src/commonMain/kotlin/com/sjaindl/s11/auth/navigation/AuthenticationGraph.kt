@@ -1,6 +1,9 @@
 package com.sjaindl.s11.auth.navigation
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -41,9 +44,16 @@ fun NavGraphBuilder.authenticationGraph(
     navigation<AuthNavGraphRoute>(
         startDestination = SignInChooser
     ) {
-
         primaryScreenComposable<SignInChooser> { navBackStackEntry ->
+            val authenticationViewModel = viewModel {
+                SocialAuthenticationViewModel()
+            }
+
+            val authenticationState by authenticationViewModel.authenticationState.collectAsState()
+
+
             SignInChooserScreen(
+                authenticationState = authenticationState,
                 onSignInWithMail = navController::navigateToMailSignInHome,
                 onRetry = {
                     navController.navigate(route = SignInChooser)
@@ -52,6 +62,9 @@ fun NavGraphBuilder.authenticationGraph(
                     navController.popBackStack(route = SignInChooser, inclusive = true)
                     onSuccess()
                 },
+                handleGoogleSignIn = authenticationViewModel::handleGoogleSignIn,
+                handleFacebookSignIn = authenticationViewModel::handleFacebookSignIn,
+                resetState = authenticationViewModel::resetState,
                 modifier = modifier,
             )
         }

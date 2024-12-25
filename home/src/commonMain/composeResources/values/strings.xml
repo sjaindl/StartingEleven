@@ -7,7 +7,7 @@
     <string name="betGame">Betting game</string>
     <string name="yourBet">Your bet for the next game:</string>
     <string name="noBets">There are currently no active bets</string>
-    <string name="betsSaved">Bets saved</string>
+    <string name="betSaved">Bet saved</string>
     <string name="submitBet">Submit bet</string>
 
     <string name="mvpPoints">MVPs (points)</string>

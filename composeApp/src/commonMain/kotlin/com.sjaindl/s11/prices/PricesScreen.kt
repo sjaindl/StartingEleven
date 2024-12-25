@@ -20,9 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.S11Card
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.prices.model.Price
 import com.sjaindl.s11.prices.model.PricesData
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.composeapp.generated.resources.Res
+import startingeleven.composeapp.generated.resources.prices2024Headline1
+import startingeleven.composeapp.generated.resources.prices2024Headline2
+import startingeleven.composeapp.generated.resources.prices2024Headline3
 
 @Composable
 fun PricesScreen(
@@ -70,16 +77,37 @@ fun PricesScreen(
 @Composable
 fun PricesScreenPreview() {
     HvtdpTheme {
-        var pricesData: PricesData? by remember {
-            mutableStateOf(value = null)
-        }
+        val data = PricesData(
+            headlines = listOf(
+                Res.string.prices2024Headline1,
+                Res.string.prices2024Headline2,
+                Res.string.prices2024Headline3,
+                Res.string.prices2024Headline4,
+            ),
+            prices = listOf(
+                Price(
+                    place = "Platz 1",
+                    description = Res.string.prices2024place1,
+                    icon = Icons.Default.EmojiEvents,
+                ),
+                Price(
+                    place = "Platz 2",
+                    description = Res.string.prices2024place2,
+                    icon = Icons.Default.Euro,
+                ),
+                Price(
+                    place = "Platz 3",
+                    description = Res.string.prices2024place3,
+                    icon = Icons.Default.Campaign,
+                ),
+                Price(
+                    place = "Plätze 4-5",
+                    description = Res.string.prices2024place4To5,
+                    icon = Icons.Default.Celebration,
+                ),
+            ),
+        )
 
-        LaunchedEffect(Unit) {
-            pricesData = PricesData.default2024()
-        }
-
-        pricesData?.let {
-            PricesScreen(pricesData = it)
-        }
+        PricesScreen(pricesData = data)
     }
 }

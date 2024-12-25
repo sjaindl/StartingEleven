@@ -24,6 +24,9 @@ import com.sjaindl.s11.debuginfo.DebugInfoScreen
 import com.sjaindl.s11.faq.FaqViewModel
 import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
+import com.sjaindl.s11.home.bet.BetViewModel
+import com.sjaindl.s11.home.stats.StatsViewModel
+import com.sjaindl.s11.players.PlayerViewModel
 import com.sjaindl.s11.players.PlayersScreen
 import com.sjaindl.s11.prices.PricesScreen
 import com.sjaindl.s11.prices.model.PricesData
@@ -49,8 +52,21 @@ fun S11NavHost(
         startDestination = Home,
         modifier = modifier,
     ) {
-
         primaryScreenComposable<Home> {
+            val betViewModel = viewModel {
+                BetViewModel()
+            }
+
+            val statsViewModel = viewModel {
+                StatsViewModel()
+            }
+
+            val betState by betViewModel.betState.collectAsState()
+            val userBetState by betViewModel.userBet.collectAsState()
+            val savedBet by betViewModel.savedBet.collectAsState()
+
+            val statsState by statsViewModel.statsState.collectAsState()
+
             HomeScreen(
                 displayName = userName,
                 onAuthenticated = { authenticated ->
@@ -64,6 +80,16 @@ fun S11NavHost(
                         navController.navigate(route = AuthNavGraphRoute)
                     }
                 },
+                betState = betState,
+                userBetState = userBetState,
+                statsState = statsState,
+                savedBet = savedBet,
+                resetSavedBetState = betViewModel::resetSavedBetState,
+                setHomeBet = betViewModel::setHomeBet,
+                setAwayBet = betViewModel::setAwayBet,
+                submitBet = betViewModel::submitBet,
+                loadBets = betViewModel::loadBets,
+                loadStatistics = statsViewModel::loadStatistics,
                 onShowSnackBar = onShowSnackBar,
             )
         }
@@ -85,7 +111,17 @@ fun S11NavHost(
         }
 
         primaryScreenComposable<Players> {
-            PlayersScreen()
+            val playerViewModel = viewModel {
+                PlayerViewModel()
+            }
+
+            val playerState by playerViewModel.playerState.collectAsState()
+
+
+            PlayersScreen(
+                playerState = playerState,
+                loadPlayers = playerViewModel::loadPlayers,
+            )
         }
 
         standingsGraph()

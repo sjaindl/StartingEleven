@@ -18,33 +18,34 @@ import com.sjaindl.s11.home.bet.BetState.NoBets
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.baseui.S11Card
+import com.sjaindl.s11.core.firestore.bets.model.Bet
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
-import startingeleven.home.generated.resources.betsSaved
+import startingeleven.home.generated.resources.betSaved
 import startingeleven.home.generated.resources.noBets
 
 @Composable
 fun BetContainer(
+    betState: BetState,
+    userBetState: UserBet,
+    savedBet: Boolean,
+    resetSavedBetState: () -> Unit,
+    setHomeBet: (Int) -> Unit,
+    setAwayBet: (Int) -> Unit,
+    submitBet: () -> Unit,
+    loadBets: () -> Unit,
     onShowSnackBar: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel = viewModel {
-        BetViewModel()
-    }
-
-    val betState by viewModel.betState.collectAsState()
-    val userBetState by viewModel.userBet.collectAsState()
-    val savedBet by viewModel.savedBet.collectAsState()
-
-    val betsSavedText = stringResource(resource = Res.string.betsSaved)
+    val betSavedText = stringResource(resource = Res.string.betSaved)
 
     LaunchedEffect(savedBet) {
         if (savedBet) {
-            onShowSnackBar(betsSavedText)
-            viewModel.resetSavedBetState()
+            onShowSnackBar(betSavedText)
+            resetSavedBetState()
         }
     }
 
@@ -70,15 +71,15 @@ fun BetContainer(
                     enabled = state.enabled,
                     onHomeBetChanged = { newBet ->
                         if (newBet >= 0) {
-                            viewModel.setHomeBet(score = newBet)
+                            setHomeBet(newBet)
                         }
                     },
                     onAwayBetChanged = { newBet ->
                         if (newBet >= 0) {
-                            viewModel.setAwayBet(score = newBet)
+                            setAwayBet(newBet)
                         }
                     },
-                    onSubmitBet = viewModel::submitBet,
+                    onSubmitBet = submitBet,
                     modifier = modifier,
                 )
             }
@@ -88,7 +89,7 @@ fun BetContainer(
                     modifier = modifier,
                     text = state.message,
                     onButtonClick = {
-                        viewModel.loadBets()
+                        loadBets()
                     },
                 )
             }
@@ -105,9 +106,26 @@ fun BetContainer(
 fun BetContainerPreview() {
     HvtdpTheme {
         BetContainer(
+            betState = Content(
+                Bet(
+                    id = "1",
+                    home = "HVTDP Stainz",
+                    away = "Sturm Graz",
+                    resultScoreHome = null,
+                    resultScoreAway = null,
+                ),
+                enabled = true,
+            ),
+            userBetState = UserBet(homeBet = 1, awayBet = 1),
+            savedBet = false,
+            resetSavedBetState = { },
+            setHomeBet = { },
+            setAwayBet = { },
+            submitBet = { },
+            loadBets = { },
+            onShowSnackBar = { },
             modifier = Modifier
                 .padding(8.dp),
-            onShowSnackBar = { },
         )
     }
 }
