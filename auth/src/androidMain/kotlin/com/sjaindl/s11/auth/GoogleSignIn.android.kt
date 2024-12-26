@@ -10,7 +10,7 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.PasswordCredential
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.GetCredentialException
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import io.github.aakira.napier.Napier
@@ -24,11 +24,15 @@ actual fun GoogleSignIn(onResponse: (GoogleAuthResponse) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val googleIdOption = GetSignInWithGoogleOption.Builder(serverClientId = BuildConfig.googleServerClientId)
-        .build()
+    val googleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts = true)
+        .setServerClientId(serverClientId = BuildConfig.googleServerClientId)
+        .setAutoSelectEnabled(autoSelectEnabled = true)
+       // .setNonce(<nonce string to use when generating a Google ID token>)
+    .build()
 
     val request = GetCredentialRequest.Builder()
-        .addCredentialOption(googleIdOption)
+        .addCredentialOption(credentialOption = googleIdOption)
         .build()
 
     LaunchedEffect(Unit) {

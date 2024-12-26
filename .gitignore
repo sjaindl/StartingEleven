@@ -49,3 +49,6 @@ Pods
 GoogleService-Info.plist
 S11Config.xcconfig
 google-services.json
+s11_release_key.jks
+
+composeApp/release/*

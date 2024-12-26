@@ -29,8 +29,6 @@ sealed class SocialAuthenticationState {
 
 class SocialAuthenticationViewModel : ViewModel() {
 
-    private val tag = "SocialAuthenticationViewModel"
-
     private var _authenticationState: MutableStateFlow<SocialAuthenticationState> = MutableStateFlow(
         Initial
     )

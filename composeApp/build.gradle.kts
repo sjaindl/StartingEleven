@@ -210,6 +210,18 @@ android {
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = gradleLocalProperties(rootDir, providers).getProperty("release.keyAlias")
+            keyPassword = gradleLocalProperties(rootDir, providers).getProperty("release.password")
+            storeFile = file(
+                gradleLocalProperties(rootDir, providers).getProperty("release.storeFile")
+            )
+            storePassword = gradleLocalProperties(rootDir, providers).getProperty("release.password")
+        }
+    }
+
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -219,6 +231,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
