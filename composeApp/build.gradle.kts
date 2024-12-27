@@ -76,20 +76,21 @@ kotlin {
         // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
         // xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
 
-        pod(name = "GoogleSignIn")
-
         pod(name = "FirebaseCore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "11.6.0"
+            linkOnly = true
         }
 
         pod(name = "FirebaseAuth") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "11.6.0"
+            linkOnly = true
         }
 
         pod(name = "FirebaseStorage") {
             extraOpts += listOf("-compiler-option", "-fmodules")
+            linkOnly = true
             version = "11.6.0"
             // needed because of error:
             // Caused by: java.lang.IllegalStateException: Executing of 'xcodebuild -project Pods.xcodeproj -scheme FirebaseStorage -sdk iphoneos -configuration Release' failed with code 65 and message:
@@ -98,7 +99,10 @@ kotlin {
         pod(name = "FirebaseFirestore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "11.6.0"
+            linkOnly = true
         }
+
+        pod(name = "GoogleSignIn")
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
