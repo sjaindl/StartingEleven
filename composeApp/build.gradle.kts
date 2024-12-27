@@ -66,11 +66,6 @@ kotlin {
             isStatic = true
 
             embedBitcode(BITCODE)
-
-            // TODO: Can pod dependencies from other libs be directly included without re-specification here?
-            dependencies {
-                implementation(project(":auth"))
-            }
         }
 
         // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
@@ -102,15 +97,24 @@ kotlin {
             linkOnly = true
         }
 
-        pod(name = "GoogleSignIn")
+        // TODO: Can pod dependencies from other libs be directly included without re-specification here?
+        // https://youtrack.jetbrains.com/issue/KT-30841/Support-consuming-CocoaPod-dependency-in-MPP-library-project
+        // https://youtrack.jetbrains.com/issue/KT-44704/KMM-library-needs-pod-in-iOS-app-Podfile
+        // https://youtrack.jetbrains.com/issue/KT-41830/CocoaPods-integration-Support-link-only-mode-for-pods
+        //export(project(":auth"))
+        pod(name = "GoogleSignIn") {
+            linkOnly = true
+        }
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
+            linkOnly = true
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             version = "16.3.1"
+            linkOnly = true
             // TODO: Support Facebook Limited Sign-In with >= 17.4.0, as soon as the following issues are resolved:
             // https://github.com/firebase/firebase-ios-sdk/issues/8048
             // https://github.com/facebook/facebook-ios-sdk/issues/2455
