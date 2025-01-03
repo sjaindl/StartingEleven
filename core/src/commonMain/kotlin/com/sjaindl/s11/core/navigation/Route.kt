@@ -116,7 +116,7 @@ sealed interface Route {
     }
 
     @Serializable
-    data object MailSignInHome: Route {
+    data class MailSignInHome(val isSignUp: Boolean): Route {
         override val showBackButton = true
         override val isTopLevelRoute = false
     }
@@ -147,7 +147,13 @@ sealed interface Route {
                 Profile -> Res.string.routeProfile
                 Auth -> Res.string.routeAuth
                 SignInChooser -> Res.string.routeAuth
-                MailSignInHome -> Res.string.routeMailSignIn
+                is MailSignInHome -> {
+                    if (route.isSignUp) {
+                        Res.string.routeMailSignUp
+                    } else {
+                        Res.string.routeMailSignIn
+                    }
+                }
                 is MailSignUp -> Res.string.routeMailSignUp
                 is MailSignIn -> Res.string.routeMailSignIn
             }

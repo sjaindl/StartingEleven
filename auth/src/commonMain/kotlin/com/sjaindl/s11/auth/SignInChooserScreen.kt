@@ -13,7 +13,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Facebook
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,8 +43,10 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.auth.generated.resources.*
 import startingeleven.auth.generated.resources.Res
 import startingeleven.auth.generated.resources.ic_google
+import startingeleven.auth.generated.resources.notRegisteredYet
 import startingeleven.auth.generated.resources.signInCancel
 import startingeleven.auth.generated.resources.signInWithEmail
 import startingeleven.auth.generated.resources.signInWithFacebook
@@ -51,6 +56,7 @@ import startingeleven.auth.generated.resources.signInWithGoogle
 fun SignInChooserScreen(
     authenticationState: SocialAuthenticationState,
     onSignInWithMail: () -> Unit,
+    onSignUpWithMail: () -> Unit,
     onRetry: () -> Unit,
     onSuccess: () -> Unit,
     handleGoogleSignIn: (GoogleAuthResponse, String) -> Unit,
@@ -89,7 +95,7 @@ fun SignInChooserScreen(
         }
     }
 
-    when (val state = authenticationState) {
+    when (authenticationState) {
         Initial -> {
             SignInChooserScreenContent(
                 signInWithGoogle = {
@@ -99,6 +105,7 @@ fun SignInChooserScreen(
                     signInWithFacebook = true
                 },
                 signInWithMail = onSignInWithMail,
+                signUpWithMail = onSignUpWithMail,
                 modifier = modifier,
             )
         }
@@ -109,7 +116,7 @@ fun SignInChooserScreen(
 
         is Error -> {
             ErrorScreen(
-                text = state.message,
+                text = authenticationState.message,
                 onButtonClick = {
                     resetState()
                     onRetry()
@@ -132,6 +139,7 @@ fun SignInChooserScreenContent(
     signInWithGoogle: () -> Unit,
     signInWithFacebook: () -> Unit,
     signInWithMail: () -> Unit,
+    signUpWithMail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -179,6 +187,24 @@ fun SignInChooserScreenContent(
                 colorFilter = ColorFilter.tint(colorScheme.onPrimary),
             )
         }
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 24.dp),
+        )
+
+        Text(
+            text = stringResource(resource = Res.string.notRegisteredYet),
+            modifier = Modifier.padding(bottom = 8.dp),
+            style = typography.labelLarge,
+        )
+
+        OutlinedButton(
+            onClick = signUpWithMail,
+            modifier = Modifier
+                .fillMaxWidth(),
+        ) {
+            Text(text = stringResource(resource = Res.string.createNewAccount))
+        }
     }
 }
 
@@ -187,7 +213,7 @@ private fun SignInProviderButton(
     containerColor: Color,
     text: String,
     onClick: () -> Unit,
-    image: @Composable() (() -> Unit)
+    image: @Composable (() -> Unit)
 ) {
     Button(
         modifier = Modifier
@@ -216,9 +242,10 @@ fun SignInChooserScreenPreview() {
     HvtdpTheme {
         SignInChooserScreen(
             onSignInWithMail = { },
+            onSignUpWithMail = { },
             onRetry = { },
             onSuccess = { },
-            authenticationState = SocialAuthenticationState.Initial,
+            authenticationState = Initial,
             handleGoogleSignIn = { _, _ -> },
             handleFacebookSignIn = { _, _ -> },
             resetState = { },

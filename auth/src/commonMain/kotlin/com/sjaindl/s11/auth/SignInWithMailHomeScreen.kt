@@ -29,6 +29,7 @@ import startingeleven.auth.generated.resources.signUp
 
 @Composable
 fun SignInWithMailHomeScreen(
+    isSignUp: Boolean,
     signIn: (email: String) -> Unit,
     signUp: (email: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -68,26 +69,26 @@ fun SignInWithMailHomeScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
-            FilledTonalButton(
-                onClick = {
-                    signIn(email)
-                },
-                enabled = email.isValidMail(),
-                colors = colors,
-            ) {
-                Text(text = stringResource(resource = Res.string.signIn))
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            FilledTonalButton(
-                onClick = {
-                    signUp(email)
-                },
-                enabled = email.isValidMail(),
-                colors = colors,
-            ) {
-                Text(text = stringResource(resource = Res.string.signUp))
+            if (isSignUp) {
+                FilledTonalButton(
+                    onClick = {
+                        signUp(email)
+                    },
+                    enabled = email.isValidMail(),
+                    colors = colors,
+                ) {
+                    Text(text = stringResource(resource = Res.string.signUp))
+                }
+            } else {
+                FilledTonalButton(
+                    onClick = {
+                        signIn(email)
+                    },
+                    enabled = email.isValidMail(),
+                    colors = colors,
+                ) {
+                    Text(text = stringResource(resource = Res.string.signIn))
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -97,9 +98,22 @@ fun SignInWithMailHomeScreen(
 
 @Preview
 @Composable
+fun SignUpWithMailLandingScreenPreview() {
+    HvtdpTheme {
+        SignInWithMailHomeScreen(
+            isSignUp = true,
+            signIn = { _ -> },
+            signUp = { _ -> },
+        )
+    }
+}
+
+@Preview
+@Composable
 fun SignInWithMailLandingScreenPreview() {
     HvtdpTheme {
         SignInWithMailHomeScreen(
+            isSignUp = true,
             signIn = { _ -> },
             signUp = { _ -> },
         )

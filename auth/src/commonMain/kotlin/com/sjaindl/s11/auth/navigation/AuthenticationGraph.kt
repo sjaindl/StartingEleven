@@ -23,9 +23,10 @@ import com.sjaindl.s11.core.navigation.Route.MailSignUp
 import com.sjaindl.s11.core.navigation.Route.SignInChooser
 
 private const val MAIL_ARG = "email"
+private const val IS_SIGNUP_ARG = "isSignUp"
 
-private fun NavController.navigateToMailSignInHome(navOptions: NavOptions? = null) {
-    navigate(route = MailSignInHome, navOptions = navOptions)
+private fun NavController.navigateToMailSignInHome(isSignUp: Boolean, navOptions: NavOptions? = null) {
+    navigate(route = MailSignInHome(isSignUp = isSignUp), navOptions = navOptions)
 }
 
 private fun NavController.navigateToMailSignIn(email: String, navOptions: NavOptions? = null) {
@@ -52,10 +53,14 @@ fun NavGraphBuilder.authenticationGraph(
 
             val authenticationState by authenticationViewModel.authenticationState.collectAsState()
 
-
             SignInChooserScreen(
                 authenticationState = authenticationState,
-                onSignInWithMail = navController::navigateToMailSignInHome,
+                onSignInWithMail = {
+                    navController.navigateToMailSignInHome(isSignUp = false)
+                },
+                onSignUpWithMail = {
+                    navController.navigateToMailSignInHome(isSignUp = true)
+                },
                 onRetry = {
                     navController.navigate(route = SignInChooser)
                 },
@@ -71,8 +76,11 @@ fun NavGraphBuilder.authenticationGraph(
         }
     }
 
-    secondaryScreenComposable<MailSignInHome> {
+    secondaryScreenComposable<MailSignInHome> { navBackStackEntry ->
+        val isSignUp = navBackStackEntry.arguments?.getBoolean(IS_SIGNUP_ARG) ?: true
+
         SignInWithMailHomeScreen(
+            isSignUp = isSignUp,
             signIn = { email ->
                 navController.navigateToMailSignIn(email = email)
             },
