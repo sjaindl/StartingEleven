@@ -4,7 +4,7 @@
 
     <string name="hello">Hello</string>
 
-    <string name="recommendationTitle">Lineup recommendation</string>
+    <string name="recommendationTitle">Recommendation: Best lineup</string>
     <string name="noRecommendation">No recommendation available yet</string>
 
     <string name="betGame">Betting game</string>
@@ -13,7 +13,7 @@
     <string name="betSaved">Bet saved</string>
     <string name="submitBet">Submit bet</string>
 
-    <string name="mvpPoints">MVPs (points)</string>
+    <string name="mvpPoints">MVPs of the season (points)</string>
     <string name="topEleven">Top 11 of the round (points)</string>
     <string name="noMatches">No matches yet</string>
 </resources>

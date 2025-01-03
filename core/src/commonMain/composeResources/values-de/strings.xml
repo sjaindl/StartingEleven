@@ -11,7 +11,7 @@
 
     <string name="tabHome">Home</string>
     <string name="tabTeam">Tippabgabe</string>
-    <string name="tabPlayers">Spielerstatisik</string>
+    <string name="tabPlayers">Spieler</string>
     <string name="tabStandings">Tabelle</string>
     <string name="routePrizes">Preise</string>
     <string name="routeFaq">FAQ</string>
