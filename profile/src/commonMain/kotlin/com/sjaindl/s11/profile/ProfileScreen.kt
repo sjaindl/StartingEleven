@@ -2,61 +2,37 @@ package com.sjaindl.s11.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.firestore.convertToFirebaseFile
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.photopicker.PhotoPickerScreen
 import com.sjaindl.s11.photopicker.files.FileHandler
-import com.sjaindl.s11.profile.UserState.Error
-import com.sjaindl.s11.profile.UserState.Initial
-import com.sjaindl.s11.profile.UserState.Loading
-import com.sjaindl.s11.profile.UserState.NoUser
-import com.sjaindl.s11.profile.UserState.User
+import com.sjaindl.s11.profile.UserState.*
+import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.profile.generated.resources.Res
-import startingeleven.profile.generated.resources.email
-import startingeleven.profile.generated.resources.noMail
-import startingeleven.profile.generated.resources.notSignedIn
-import startingeleven.profile.generated.resources.onProfilePictureDeleted
-import startingeleven.profile.generated.resources.onProfilePictureError
-import startingeleven.profile.generated.resources.onProfilePictureUpdated
-import startingeleven.profile.generated.resources.onUserNameChanged
-import startingeleven.profile.generated.resources.profileName
+import startingeleven.profile.generated.resources.*
 
 @Composable
-fun ProfileScreen() {
-    val profileViewModel = viewModel {
-        ProfileViewModel()
-    }
-
-    val userState by profileViewModel.userState.collectAsState()
-
+fun ProfileScreen(
+    userState: UserState,
+    changeUserName: (String, String) -> Unit,
+    uploadProfilePhoto: (String, File) -> Unit,
+    deleteProfilePhoto: (String) -> Unit,
+    loadUser: () -> Unit,
+    onDeleteAccount: () -> Unit,
+) {
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -85,9 +61,7 @@ fun ProfileScreen() {
             is Error -> {
                 ErrorScreen(
                     text = state.message,
-                    onButtonClick = {
-                        profileViewModel.loadUser()
-                    },
+                    onButtonClick = loadUser,
                 )
             }
 
@@ -112,7 +86,7 @@ fun ProfileScreen() {
                             }
                         } else {
                             val file = convertToFirebaseFile(filePath = filePath)
-                            profileViewModel.uploadProfilePhoto(uid = state.uid, file = file)
+                            uploadProfilePhoto(state.uid, file)
 
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar(message = profilePictureUpdatedText)
@@ -120,19 +94,20 @@ fun ProfileScreen() {
                         }
                     },
                     onUserNameChanged = { newName ->
-                        profileViewModel.changeUserName(uid = state.uid, newName = newName)
+                        changeUserName(state.uid, newName)
 
                         coroutineScope.launch {
                             snackBarHostState.showSnackbar(message = userNameChangedText)
                         }
                     },
                     onDeleteProfileImage = {
-                        profileViewModel.deleteProfilePhoto(uid = state.uid)
+                        deleteProfilePhoto(state.uid)
 
                         coroutineScope.launch {
                             snackBarHostState.showSnackbar(message = profilePictureDeletedText)
                         }
                     },
+                    onDeleteAccount = onDeleteAccount,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues = paddingValues),
@@ -152,6 +127,7 @@ private fun ProfileScreenContent(
     onImagePicked: (ByteArray) -> Unit,
     onUserNameChanged: (String) -> Unit,
     onDeleteProfileImage: () -> Unit,
+    onDeleteAccount: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showPhotoPickerBottomScreen by remember {
@@ -224,6 +200,12 @@ private fun ProfileScreenContent(
             },
             enabled = false,
         )
+
+        OutlinedButton(
+            onClick = onDeleteAccount,
+        ) {
+            Text(text = stringResource(resource = Res.string.deleteAccount))
+        }
     }
 
     if (showPhotoPickerBottomScreen) {
@@ -247,15 +229,20 @@ private fun ProfileScreenContent(
 @Composable
 fun ProfileScreenPreview() {
     HvtdpTheme {
-        ProfileScreenContent(
-            userName = "Daniel Fabian",
-            email = "df@hvtdp.at",
-            profileImageUri = "dummy",
-            profilePhotoRefImageUri = null,
-            profilePhotoRefTimestamp = null,
-            onImagePicked = { },
-            onUserNameChanged = { },
-            onDeleteProfileImage = { },
+        ProfileScreen(
+            userState = UserState.User(
+                uid = "123",
+                name = "Daniel Fabian",
+                email = "df@hvtdp.at",
+                photoUrl = "dummy",
+                photoRefDownloadUrl = null,
+                profilePhotoRefTimestamp = null,
+            ),
+            changeUserName = { _, _ -> },
+            uploadProfilePhoto = { _, _ -> },
+            deleteProfilePhoto = { _ -> },
+            loadUser = { },
+            onDeleteAccount = { },
         )
     }
 }

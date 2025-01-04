@@ -14,6 +14,7 @@ interface UserRepository {
     suspend fun getCurrentUser(): User?
     suspend fun getCurrentUserFlow(): Flow<User?>
     suspend fun createUser(user: FirebaseUser)
+    suspend fun deleteUser(uid: String)
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
@@ -45,6 +46,10 @@ internal class UserRepositoryImpl(
 
     override suspend fun createUser(user: FirebaseUser) {
         userDataSource.createUser(user = user)
+    }
+
+    override suspend fun deleteUser(uid: String) {
+        userDataSource.deleteUser(uid = uid)
     }
 
     override suspend fun setUserName(uid: String, newName: String) {

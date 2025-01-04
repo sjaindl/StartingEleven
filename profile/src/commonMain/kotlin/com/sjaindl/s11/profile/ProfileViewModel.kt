@@ -3,6 +3,9 @@ package com.sjaindl.s11.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sjaindl.s11.core.firestore.user.UserRepository
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.auth.FirebaseAuthRecentLoginRequiredException
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.storage.File
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,9 +15,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 sealed class UserState {
-    data object Initial: UserState()
-    data object Loading: UserState()
-    data object NoUser: UserState()
+    data object Initial : UserState()
+    data object Loading : UserState()
+    data object NoUser : UserState()
     data class User(
         val uid: String,
         val name: String?,
@@ -22,8 +25,9 @@ sealed class UserState {
         val photoUrl: String?,
         val photoRefDownloadUrl: String?,
         val profilePhotoRefTimestamp: String?,
-    ): UserState()
-    data class Error(val message: String): UserState()
+    ) : UserState()
+
+    data class Error(val message: String) : UserState()
 }
 
 class ProfileViewModel : ViewModel(), KoinComponent {
@@ -39,6 +43,24 @@ class ProfileViewModel : ViewModel(), KoinComponent {
 
     init {
         loadUser()
+    }
+
+    fun deleteAccount(completed: () -> Unit) {
+        viewModelScope.launch {
+            with(Firebase.auth) {
+                currentUser?.let {
+                    try {
+                        currentUser?.delete()
+                        userRepository.deleteUser(uid = it.uid)
+                    } catch (exception: FirebaseAuthRecentLoginRequiredException) {
+                        Napier.e(message = "Could not delete user", throwable = exception)
+                    }
+
+                    signOut()
+                    completed()
+                }
+            }
+        }
     }
 
     fun loadUser() = viewModelScope.launch {

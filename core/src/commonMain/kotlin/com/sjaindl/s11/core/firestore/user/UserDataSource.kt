@@ -23,6 +23,7 @@ interface UserDataSource {
     suspend fun getUser(uid: String): User?
     suspend fun getUserFlow(): Flow<User?>
     suspend fun createUser(user: FirebaseUser)
+    suspend fun deleteUser(uid: String)
     suspend fun setUserName(uid: String, newName: String)
     suspend fun setUserPhotoRef(uid: String, file: File)
     suspend fun deleteUserPhotoRef(uid: String)
@@ -103,6 +104,27 @@ internal class UserDataSourceImpl(
         userCache[user.uid] = CachedValue(
             value = newUser,
         )
+    }
+
+    override suspend fun deleteUser(uid: String) {
+        auth.currentUser?.let {
+            getUser(uid = it.uid)?.let { currentUser ->
+                if (currentUser.photoRef != null) {
+                    val photoRef = "/users/$uid"
+                    val storageRef = storage.reference(location = photoRef)
+                    storageRef.delete()
+                }
+
+                getDocumentRef(path = uid).delete()
+
+                userCache[uid] = null
+                usersCache = CachedValue(
+                    value = usersCache?.get()?.filter {
+                        it.uid != uid
+                    }
+                )
+            }
+        }
     }
 
     override suspend fun setUserName(uid: String, newName: String) {

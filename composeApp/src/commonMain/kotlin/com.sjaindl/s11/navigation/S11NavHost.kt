@@ -145,7 +145,13 @@ fun S11NavHost(
             }
         )
 
-        profileGraph()
+        profileGraph(
+            navigateHome = {
+                navController.navigate(Home) {
+                    popUpTo<Home>()
+                }
+            }
+        )
 
         secondaryScreenComposable<Faqs> {
             val faqViewModel = viewModel {
