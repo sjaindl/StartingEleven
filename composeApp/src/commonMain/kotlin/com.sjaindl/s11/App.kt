@@ -14,11 +14,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.PlatformContext
-import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.disk.DiskCache
 import coil3.memory.MemoryCache
@@ -48,7 +46,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 @Preview
 fun App() {
@@ -57,12 +54,6 @@ fun App() {
     }
 
     KoinContext {
-        val viewModel = viewModel {
-            AppViewModel()
-        }
-
-        val displayName by viewModel.userName.collectAsState()
-
         val navController = rememberNavController()
 
         val snackBarHostState = remember {
@@ -180,7 +171,6 @@ fun App() {
             ) {
                 S11NavHost(
                     navController = navController,
-                    userName = displayName,
                     onShowSnackBar = {
                         coroutineScope.launch {
                             snackBarHostState.showSnackbar(message = it)
