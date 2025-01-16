@@ -17,20 +17,27 @@
                   location = "group:kotlin"
                   name = "kotlin">
                   <Group
-                     location = "group:com.sjaindl"
-                     name = "com.sjaindl">
+                     location = "group:com"
+                     name = "com">
                      <Group
-                        location = "group:s11"
-                        name = "s11">
+                        location = "group:sjaindl"
+                        name = "sjaindl">
                         <Group
-                           location = "group:auth"
-                           name = "auth">
-                           <FileRef
-                              location = "group:GoogleSignIn.ios.kt">
-                           </FileRef>
-                           <FileRef
-                              location = "group:FacebookSignIn.ios.kt">
-                           </FileRef>
+                           location = "group:s11"
+                           name = "s11">
+                           <Group
+                              location = "group:auth"
+                              name = "auth">
+                              <FileRef
+                                 location = "group:GoogleSignIn.ios.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:FacebookSignIn.ios.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:AppleSignIn.ios.kt">
+                              </FileRef>
+                           </Group>
                         </Group>
                      </Group>
                   </Group>
@@ -76,7 +83,7 @@
                                  location = "group:SignInWithMailHomeScreen.kt">
                               </FileRef>
                               <FileRef
-                                 location = "group:AuthenticationViewModel.kt">
+                                 location = "group:AppleSignIn.kt">
                               </FileRef>
                               <FileRef
                                  location = "group:FacebookSignIn.kt">
@@ -110,11 +117,20 @@
                                     location = "group:FacebookAuthResponse.kt">
                                  </FileRef>
                                  <FileRef
+                                    location = "group:AppleAuthResponse.kt">
+                                 </FileRef>
+                                 <FileRef
                                     location = "group:GoogleAuthResponse.kt">
                                  </FileRef>
                               </Group>
                               <FileRef
                                  location = "group:GoogleSignIn.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:EmailAuthenticationViewModel.kt">
+                              </FileRef>
+                              <FileRef
+                                 location = "group:SocialAuthenticationViewModel.kt">
                               </FileRef>
                            </Group>
                         </Group>

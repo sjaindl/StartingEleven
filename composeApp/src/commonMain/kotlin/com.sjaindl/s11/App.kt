@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,8 +26,10 @@ import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.sjaindl.s11.core.Event
 import com.sjaindl.s11.core.EventRepository
+import com.sjaindl.s11.core.LocalPlatform
 import com.sjaindl.s11.core.baseui.S11AppBar
 import com.sjaindl.s11.core.baseui.S11BottomBar
+import com.sjaindl.s11.core.getPlatform
 import com.sjaindl.s11.core.navigation.Route
 import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
@@ -114,71 +117,73 @@ fun App() {
         }
 
         HvtdpTheme {
-            Scaffold(
-                topBar = {
-                    Column {
-                        //Text("canNavigateBack: $canNavigateBack")
-                        //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
-                        //Text("currentRoute: $currentRoute")
-                        S11AppBar(
-                            userIsSignedIn = user != null,
-                            currentRoute = currentRoute,
-                            canNavigateBack = canNavigateBack,
-                            saveTeamEnabled = saveTeamEnabled,
-                            saveTeam = {
-                                coroutineScope.launch {
-                                    eventRepository.saveTeam()
+            CompositionLocalProvider(LocalPlatform provides getPlatform()) {
+                Scaffold(
+                    topBar = {
+                        Column {
+                            //Text("canNavigateBack: $canNavigateBack")
+                            //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
+                            //Text("currentRoute: $currentRoute")
+                            S11AppBar(
+                                userIsSignedIn = user != null,
+                                currentRoute = currentRoute,
+                                canNavigateBack = canNavigateBack,
+                                saveTeamEnabled = saveTeamEnabled,
+                                saveTeam = {
+                                    coroutineScope.launch {
+                                        eventRepository.saveTeam()
+                                    }
+                                },
+                                navigateUp = navController::navigateUp,
+                                navigateHome = {
+                                    navController.navigate(Home) {
+                                        popUpTo<Home>()
+                                    }
+                                },
+                                navigateToFaqs = {
+                                    navController.navigate(route = Faqs)
+                                },
+                                navigateToPrices = {
+                                    navController.navigate(route = Route.Prices)
+                                },
+                                navigateToPrivacyPolicy = {
+                                    navController.navigate(route = Route.Privacy)
+                                },
+                                navigateToDebugInfo = {
+                                    navController.navigate(route = Route.DebugInfo)
+                                },
+                                onClickProfile = {
+                                    navController.navigateToProfile()
                                 }
-                            },
-                            navigateUp = navController::navigateUp,
-                            navigateHome = {
-                                navController.navigate(Home) {
-                                    popUpTo<Home>()
-                                }
-                            },
-                            navigateToFaqs = {
-                                navController.navigate(route = Faqs)
-                            },
-                            navigateToPrices = {
-                                navController.navigate(route = Route.Prices)
-                            },
-                            navigateToPrivacyPolicy = {
-                                navController.navigate(route = Route.Privacy)
-                            },
-                            navigateToDebugInfo = {
-                                navController.navigate(route = Route.DebugInfo)
-                            },
-                            onClickProfile = {
-                                navController.navigateToProfile()
-                            }
-                        )
-                    }
-                },
-                bottomBar = {
-                    if (showBottomBar) {
-                        S11BottomBar(
-                            navController = navController,
-                            selectedItem = selectedItem,
-                            onSetSelectedItem = { index ->
-                                selectedItem = index
-                            }
-                        )
-                    }
-                },
-                snackbarHost = {
-                    SnackbarHost(hostState = snackBarHostState)
-                },
-            ) {
-                S11NavHost(
-                    navController = navController,
-                    onShowSnackBar = {
-                        coroutineScope.launch {
-                            snackBarHostState.showSnackbar(message = it)
+                            )
                         }
                     },
-                    modifier = Modifier
-                        .padding(paddingValues = it),
-                )
+                    bottomBar = {
+                        if (showBottomBar) {
+                            S11BottomBar(
+                                navController = navController,
+                                selectedItem = selectedItem,
+                                onSetSelectedItem = { index ->
+                                    selectedItem = index
+                                }
+                            )
+                        }
+                    },
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackBarHostState)
+                    },
+                ) {
+                    S11NavHost(
+                        navController = navController,
+                        onShowSnackBar = {
+                            coroutineScope.launch {
+                                snackBarHostState.showSnackbar(message = it)
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(paddingValues = it),
+                    )
+                }
             }
         }
     }

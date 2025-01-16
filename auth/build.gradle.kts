@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.swiftklib)
 }
 
 kotlin {
@@ -17,9 +18,19 @@ kotlin {
 
     androidTarget()
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.compilations {
+            val main by getting {
+                cinterops {
+                    create("applesignin")
+                }
+            }
+        }
+    }
 
     cocoapods {
         summary = "S11 iOS auth dependencies"
@@ -133,5 +144,12 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+}
+
+swiftklib {
+    create("applesignin") {
+        path = file("../iosApp/iosApp/applesignin")
+        packageName("com.sjaindl.s11.applesignin")
     }
 }

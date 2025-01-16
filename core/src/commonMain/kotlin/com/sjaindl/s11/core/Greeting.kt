@@ -1,4 +1,4 @@
-package com.sjaindl.s11
+package com.sjaindl.s11.core
 
 class Greeting {
     private val platform = getPlatform()

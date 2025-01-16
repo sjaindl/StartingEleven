@@ -70,6 +70,12 @@ fun NavGraphBuilder.authenticationGraph(
                 },
                 handleGoogleSignIn = authenticationViewModel::handleGoogleSignIn,
                 handleFacebookSignIn = authenticationViewModel::handleFacebookSignIn,
+                handleAppleSignIn = { appleAuthResponse, cancelMessage ->
+                    authenticationViewModel.handleAppleSignIn(
+                        appleAuthResponse = appleAuthResponse,
+                        cancelMessage = cancelMessage,
+                    )
+                },
                 resetState = authenticationViewModel::resetState,
                 modifier = modifier,
             )

@@ -9,6 +9,7 @@
     <string name="enterName">Name eingeben</string>
     <string name="signInWithGoogle">Mit Google anmelden</string>
     <string name="signInWithFacebook">Mit Facebook anmelden</string>
+    <string name="signInWithApple">Mit Apple anmelden</string>
     <string name="signInWithEmail">Mit E-Mail anmelden</string>
     <string name="notRegisteredYet">Noch nicht registriert?</string>
     <string name="createNewAccount">Neues Konto erstellen</string>

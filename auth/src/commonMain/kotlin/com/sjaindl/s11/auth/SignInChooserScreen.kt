@@ -29,25 +29,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import com.sjaindl.s11.auth.SocialAuthenticationState.AppleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Error
 import com.sjaindl.s11.auth.SocialAuthenticationState.FacebookSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.GoogleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Initial
 import com.sjaindl.s11.auth.SocialAuthenticationState.Loading
+import com.sjaindl.s11.auth.model.AppleAuthResponse
 import com.sjaindl.s11.auth.model.FacebookAuthResponse
 import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import com.sjaindl.s11.core.BackHandler
+import com.sjaindl.s11.core.LocalPlatform
+import com.sjaindl.s11.core.Platform
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.auth.generated.resources.*
 import startingeleven.auth.generated.resources.Res
+import startingeleven.auth.generated.resources.createNewAccount
+import startingeleven.auth.generated.resources.ic_apple
 import startingeleven.auth.generated.resources.ic_google
 import startingeleven.auth.generated.resources.notRegisteredYet
 import startingeleven.auth.generated.resources.signInCancel
+import startingeleven.auth.generated.resources.signInWithApple
 import startingeleven.auth.generated.resources.signInWithEmail
 import startingeleven.auth.generated.resources.signInWithFacebook
 import startingeleven.auth.generated.resources.signInWithGoogle
@@ -61,6 +67,7 @@ fun SignInChooserScreen(
     onSuccess: () -> Unit,
     handleGoogleSignIn: (GoogleAuthResponse, String) -> Unit,
     handleFacebookSignIn: (FacebookAuthResponse, String) -> Unit,
+    handleAppleSignIn: (AppleAuthResponse, String) -> Unit,
     resetState: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -71,6 +78,10 @@ fun SignInChooserScreen(
     }
 
     var signInWithFacebook by remember {
+        mutableStateOf(value = false)
+    }
+
+    var signInWithApple by remember {
         mutableStateOf(value = false)
     }
 
@@ -95,6 +106,14 @@ fun SignInChooserScreen(
         }
     }
 
+    if (signInWithApple) {
+        signInWithApple = false
+
+        AppleSignIn {
+            handleAppleSignIn(it, cancelMessage)
+        }
+    }
+
     when (authenticationState) {
         Initial -> {
             SignInChooserScreenContent(
@@ -103,6 +122,9 @@ fun SignInChooserScreen(
                 },
                 signInWithFacebook = {
                     signInWithFacebook = true
+                },
+                signInWithApple = {
+                    signInWithApple = true
                 },
                 signInWithMail = onSignInWithMail,
                 signUpWithMail = onSignUpWithMail,
@@ -124,7 +146,7 @@ fun SignInChooserScreen(
             )
         }
 
-        FacebookSignInSuccess, GoogleSignInSuccess -> {
+        FacebookSignInSuccess, GoogleSignInSuccess, AppleSignInSuccess -> {
             LaunchedEffect(authenticationState) {
                 resetState()
                 onSuccess()
@@ -138,10 +160,13 @@ fun SignInChooserScreen(
 fun SignInChooserScreenContent(
     signInWithGoogle: () -> Unit,
     signInWithFacebook: () -> Unit,
+    signInWithApple: () -> Unit,
     signInWithMail: () -> Unit,
     signUpWithMail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val platform = LocalPlatform.current
+
     Column(
         modifier = modifier
             .padding(horizontal = 32.dp)
@@ -173,6 +198,21 @@ fun SignInChooserScreenContent(
                 modifier = Modifier.size(24.dp),
                 colorFilter = ColorFilter.tint(colorScheme.onPrimary),
             )
+        }
+
+        if (platform is Platform.iOS) {
+            SignInProviderButton(
+                containerColor = Color.Black,
+                text = stringResource(resource = Res.string.signInWithApple),
+                onClick = signInWithApple,
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.ic_apple),
+                    contentDescription = stringResource(resource = Res.string.signInWithApple),
+                    modifier = Modifier.size(24.dp),
+                    colorFilter = ColorFilter.tint(colorScheme.onPrimary),
+                )
+            }
         }
 
         SignInProviderButton(
@@ -248,6 +288,7 @@ fun SignInChooserScreenPreview() {
             authenticationState = Initial,
             handleGoogleSignIn = { _, _ -> },
             handleFacebookSignIn = { _, _ -> },
+            handleAppleSignIn = { _, _ -> },
             resetState = { },
         )
     }

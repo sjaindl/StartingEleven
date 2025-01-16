@@ -2,10 +2,12 @@ package com.sjaindl.s11.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.auth.SocialAuthenticationState.AppleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Error
 import com.sjaindl.s11.auth.SocialAuthenticationState.FacebookSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.GoogleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Initial
+import com.sjaindl.s11.auth.model.AppleAuthResponse
 import com.sjaindl.s11.auth.model.FacebookAuthResponse
 import com.sjaindl.s11.auth.model.GoogleAuthResponse
 import dev.gitlive.firebase.Firebase
@@ -13,6 +15,7 @@ import dev.gitlive.firebase.auth.FacebookAuthProvider
 import dev.gitlive.firebase.auth.FirebaseAuthException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.GoogleAuthProvider
+import dev.gitlive.firebase.auth.OAuthProvider
 import dev.gitlive.firebase.auth.auth
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +27,7 @@ sealed class SocialAuthenticationState {
     data object Loading: SocialAuthenticationState()
     data object GoogleSignInSuccess: SocialAuthenticationState()
     data object FacebookSignInSuccess: SocialAuthenticationState()
+    data object AppleSignInSuccess: SocialAuthenticationState()
     data class Error(val message: String): SocialAuthenticationState()
 }
 
@@ -77,6 +81,34 @@ class SocialAuthenticationViewModel : ViewModel() {
                         Napier.e(message = "Firebase Auth Error: FirebaseAuthInvalidCredentialsException", throwable = e)
                         _authenticationState.value = Error(message = "${e.message}")
                     } catch (e: FirebaseAuthException) {
+                        Napier.e("Sign-in failed", e)
+                        _authenticationState.value = Error(message = e.message ?: e.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleAppleSignIn(appleAuthResponse: AppleAuthResponse, cancelMessage: String) {
+        viewModelScope.launch {
+            when (appleAuthResponse) {
+                AppleAuthResponse.Cancelled -> {
+                    _authenticationState.value = Error(message = cancelMessage)
+                }
+                is AppleAuthResponse.Error -> {
+                    _authenticationState.value = Error(message = appleAuthResponse.message ?: "Apple Sign-In failed")
+                }
+                is AppleAuthResponse.Success -> {
+                    val credential = OAuthProvider.credential(
+                        providerId = "apple.com",
+                        idToken = appleAuthResponse.identityToken,
+                        rawNonce = appleAuthResponse.nonce,
+                    )
+
+                    try {
+                        Firebase.auth.signInWithCredential(authCredential = credential)
+                        _authenticationState.value = AppleSignInSuccess
+                    } catch (e: Exception) {
                         Napier.e("Sign-in failed", e)
                         _authenticationState.value = Error(message = e.message ?: e.toString())
                     }

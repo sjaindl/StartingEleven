@@ -29,6 +29,7 @@ napierVersion = "2.7.1"
 navigationComposeVersion = "2.8.0-alpha11"
 playServicesAuth = "21.3.0"
 serializationVersion = "1.7.3"
+swiftklibVersion = "0.6.4"
 viewModelComposeVersion = "2.8.4"
 
 [libraries]
@@ -80,3 +81,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinVersion" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
+swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftklibVersion" }
