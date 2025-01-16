@@ -211,8 +211,8 @@ android {
 
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.2"
 
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
@@ -229,7 +229,6 @@ android {
         }
     }
 
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -240,6 +239,8 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             isDebuggable = false
+            isShrinkResources = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
