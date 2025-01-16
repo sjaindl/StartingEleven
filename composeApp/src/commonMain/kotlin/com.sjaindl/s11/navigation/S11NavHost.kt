@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,6 +37,7 @@ import com.sjaindl.s11.privacypolicy.PrivacyPolicyScreen
 import com.sjaindl.s11.profile.navigation.profileGraph
 import com.sjaindl.s11.standings.navigation.standingsGraph
 import com.sjaindl.s11.team.navigation.teamGraph
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import startingeleven.composeapp.generated.resources.Res
 import startingeleven.composeapp.generated.resources.signInSuccess
@@ -70,6 +72,7 @@ fun S11NavHost(
                 AppViewModel()
             }
 
+            val isAuthenticated by appViewModel.isAuthenticated.collectAsState()
             val displayName by appViewModel.userName.collectAsState()
 
             val recommendationState by lineupRecommendationViewModel.recommendationState.collectAsState()
@@ -80,18 +83,24 @@ fun S11NavHost(
 
             val statsState by statsViewModel.statsState.collectAsState()
 
+            val scope = rememberCoroutineScope()
+
             HomeScreen(
                 displayName = displayName,
+                isAuthenticated = isAuthenticated,
                 onAuthenticated = { authenticated ->
                     val currentRoute = navController.currentBackStackEntry.toRoute()
 
-                    if (authenticated) {
-                        if (currentRoute != Home) {
-                            navController.navigate(route = Home)
+                    scope.launch {
+                        if (authenticated) {
+                            if (currentRoute != Home) {
+                                navController.navigate(route = Home)
+                            }
+                        } else {
+                            navController.navigate(route = AuthNavGraphRoute)
                         }
-                    } else {
-                        navController.navigate(route = AuthNavGraphRoute)
                     }
+
                 },
                 recommendationState = recommendationState,
                 betState = betState,

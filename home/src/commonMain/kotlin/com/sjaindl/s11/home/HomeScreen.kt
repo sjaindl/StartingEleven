@@ -39,6 +39,7 @@ import startingeleven.home.generated.resources.home
 @Composable
 fun HomeScreen(
     displayName: String?,
+    isAuthenticated: Boolean,
     onAuthenticated: (Boolean) -> Unit,
     recommendationState: RecommendationState,
     betState: BetState,
@@ -54,8 +55,8 @@ fun HomeScreen(
     loadStatistics: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {
-    LaunchedEffect(displayName) {
-        onAuthenticated(displayName != null)
+    LaunchedEffect(isAuthenticated) {
+        onAuthenticated(isAuthenticated)
     }
 
     Column(
@@ -131,6 +132,7 @@ fun HomeScreenPreview() {
     HvtdpTheme {
         HomeScreen(
             displayName = "User Name",
+            isAuthenticated = true,
             onAuthenticated = { },
             recommendationState = RecommendationState.NoRecommendation,
             betState = BetState.Content(

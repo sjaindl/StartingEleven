@@ -7,6 +7,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -21,13 +22,24 @@ class AppViewModel : ViewModel(), KoinComponent {
     )
     var userName = _userName.asStateFlow()
 
+    private var _isAuthenticated = MutableStateFlow(
+        value = Firebase.auth.currentUser != null,
+    )
+    var isAuthenticated = _isAuthenticated.asStateFlow()
+
     init {
         setObservers()
     }
 
     private fun setObservers() {
         viewModelScope.launch {
-            Firebase.auth.authStateChanged.distinctUntilChanged().collect { user ->
+            Firebase.auth.authStateChanged.distinctUntilChanged().collectLatest { user ->
+               _isAuthenticated.value  = user != null
+            }
+        }
+
+        viewModelScope.launch {
+            Firebase.auth.authStateChanged.distinctUntilChanged().collectLatest { user ->
                 if (user != null) {
                     val dbUser = userRepository.getCurrentUser()
                     if (dbUser == null) {
