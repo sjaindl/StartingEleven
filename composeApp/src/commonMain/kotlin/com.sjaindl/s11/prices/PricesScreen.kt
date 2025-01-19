@@ -13,11 +13,14 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Euro
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.sjaindl.s11.core.Platform
 import com.sjaindl.s11.core.baseui.S11Card
+import com.sjaindl.s11.core.getPlatform
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.prices.model.Price
 import com.sjaindl.s11.prices.model.PricesData
@@ -32,6 +35,7 @@ import startingeleven.composeapp.generated.resources.prices2024place1
 import startingeleven.composeapp.generated.resources.prices2024place2
 import startingeleven.composeapp.generated.resources.prices2024place3
 import startingeleven.composeapp.generated.resources.prices2024place4To5
+import startingeleven.composeapp.generated.resources.pricesRulesHint
 
 @Composable
 fun PricesScreen(
@@ -71,6 +75,12 @@ fun PricesScreen(
                     leadingIcon = it.icon,
                 )
             }
+        }
+
+        if (getPlatform() is Platform.iOS) {
+            Text(
+                text = stringResource(resource = Res.string.pricesRulesHint),
+            )
         }
     }
 }
