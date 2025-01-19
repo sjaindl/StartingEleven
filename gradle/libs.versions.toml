@@ -13,6 +13,7 @@ compose-plugin = "1.7.0"
 exifinterface = "1.3.7"
 facebookVersion = "16.0.1"
 # stuck to 1.13.0 for now (see https://github.com/GitLiveApp/firebase-kotlin-sdk/issues/678)
+firebaseMessagingKtx = "24.1.0"
 firebaseVersion = "1.13.0"
 firebase-bom = "33.7.0"
 google-play-services = "4.4.2"
@@ -48,6 +49,7 @@ firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseV
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
+firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebaseVersion" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

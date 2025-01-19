@@ -1167,6 +1167,7 @@ PODS:
     - FirebaseAuth (= 11.6.0)
     - FirebaseCore (= 11.6.0)
     - FirebaseFirestore (= 11.6.0)
+    - FirebaseMessaging (= 11.6.0)
     - FirebaseStorage (= 11.6.0)
     - GoogleSignIn
   - FBAEMKit (16.3.1):
@@ -1216,6 +1217,20 @@ PODS:
     - gRPC-Core (~> 1.65.0)
     - leveldb-library (~> 1.22)
     - nanopb (~> 3.30910.0)
+  - FirebaseInstallations (11.6.0):
+    - FirebaseCore (~> 11.6.0)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - PromisesObjC (~> 2.4)
+  - FirebaseMessaging (11.6.0):
+    - FirebaseCore (~> 11.6.0)
+    - FirebaseInstallations (~> 11.0)
+    - GoogleDataTransport (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.0)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/Reachability (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - nanopb (~> 3.30910.0)
   - FirebaseSharedSwift (11.6.0)
   - FirebaseStorage (11.6.0):
     - FirebaseAppCheckInterop (~> 11.0)
@@ -1224,6 +1239,9 @@ PODS:
     - FirebaseCoreExtension (~> 11.6.0)
     - GoogleUtilities/Environment (~> 8.0)
     - GTMSessionFetcher/Core (< 5.0, >= 3.4)
+  - GoogleDataTransport (10.1.0):
+    - nanopb (~> 3.30910.0)
+    - PromisesObjC (~> 2.4)
   - GoogleSignIn (8.0.0):
     - AppAuth (< 2.0, >= 1.7.3)
     - AppCheckCore (~> 11.0)
@@ -1377,8 +1395,11 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseFirestore
     - FirebaseFirestoreInternal
+    - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseSharedSwift
     - FirebaseStorage
+    - GoogleDataTransport
     - GoogleSignIn
     - GoogleUtilities
     - "gRPC-C++"
@@ -1399,7 +1420,7 @@ SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
-  composeApp: d0301f015226c46d74aeeba0319ce3db8de3b116
+  composeApp: 532f738871638aba41ba832902d9e56155af63e3
   FBAEMKit: 6c7b5eb77c96861bb59e040842c6e55bf39512ce
   FBSDKCoreKit: 5e4dd478947ab1bcc887e8cfadeae0727af1a942
   FBSDKCoreKit_Basics: cd7b5f5d1e8868c26706917919d058999ca672c3
@@ -1412,8 +1433,11 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: d98ab91e2d80a56d7b246856a8885443b302c0c2
   FirebaseFirestore: d5dcc15724f291fe4b415322754bfa01616037fe
   FirebaseFirestoreInternal: db478fdaeb98fe8686ff49e600f3871c224a76ff
+  FirebaseInstallations: efc0946fc756e4d22d8113f7c761948120322e8c
+  FirebaseMessaging: e1aca1fcc23e8b9eddb0e33f375ff90944623021
   FirebaseSharedSwift: a4e5dfca3e210633bb3a3dfb94176c019211948b
   FirebaseStorage: 52fb65a69d3e87675186881a08e2a5db86452ace
+  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   "gRPC-C++": 2fa52b3141e7789a28a737f251e0c45b4cb20a87

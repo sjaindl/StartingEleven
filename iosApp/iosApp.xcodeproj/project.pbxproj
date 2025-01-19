@@ -14,7 +14,7 @@
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		9A4669B22C70FDA900CEAD0B /* S11Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9A4669AF2C70FDA900CEAD0B /* S11Config.xcconfig */; };
 		9A4669B32C70FDA900CEAD0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */; };
-		9A4669B42C70FDA900CEAD0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A4669B12C70FDA900CEAD0B /* GoogleService-Info.plist */; };
+		9A8952D72D3DA8F900F516C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A8952D62D3DA8F900F516C8 /* GoogleService-Info.plist */; };
 		9A92B1872D3417220036FA51 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A92B1862D3417220036FA51 /* AppleSignInManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +30,7 @@
 		9A262F2D2D35C6EB00C72817 /* iosAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosAppDebug.entitlements; sourceTree = "<group>"; };
 		9A4669AF2C70FDA900CEAD0B /* S11Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = S11Config.xcconfig; sourceTree = "<group>"; };
 		9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9A4669B12C70FDA900CEAD0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9A8952D62D3DA8F900F516C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9A92B1862D3417220036FA51 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
 		CAD114B85CB900AE6E1039BE /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,7 +88,7 @@
 				9A262F2D2D35C6EB00C72817 /* iosAppDebug.entitlements */,
 				9A92B1882D346B7A0036FA51 /* applesignin */,
 				9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */,
-				9A4669B12C70FDA900CEAD0B /* GoogleService-Info.plist */,
+				9A8952D62D3DA8F900F516C8 /* GoogleService-Info.plist */,
 				9A4669AF2C70FDA900CEAD0B /* S11Config.xcconfig */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -177,9 +177,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
-				9A4669B42C70FDA900CEAD0B /* GoogleService-Info.plist in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				9A4669B22C70FDA900CEAD0B /* S11Config.xcconfig in Resources */,
+				9A8952D72D3DA8F900F516C8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

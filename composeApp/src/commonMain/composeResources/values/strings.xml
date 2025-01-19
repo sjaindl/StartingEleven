@@ -17,4 +17,9 @@
     <string name="place">Place %1$d</string>
     <string name="places">Places %1$d-%1$d</string>
     <string name="pricesRulesHint">Apple is not a sponsor or involved in the betting game or contest in any manner.</string>
+
+    <string name="push_notification_title">Stay updated!</string>
+    <string name="push_notification_grant_button">Grant Permission</string>
+    <string name="push_notification_not_now_button">Not now</string>
+    <string name="push_notification_description">We need your permission to send you push notifications. Notifications will help you stay up-to-date with the latest news and let you know when matchday calculations are complete.</string>
 </resources>

@@ -97,6 +97,12 @@ kotlin {
             linkOnly = true
         }
 
+        pod(name = "FirebaseMessaging") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+            version = "11.6.0"
+            linkOnly = true
+        }
+
         // TODO: Can pod dependencies from other libs be directly included without re-specification here?
         // https://youtrack.jetbrains.com/issue/KT-30841/Support-consuming-CocoaPod-dependency-in-MPP-library-project
         // https://youtrack.jetbrains.com/issue/KT-44704/KMM-library-needs-pod-in-iOS-app-Podfile
@@ -136,6 +142,8 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.ktor.client.android)
+
+            implementation(libs.firebase.messaging.ktx)
         }
 
         commonMain.dependencies {

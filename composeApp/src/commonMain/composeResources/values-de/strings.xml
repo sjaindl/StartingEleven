@@ -17,4 +17,9 @@
     <string name="place">Platz %1$d</string>
     <string name="places">Plätze %1$d-%1$d</string>
     <string name="pricesRulesHint">Apple ist kein Sponsor oder in irgendeiner Art und Weise am Tippspiel oder Wettbewerb beteiligt.</string>
+
+    <string name="push_notification_title">Bleib am Laufenden!</string>
+    <string name="push_notification_grant_button">Berechtigung erteilen</string>
+    <string name="push_notification_not_now_button">Nicht jetzt</string>
+    <string name="push_notification_description">Wir benötigen deine Berechtigung um dir Benachrichtigungen zu senden. Die Benachrichtigungen informieren dich über die aktuellsten Neuigkeiten und wenn die Spieltagsberechnungen abgeschlossen sind.</string>
 </resources>

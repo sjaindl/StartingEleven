@@ -8,6 +8,7 @@
 
 import FBSDKCoreKit
 import FirebaseCore
+import FirebaseMessaging
 import Foundation
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -19,6 +20,53 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         FirebaseApp.configure()
 
+        UNUserNotificationCenter.current().delegate = self
+        Messaging.messaging().delegate = self
+
+        application.registerForRemoteNotifications()
+
         return true
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+}
+
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                  willPresent notification: UNNotification) async
+        -> UNNotificationPresentationOptions {
+        let userInfo = notification.request.content.userInfo
+
+        // With swizzling disabled we must let Messaging know about the message for Analytics
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+
+        return [[.sound, .badge]]
+      }
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse
+    ) async {
+        let userInfo = response.notification.request.content.userInfo
+        debugPrint("received userInfo: \(userInfo)")
+      }
+    
+    // silent push notifications:
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+       fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    {
+      Messaging.messaging().appDidReceiveMessage(userInfo)
+      completionHandler(.noData)
+    }
+}
+
+extension AppDelegate : MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        debugPrint("received fcm token: \(fcmToken ?? "")")
     }
 }
