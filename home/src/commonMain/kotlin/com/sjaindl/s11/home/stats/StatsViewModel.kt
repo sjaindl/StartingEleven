@@ -62,7 +62,7 @@ class StatsViewModel : ViewModel(), KoinComponent {
                 return@launch
             }
 
-            val players = playerRepository.getPlayers()
+            val players = playerRepository.getPlayers(onlyActive = false)
 
             val mvps = players.map { player ->
                 PlayerCardItem(

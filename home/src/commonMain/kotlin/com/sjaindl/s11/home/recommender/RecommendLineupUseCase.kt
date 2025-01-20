@@ -16,7 +16,7 @@ class RecommendLineupUseCase: KoinComponent {
 
     suspend fun determineLineupRecommendation(): RecommendationState {
         try {
-            val players = playerRepository.getPlayers()
+            val players = playerRepository.getPlayers(onlyActive = true)
             val formations = formationRepository.getFormations()
 
             val bestGoalKeeper = players.filter {

@@ -7,12 +7,13 @@ import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface PlayerDataSource {
-    suspend fun getPlayers(): List<Player>
-    fun getPlayersFlow(): Flow<List<Player>>
+    suspend fun getPlayers(onlyActive: Boolean): List<Player>
+    fun getPlayersFlow(onlyActive: Boolean): Flow<List<Player>>
 }
 
 internal class PlayerDataSourceImpl(
@@ -20,7 +21,8 @@ internal class PlayerDataSourceImpl(
 ): FireStoreBaseDataSource<Player>(firestore = firestore), PlayerDataSource, KoinComponent {
     private val storage: FirebaseStorage by inject()
 
-    private var cache: CachedValue<List<Player>>? = null
+    private var activeCache: CachedValue<List<Player>>? = null
+    private var allPlayersCache: CachedValue<List<Player>>? = null
 
     override val collectionPath: String = "players"
 
@@ -28,20 +30,39 @@ internal class PlayerDataSourceImpl(
         it.data()
     }
 
-    override suspend fun getPlayers(): List<Player> {
-        val cachedValue = cache?.get()
+    override suspend fun getPlayers(onlyActive: Boolean): List<Player> {
+        val cachedValue = if (onlyActive) {
+            activeCache?.get()
+        } else {
+            allPlayersCache?.get()
+        }
+
         if (!cachedValue.isNullOrEmpty()) return cachedValue
 
-        val players = getPlayerDataWithImage()
-        cache = CachedValue(
-            value = players,
-        )
+        val players = getPlayerDataWithImage(onlyActive = onlyActive)
+
+        if (onlyActive) {
+            activeCache = CachedValue(
+                value = players,
+            )
+        } else {
+            allPlayersCache = CachedValue(
+                value = players,
+            )
+        }
+
         return players
     }
 
-    override fun getPlayersFlow() = getCollectionFlow()
+    override fun getPlayersFlow(onlyActive: Boolean) = getCollectionFlow().map {
+        it.filter {  player ->
+            player.active || !onlyActive
+        }
+    }
 
-    private suspend fun getPlayerDataWithImage() = getCollection().map {
+    private suspend fun getPlayerDataWithImage(onlyActive: Boolean) = getCollection().filter {
+        it.active || !onlyActive
+    }.map {
         it.copy(
             downloadUrl = getPlayerImageDownloadUrl(it),
         )

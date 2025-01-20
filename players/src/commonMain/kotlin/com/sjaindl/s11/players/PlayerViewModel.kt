@@ -35,7 +35,7 @@ class PlayerViewModel : ViewModel(), KoinComponent {
 
         viewModelScope.launch {
             _playerState.value = PlayerState.Success(
-                players = playerRepository.getPlayers().sortedByDescending {
+                players = playerRepository.getPlayers(onlyActive = true).sortedByDescending {
                     it.points.values.sum()
                 }.map { player ->
                     _playerState.value = PlayerState.Loading(playerName = player.name)

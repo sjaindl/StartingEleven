@@ -4,14 +4,14 @@ import com.sjaindl.s11.core.firestore.player.model.Player
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {
-    suspend fun getPlayers(): List<Player>
-    fun getPlayersFlow(): Flow<List<Player>>
+    suspend fun getPlayers(onlyActive: Boolean): List<Player>
+    fun getPlayersFlow(onlyActive: Boolean): Flow<List<Player>>
 }
 
 class PlayerRepositoryImpl(
     private val playerDataSource: PlayerDataSource,
 ): PlayerRepository {
-    override suspend fun getPlayers() = playerDataSource.getPlayers()
+    override suspend fun getPlayers(onlyActive: Boolean) = playerDataSource.getPlayers(onlyActive = onlyActive)
 
-    override fun getPlayersFlow() = playerDataSource.getPlayersFlow()
+    override fun getPlayersFlow(onlyActive: Boolean) = playerDataSource.getPlayersFlow(onlyActive = onlyActive)
 }

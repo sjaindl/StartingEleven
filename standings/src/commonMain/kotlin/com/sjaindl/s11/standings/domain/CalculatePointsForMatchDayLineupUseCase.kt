@@ -18,7 +18,7 @@ class CalculatePointsForMatchDayLineupUseCase(
         matchDay: String,
     ): Float {
         val userMatchDays = userMatchDayRepository.getUserMatchDays(uid = uid)
-        val players = playerRepository.getPlayers()
+        val players = playerRepository.getPlayers(onlyActive = false)
 
         val lineupAtMatchDay = userMatchDays.find {
             it.matchDay == matchDay
