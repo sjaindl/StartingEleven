@@ -28,7 +28,9 @@ internal class MatchDayDataSourceImpl(
         val cachedValue = cache?.get()
         if (cachedValue != null) return cachedValue
 
-        val matchDays = getCollection()
+        val matchDays = getCollection().sortedBy { matchDay ->
+            matchDay.id
+        }
         cache = CachedValue(
             value = matchDays,
         )
