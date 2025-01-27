@@ -2,12 +2,27 @@ package com.sjaindl.s11.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,12 +32,29 @@ import com.sjaindl.s11.core.firestore.convertToFirebaseFile
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.photopicker.PhotoPickerScreen
 import com.sjaindl.s11.photopicker.files.FileHandler
-import com.sjaindl.s11.profile.UserState.*
+import com.sjaindl.s11.profile.UserState.Error
+import com.sjaindl.s11.profile.UserState.Initial
+import com.sjaindl.s11.profile.UserState.Loading
+import com.sjaindl.s11.profile.UserState.NoUser
+import com.sjaindl.s11.profile.UserState.User
 import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.profile.generated.resources.*
+import startingeleven.profile.generated.resources.Res
+import startingeleven.profile.generated.resources.deleteAccount
+import startingeleven.profile.generated.resources.deleteAccountConfirm
+import startingeleven.profile.generated.resources.deleteAccountDismiss
+import startingeleven.profile.generated.resources.deleteAccountText
+import startingeleven.profile.generated.resources.deleteAccountTitle
+import startingeleven.profile.generated.resources.email
+import startingeleven.profile.generated.resources.noMail
+import startingeleven.profile.generated.resources.notSignedIn
+import startingeleven.profile.generated.resources.onProfilePictureDeleted
+import startingeleven.profile.generated.resources.onProfilePictureError
+import startingeleven.profile.generated.resources.onProfilePictureUpdated
+import startingeleven.profile.generated.resources.onUserNameChanged
+import startingeleven.profile.generated.resources.profileName
 
 @Composable
 fun ProfileScreen(
@@ -134,6 +166,10 @@ private fun ProfileScreenContent(
         mutableStateOf(value = false)
     }
 
+    var showDeleteAccountConfirmationDialog by remember {
+        mutableStateOf(value = false)
+    }
+
     var displayName by remember {
         mutableStateOf(value = userName.orEmpty())
     }
@@ -202,7 +238,9 @@ private fun ProfileScreenContent(
         )
 
         OutlinedButton(
-            onClick = onDeleteAccount,
+            onClick = {
+                showDeleteAccountConfirmationDialog = true
+            },
         ) {
             Text(text = stringResource(resource = Res.string.deleteAccount))
         }
@@ -223,6 +261,43 @@ private fun ProfileScreenContent(
             },
         )
     }
+
+    if (showDeleteAccountConfirmationDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDeleteAccountConfirmationDialog = false
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDeleteAccountConfirmationDialog = false
+                        onDeleteAccount()
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.deleteAccountConfirm),
+                    )
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        showDeleteAccountConfirmationDialog = false
+                    }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.deleteAccountDismiss),
+                    )
+                }
+            },
+            title = {
+                Text(text = stringResource(Res.string.deleteAccountTitle))
+            },
+            text = {
+                Text(text = stringResource(Res.string.deleteAccountText))
+            },
+        )
+    }
 }
 
 @Preview
@@ -230,7 +305,7 @@ private fun ProfileScreenContent(
 fun ProfileScreenPreview() {
     HvtdpTheme {
         ProfileScreen(
-            userState = UserState.User(
+            userState = User(
                 uid = "123",
                 name = "Daniel Fabian",
                 email = "df@hvtdp.at",

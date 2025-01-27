@@ -15,4 +15,9 @@
     <string name="profileDeletePhoto">Foto löschen</string>
     <string name="profileName">Name</string>
     <string name="deleteAccount">Konto löschen</string>
+
+    <string name="deleteAccountConfirm">Bestätigen</string>
+    <string name="deleteAccountDismiss">Abbrechen</string>
+    <string name="deleteAccountTitle">Konto wirklich löschen?</string>
+    <string name="deleteAccountText">Du kannst diese Aktion nicht rückgängig machen. Alle Daten werden unwiderruflich gelöscht.</string>
 </resources>
