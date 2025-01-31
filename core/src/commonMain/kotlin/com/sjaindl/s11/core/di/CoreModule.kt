@@ -18,6 +18,10 @@ import com.sjaindl.s11.core.firestore.matchday.MatchDayDataSource
 import com.sjaindl.s11.core.firestore.matchday.MatchDayDataSourceImpl
 import com.sjaindl.s11.core.firestore.matchday.MatchDayRepository
 import com.sjaindl.s11.core.firestore.matchday.MatchDayRepositoryImpl
+import com.sjaindl.s11.core.firestore.news.NewsDataSource
+import com.sjaindl.s11.core.firestore.news.NewsDataSourceImpl
+import com.sjaindl.s11.core.firestore.news.NewsRepository
+import com.sjaindl.s11.core.firestore.news.NewsRepositoryImpl
 import com.sjaindl.s11.core.firestore.player.PlayerDataSource
 import com.sjaindl.s11.core.firestore.player.PlayerDataSourceImpl
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
@@ -60,6 +64,9 @@ val coreModule = module {
 
     single<UserMatchDayRepository> { UserMatchDayRepositoryImpl(userMatchDayDataSource = get()) }
     single<UserMatchDayDataSource> { UserMatchDayDataSourceImpl(firestore = get()) }
+
+    single<NewsRepository> { NewsRepositoryImpl(newsDataSource = get()) }
+    single<NewsDataSource> { NewsDataSourceImpl(firestore = get()) }
 
     single<EventRepository> { EventRepositoryImpl() }
 }

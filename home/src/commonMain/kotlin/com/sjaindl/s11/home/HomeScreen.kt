@@ -19,6 +19,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
+import com.sjaindl.s11.home.news.NewsScreen
+import com.sjaindl.s11.home.news.NewsState
+import com.sjaindl.s11.home.news.NewsState.Content
 import com.sjaindl.s11.home.stats.Mvps
 import com.sjaindl.s11.home.stats.StatsState
 import com.sjaindl.s11.home.stats.Top11OfRound
@@ -35,8 +38,10 @@ fun HomeScreen(
     displayName: String?,
     isAuthenticated: Boolean,
     onAuthenticated: (Boolean) -> Unit,
+    newsState: NewsState,
     statsState: StatsState,
     loadStatistics: () -> Unit,
+    loadNews: () -> Unit,
 ) {
     LaunchedEffect(isAuthenticated) {
         onAuthenticated(isAuthenticated)
@@ -75,6 +80,13 @@ fun HomeScreen(
             )
         }
 
+        NewsScreen(
+            newsState = newsState,
+            loadNews = loadNews,
+            modifier = Modifier
+                .padding(horizontal = spacing.md),
+        )
+
         Top11OfRound(
             statsState = statsState,
             loadStatistics = loadStatistics,
@@ -100,6 +112,9 @@ fun HomeScreenPreview() {
             displayName = "User Name",
             isAuthenticated = true,
             onAuthenticated = { },
+            newsState = Content(
+                text = "Ich bin der erste Test-News-Eintrag in der coolen neuen Starting 11 App!"
+            ),
             statsState = StatsState.Content(
                 topElevenLastRound = listOf(
                     PlayerCardItem(name = "Del Piero", points = 10f),
@@ -110,7 +125,7 @@ fun HomeScreenPreview() {
                     PlayerCardItem(name = "Del Piero", points = 9f),
                 ),
             ),
-
+            loadNews = { },
             loadStatistics = { },
         )
     }

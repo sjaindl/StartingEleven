@@ -26,6 +26,7 @@ import com.sjaindl.s11.debuginfo.DebugInfoScreen
 import com.sjaindl.s11.faq.FaqViewModel
 import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
+import com.sjaindl.s11.home.news.NewsViewModel
 import com.sjaindl.s11.home.stats.StatsViewModel
 import com.sjaindl.s11.players.PlayerViewModel
 import com.sjaindl.s11.players.PlayersScreen
@@ -59,6 +60,10 @@ fun S11NavHost(
                 StatsViewModel()
             }
 
+            val newsViewModel = viewModel {
+                NewsViewModel()
+            }
+
             val appViewModel = viewModel {
                 AppViewModel()
             }
@@ -66,6 +71,7 @@ fun S11NavHost(
             val isAuthenticated by appViewModel.isAuthenticated.collectAsState()
             val displayName by appViewModel.userName.collectAsState()
 
+            val newsState by newsViewModel.newsState.collectAsState()
             val statsState by statsViewModel.statsState.collectAsState()
 
             val scope = rememberCoroutineScope()
@@ -87,8 +93,10 @@ fun S11NavHost(
                     }
 
                 },
+                newsState = newsState,
                 statsState = statsState,
                 loadStatistics = statsViewModel::loadStatistics,
+                loadNews = newsViewModel::loadNews,
             )
         }
 
