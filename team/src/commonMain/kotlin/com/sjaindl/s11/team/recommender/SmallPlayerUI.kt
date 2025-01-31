@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.recommender
+package com.sjaindl.s11.team.recommender
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

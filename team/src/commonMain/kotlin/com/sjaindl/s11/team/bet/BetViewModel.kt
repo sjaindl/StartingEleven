@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.bet
+package com.sjaindl.s11.team.bet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

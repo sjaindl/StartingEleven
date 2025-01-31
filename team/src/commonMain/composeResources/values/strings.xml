@@ -6,4 +6,16 @@
     <string name="defender">Defender</string>
     <string name="midfielder">Midfielder</string>
     <string name="attacker">Attacker</string>
+
+    <string name="recommendationTitle">Lineup recommendation</string>
+    <string name="noRecommendation">No recommendation available yet</string>
+
+    <string name="betGame">Betting game</string>
+    <string name="yourBet">Your bet for the next game:</string>
+    <string name="noBets">There are currently no active bets</string>
+    <string name="betSaved">Bet saved</string>
+    <string name="submitBet">Submit bet</string>
+
+    <string name="formationTitle">Your formation</string>
+    <string name="lineupTitle">Your lineup</string>
 </resources>

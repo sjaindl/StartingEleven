@@ -6,4 +6,16 @@
     <string name="defender">Verteidiger</string>
     <string name="midfielder">Mittelfeld</string>
     <string name="attacker">Stürmer</string>
+
+    <string name="recommendationTitle">Aufstellungsvorschlag</string>
+    <string name="noRecommendation">Noch kein Vorschlag verfügbar</string>
+
+    <string name="betGame">Tippspiel</string>
+    <string name="yourBet">Dein Tipp für das nächste Spiel:</string>
+    <string name="noBets">Es gibt aktuell keine aktiven Tipps</string>
+    <string name="betSaved">Tipp gespeichert</string>
+    <string name="submitBet">Tipp abgeben</string>
+
+    <string name="formationTitle">Deine Formation</string>
+    <string name="lineupTitle">Deine Aufstellung</string>
 </resources>

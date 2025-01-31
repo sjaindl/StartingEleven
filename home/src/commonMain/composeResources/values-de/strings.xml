@@ -4,15 +4,6 @@
 
     <string name="hello">Hallo</string>
 
-    <string name="recommendationTitle">Vorschlag: Beste Aufstellung</string>
-    <string name="noRecommendation">Noch kein Vorschlag verfügbar</string>
-
-    <string name="betGame">Tippspiel</string>
-    <string name="yourBet">Dein Tipp für das nächste Spiel:</string>
-    <string name="noBets">Es gibt aktuell keine aktiven Tipps</string>
-    <string name="betSaved">Tipp gespeichert</string>
-    <string name="submitBet">Tipp abgeben</string>
-
     <string name="mvpPoints">MVPs der Saison (Punkte)</string>
     <string name="topEleven">Top 11 der Runde (Punkte)</string>
     <string name="noMatches">Noch keine Spiele</string>

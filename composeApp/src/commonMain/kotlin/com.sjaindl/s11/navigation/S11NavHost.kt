@@ -26,8 +26,6 @@ import com.sjaindl.s11.debuginfo.DebugInfoScreen
 import com.sjaindl.s11.faq.FaqViewModel
 import com.sjaindl.s11.faq.Faqs
 import com.sjaindl.s11.home.HomeScreen
-import com.sjaindl.s11.home.bet.BetViewModel
-import com.sjaindl.s11.home.recommender.LineupRecommendationViewModel
 import com.sjaindl.s11.home.stats.StatsViewModel
 import com.sjaindl.s11.players.PlayerViewModel
 import com.sjaindl.s11.players.PlayersScreen
@@ -56,16 +54,9 @@ fun S11NavHost(
         modifier = modifier,
     ) {
         primaryScreenComposable<Home> {
-            val betViewModel = viewModel {
-                BetViewModel()
-            }
 
             val statsViewModel = viewModel {
                 StatsViewModel()
-            }
-
-            val lineupRecommendationViewModel = viewModel {
-                LineupRecommendationViewModel()
             }
 
             val appViewModel = viewModel {
@@ -74,12 +65,6 @@ fun S11NavHost(
 
             val isAuthenticated by appViewModel.isAuthenticated.collectAsState()
             val displayName by appViewModel.userName.collectAsState()
-
-            val recommendationState by lineupRecommendationViewModel.recommendationState.collectAsState()
-
-            val betState by betViewModel.betState.collectAsState()
-            val userBetState by betViewModel.userBet.collectAsState()
-            val savedBet by betViewModel.savedBet.collectAsState()
 
             val statsState by statsViewModel.statsState.collectAsState()
 
@@ -102,23 +87,14 @@ fun S11NavHost(
                     }
 
                 },
-                recommendationState = recommendationState,
-                betState = betState,
-                userBetState = userBetState,
                 statsState = statsState,
-                savedBet = savedBet,
-                loadRecommendations = lineupRecommendationViewModel::determineLineupRecommendation,
-                resetSavedBetState = betViewModel::resetSavedBetState,
-                setHomeBet = betViewModel::setHomeBet,
-                setAwayBet = betViewModel::setAwayBet,
-                submitBet = betViewModel::submitBet,
-                loadBets = betViewModel::loadBets,
                 loadStatistics = statsViewModel::loadStatistics,
-                onShowSnackBar = onShowSnackBar,
             )
         }
 
-        teamGraph()
+        teamGraph(
+            onShowSnackBar = onShowSnackBar,
+        )
 
         secondaryScreenComposable<Route.Prices> {
             var pricesData: PricesData? by remember {

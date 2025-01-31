@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.recommender
+package com.sjaindl.s11.team.recommender
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

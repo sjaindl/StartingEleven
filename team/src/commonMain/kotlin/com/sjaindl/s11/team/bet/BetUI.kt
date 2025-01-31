@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.bet
+package com.sjaindl.s11.team.bet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,10 +22,10 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.home.generated.resources.Res
-import startingeleven.home.generated.resources.betGame
-import startingeleven.home.generated.resources.submitBet
-import startingeleven.home.generated.resources.yourBet
+import startingeleven.team.generated.resources.Res
+import startingeleven.team.generated.resources.betGame
+import startingeleven.team.generated.resources.submitBet
+import startingeleven.team.generated.resources.yourBet
 
 @Composable
 fun BetUI(

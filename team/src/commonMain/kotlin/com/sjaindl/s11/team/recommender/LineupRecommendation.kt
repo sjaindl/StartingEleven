@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.recommender
+package com.sjaindl.s11.team.recommender
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +24,10 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.home.generated.resources.Res
-import startingeleven.home.generated.resources.football_field
-import startingeleven.home.generated.resources.noRecommendation
-import startingeleven.home.generated.resources.recommendationTitle
+import startingeleven.team.generated.resources.Res
+import startingeleven.team.generated.resources.football_field
+import startingeleven.team.generated.resources.noRecommendation
+import startingeleven.team.generated.resources.recommendationTitle
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

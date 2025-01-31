@@ -1,4 +1,4 @@
-package com.sjaindl.s11.home.recommender
+package com.sjaindl.s11.team.recommender
 
 import com.sjaindl.s11.core.firestore.formations.FormationRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
@@ -51,12 +51,12 @@ class RecommendLineupUseCase: KoinComponent {
                     attackers = attackers.take(bestFormation.attack),
                 )
             } else {
-                return  RecommendationState.NoRecommendation
+                return RecommendationState.NoRecommendation
             }
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()
             Napier.e(message = message, throwable = exception, tag = tag)
-            return  RecommendationState.Error(message = message)
+            return RecommendationState.Error(message = message)
         }
     }
 

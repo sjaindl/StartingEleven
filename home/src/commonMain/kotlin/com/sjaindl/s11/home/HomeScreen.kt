@@ -17,14 +17,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import com.sjaindl.s11.core.firestore.bets.model.Bet
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
-import com.sjaindl.s11.home.bet.BetContainer
-import com.sjaindl.s11.home.bet.BetState
-import com.sjaindl.s11.home.bet.UserBet
-import com.sjaindl.s11.home.recommender.LineupRecommendation
-import com.sjaindl.s11.home.recommender.RecommendationState
 import com.sjaindl.s11.home.stats.Mvps
 import com.sjaindl.s11.home.stats.StatsState
 import com.sjaindl.s11.home.stats.Top11OfRound
@@ -41,19 +35,8 @@ fun HomeScreen(
     displayName: String?,
     isAuthenticated: Boolean,
     onAuthenticated: (Boolean) -> Unit,
-    recommendationState: RecommendationState,
-    betState: BetState,
-    userBetState: UserBet,
     statsState: StatsState,
-    savedBet: Boolean,
-    loadRecommendations: () -> Unit,
-    resetSavedBetState: () -> Unit,
-    setHomeBet: (Int) -> Unit,
-    setAwayBet: (Int) -> Unit,
-    submitBet: () -> Unit,
-    loadBets: () -> Unit,
     loadStatistics: () -> Unit,
-    onShowSnackBar: (String) -> Unit,
 ) {
     LaunchedEffect(isAuthenticated) {
         onAuthenticated(isAuthenticated)
@@ -92,23 +75,6 @@ fun HomeScreen(
             )
         }
 
-        LineupRecommendation(
-            recommendationState = recommendationState,
-            loadRecommendations = loadRecommendations,
-        )
-
-        BetContainer(
-            betState = betState,
-            userBetState = userBetState,
-            savedBet = savedBet,
-            resetSavedBetState = resetSavedBetState,
-            setHomeBet = setHomeBet,
-            setAwayBet = setAwayBet,
-            submitBet = submitBet,
-            loadBets = loadBets,
-            onShowSnackBar = onShowSnackBar,
-        )
-
         Top11OfRound(
             statsState = statsState,
             loadStatistics = loadStatistics,
@@ -134,18 +100,6 @@ fun HomeScreenPreview() {
             displayName = "User Name",
             isAuthenticated = true,
             onAuthenticated = { },
-            recommendationState = RecommendationState.NoRecommendation,
-            betState = BetState.Content(
-                Bet(
-                    id = "1",
-                    home = "HVTDP Stainz",
-                    away = "Sturm Graz",
-                    resultScoreHome = null,
-                    resultScoreAway = null,
-                ),
-                enabled = true,
-            ),
-            userBetState = UserBet(homeBet = 1, awayBet = 1),
             statsState = StatsState.Content(
                 topElevenLastRound = listOf(
                     PlayerCardItem(name = "Del Piero", points = 10f),
@@ -156,15 +110,8 @@ fun HomeScreenPreview() {
                     PlayerCardItem(name = "Del Piero", points = 9f),
                 ),
             ),
-            savedBet = false,
-            loadRecommendations = { },
-            resetSavedBetState = { },
-            setHomeBet = { },
-            setAwayBet = { },
-            submitBet = { },
-            loadBets = { },
+
             loadStatistics = { },
-            onShowSnackBar = { },
         )
     }
 }

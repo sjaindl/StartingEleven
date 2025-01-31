@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sjaindl.s11.core.theme.HvtdpTheme
@@ -78,20 +79,26 @@ fun NotificationPermissionExplanation(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Button(
-                        onClick = onGrantPermissionClick,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = stringResource(resource = Res.string.push_notification_grant_button))
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
                     OutlinedButton(
                         onClick = onDismissClick,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text(text = stringResource(resource = Res.string.push_notification_not_now_button))
+                        Text(
+                            text = stringResource(resource = Res.string.push_notification_not_now_button),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Button(
+                        onClick = onGrantPermissionClick,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = stringResource(resource = Res.string.push_notification_grant_button),
+                            textAlign = TextAlign.Center,
+                        )
                     }
                 }
             }

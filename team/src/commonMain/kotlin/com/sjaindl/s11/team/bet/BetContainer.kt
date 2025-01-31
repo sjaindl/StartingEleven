@@ -1,31 +1,28 @@
-package com.sjaindl.s11.home.bet
+package com.sjaindl.s11.team.bet
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sjaindl.s11.home.bet.BetState.Content
-import com.sjaindl.s11.home.bet.BetState.Error
-import com.sjaindl.s11.home.bet.BetState.Initial
-import com.sjaindl.s11.home.bet.BetState.Loading
-import com.sjaindl.s11.home.bet.BetState.NoBets
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.baseui.S11Card
 import com.sjaindl.s11.core.firestore.bets.model.Bet
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
+import com.sjaindl.s11.team.bet.BetState.Content
+import com.sjaindl.s11.team.bet.BetState.Error
+import com.sjaindl.s11.team.bet.BetState.Initial
+import com.sjaindl.s11.team.bet.BetState.Loading
+import com.sjaindl.s11.team.bet.BetState.NoBets
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.home.generated.resources.Res
-import startingeleven.home.generated.resources.betSaved
-import startingeleven.home.generated.resources.noBets
+import startingeleven.team.generated.resources.Res
+import startingeleven.team.generated.resources.betSaved
+import startingeleven.team.generated.resources.noBets
 
 @Composable
 fun BetContainer(

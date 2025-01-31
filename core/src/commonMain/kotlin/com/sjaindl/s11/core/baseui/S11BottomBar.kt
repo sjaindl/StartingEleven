@@ -2,9 +2,9 @@ package com.sjaindl.s11.core.baseui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Calculate
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SportsSoccer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -49,7 +49,7 @@ fun S11BottomBar(
                 icon = {
                     when (screen) {
                         Home -> Icon(Icons.Filled.Home, contentDescription = contentDescription)
-                        TeamNavGraphRoute -> Icon(Icons.Filled.Favorite, contentDescription = contentDescription)
+                        TeamNavGraphRoute -> Icon(Icons.Filled.SportsSoccer, contentDescription = contentDescription)
                         Players -> Icon(Icons.Filled.Person, contentDescription = contentDescription)
                         StandingsNavGraphRoute -> Icon(Icons.Filled.Calculate, contentDescription = contentDescription)
                         else -> { }
