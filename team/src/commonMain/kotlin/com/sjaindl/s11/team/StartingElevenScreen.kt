@@ -217,6 +217,7 @@ fun StartingElevenScreen(
 
                                         PlayerUI(
                                             player = playerWithLineupCount?.player,
+                                            season = season,
                                             lineupCount = playerWithLineupCount?.lineupCount,
                                             possiblePlayers = playersAtPosition.filter {
                                                 // prevent choosing same player twice
@@ -362,6 +363,7 @@ fun StartingElevenScreenPreview() {
     HvtdpTheme {
         StartingElevenScreen(
             startingElevenState = StartingElevenState.Content(
+                season = "2024",
                 possibleFormations = possibleFormations,
                 formation = selectedFormation,
                 playersWithLineupCount = playerWithLineupCount,

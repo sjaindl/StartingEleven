@@ -56,7 +56,7 @@ fun BetUI(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(space = spacing.xl),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.Bottom,
         ) {
             TextField(
                 value = homeBet.toString(),

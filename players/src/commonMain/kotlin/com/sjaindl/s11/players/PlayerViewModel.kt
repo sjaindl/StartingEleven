@@ -2,6 +2,7 @@ package com.sjaindl.s11.players
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.core.firestore.config.ConfigRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
 import com.sjaindl.s11.core.firestore.player.model.Player
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +19,13 @@ data class PlayerWithLineupCount(
 sealed class PlayerState {
     data object Initial: PlayerState()
     data class Loading(val playerName: String? = null): PlayerState()
-    data class Success(val players: List<PlayerWithLineupCount>): PlayerState()
+    data class Success(val players: List<PlayerWithLineupCount>, val season: String?): PlayerState()
     data class Error(val message: String): PlayerState()
 }
 
 class PlayerViewModel : ViewModel(), KoinComponent {
 
+    private val configRepository: ConfigRepository by inject()
     private val playerRepository: PlayerRepository by inject()
     private val calculatePlayerLineupsUseCase: CalculatePlayerLineupsUseCase by inject()
 
@@ -34,10 +36,10 @@ class PlayerViewModel : ViewModel(), KoinComponent {
         _playerState.value = PlayerState.Loading()
 
         viewModelScope.launch {
+            val season = configRepository.getConfig()?.season
+
             _playerState.value = PlayerState.Success(
-                players = playerRepository.getPlayers(onlyActive = true).sortedByDescending {
-                    it.points.values.sum()
-                }.map { player ->
+                players = playerRepository.getPlayers(onlyActive = true).map { player ->
                     _playerState.value = PlayerState.Loading(playerName = player.name)
 
                     val lineupCount = calculatePlayerLineupsUseCase.calculate(playerId = player.playerId)
@@ -49,11 +51,17 @@ class PlayerViewModel : ViewModel(), KoinComponent {
                             position = player.position,
                             imageRef = player.imageRef,
                             downloadUrl = player.downloadUrl,
-                            points = player.points,
+                            points = player.pointsOfSeason(season = season),
                         ),
                         lineupCount = lineupCount,
                     )
-                }
+                }.sortedWith(compareBy(
+                    { playerWithLineupCount ->
+                        -playerWithLineupCount.player.pointsOfSeason(season = season).values.sum()
+                    },
+                    { -it.lineupCount }
+                )),
+                season = season,
             )
         }
     }

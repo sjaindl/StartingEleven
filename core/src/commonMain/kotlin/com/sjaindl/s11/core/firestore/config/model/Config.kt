@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class Config(
     val bets: Boolean,
     val freeze: Boolean,
+    val season: String,
 )

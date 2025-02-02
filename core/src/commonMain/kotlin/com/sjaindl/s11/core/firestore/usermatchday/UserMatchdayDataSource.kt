@@ -2,10 +2,12 @@ package com.sjaindl.s11.core.firestore.usermatchday
 
 import com.sjaindl.s11.core.CachedValue
 import com.sjaindl.s11.core.firestore.FireStoreBaseDataSource
+import com.sjaindl.s11.core.firestore.config.ConfigRepository
 import com.sjaindl.s11.core.firestore.usermatchday.model.UserMatchDay
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 interface UserMatchDayDataSource {
     suspend fun getUserMatchDays(uid: String): List<UserMatchDay>
@@ -15,6 +17,8 @@ interface UserMatchDayDataSource {
 internal class UserMatchDayDataSourceImpl(
     firestore: FirebaseFirestore,
 ): FireStoreBaseDataSource<UserMatchDay>(firestore = firestore), UserMatchDayDataSource, KoinComponent {
+    private val configRepository: ConfigRepository by inject()
+
     private var cache: MutableMap<String, CachedValue<List<UserMatchDay>>> = mutableMapOf()
 
     override val collectionPath: String = "users"
@@ -35,6 +39,8 @@ internal class UserMatchDayDataSourceImpl(
                 } else {
                     null
                 }
+            }.filter {
+                it.matchDay.startsWith(prefix = configRepository.getConfig()?.season ?: it.matchDay)
             }
 
         cache[uid] = CachedValue(

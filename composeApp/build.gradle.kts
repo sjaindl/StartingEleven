@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
 
 plugins {
@@ -12,6 +13,7 @@ plugins {
 }
 
 kotlin {
+
     /*
     js(IR) {
         moduleName = "composeApp"
@@ -124,6 +126,12 @@ kotlin {
             // TODO: Support Facebook Limited Sign-In with >= 17.4.0, as soon as the following issues are resolved:
             // https://github.com/firebase/firebase-ios-sdk/issues/8048
             // https://github.com/facebook/facebook-ios-sdk/issues/2455
+        }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            // do not optimize out variables in coroutines
+            freeCompilerArgs.add("-Xdebug")
         }
     }
 

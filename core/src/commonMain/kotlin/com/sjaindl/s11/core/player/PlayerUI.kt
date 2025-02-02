@@ -32,14 +32,15 @@ import kotlin.math.roundToInt
 @Composable
 fun PlayerUI(
     player: Player?,
+    season: String?,
     lineupCount: Int? = null,
     possiblePlayers: List<Player> = emptyList(),
     displayDropdown: Boolean = false,
     onPlayerSelected: (Player) -> Unit = { },
     modifier: Modifier = Modifier,
 ) {
-    val totalPointsOfPlayer = remember(key1 = player?.points) {
-        player?.points?.values?.fold(initial = 0F,
+    val totalPointsOfPlayer = remember(key1 = player?.pointsOfSeason(season = season)) {
+        player?.pointsOfSeason(season = season)?.values?.fold(initial = 0F,
             operation = { sum, pointsOfMatchDay ->
                 sum + pointsOfMatchDay
             }
@@ -131,6 +132,7 @@ fun PlayerPreview() {
                 downloadUrl = null,
                 points = emptyMap(),
             ),
+            season = "2024",
         )
     }
 }

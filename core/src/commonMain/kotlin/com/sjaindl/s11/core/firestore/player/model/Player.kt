@@ -15,4 +15,9 @@ data class Player(
     companion object {
         const val MISSING_PLAYER = "-1"
     }
+
+    fun pointsOfSeason(season: String?) = points.filter {
+        if (season == null) return@filter false
+        it.key.startsWith(season)
+    }
 }

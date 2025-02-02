@@ -18,6 +18,7 @@ val standingsModule = module {
 
     single<CalculatePointsForMatchDayLineupUseCase> {
         CalculatePointsForMatchDayLineupUseCase(
+            configRepository = get(),
             playerRepository = get(),
             userMatchDayRepository = get(),
         )

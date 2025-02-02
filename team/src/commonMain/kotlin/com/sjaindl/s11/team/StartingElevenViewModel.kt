@@ -26,6 +26,7 @@ sealed class StartingElevenState {
     data object Initial: StartingElevenState()
     data object Loading: StartingElevenState()
     data class Content(
+        val season: String?,
         val possibleFormations: List<Formation>,
         val formation: Formation,
         val playersWithLineupCount: List<PlayerWithLineupCount>,
@@ -95,6 +96,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                 val lineupData = lineupRepository.getUserLineup(uid = currentUser.uid)
 
                 _startingElevenState.value = StartingElevenState.Content(
+                    season = config?.season,
                     possibleFormations = possibleFormations,
                     formation = userFormation,
                     playersWithLineupCount = playersWithLineupCount,
@@ -181,6 +183,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
             )
 
             _startingElevenState.value = StartingElevenState.Content(
+                season = configRepository.getConfig()?.season,
                 possibleFormations = state.possibleFormations,
                 formation = state.formation,
                 playersWithLineupCount = state.playersWithLineupCount,

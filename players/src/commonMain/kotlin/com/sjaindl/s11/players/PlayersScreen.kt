@@ -6,10 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.firestore.player.model.Player
@@ -32,13 +29,13 @@ fun PlayersScreen(
         loadPlayers()
     }
 
-    when (val state = playerState) {
+    when (playerState) {
         is PlayerState.Error -> {
             ErrorScreen(
                 modifier = modifier
                     .fillMaxSize()
                     .wrapContentSize(),
-                text = state.message,
+                text = playerState.message,
                 onButtonClick = {
                     loadPlayers()
                 },
@@ -55,7 +52,7 @@ fun PlayersScreen(
 
         is PlayerState.Loading -> {
             LoadingScreen(
-                loadingInfo = state.playerName?.let {
+                loadingInfo = playerState.playerName?.let {
                     stringResource(resource = Res.string.calculating, it)
                 },
                 modifier = modifier
@@ -68,8 +65,12 @@ fun PlayersScreen(
             LazyColumn(
                 modifier = modifier,
             ) {
-                items(state.players) {
-                    PlayerUI(player = it.player, lineupCount = it.lineupCount)
+                items(playerState.players) {
+                    PlayerUI(
+                        season = playerState.season,
+                        player = it.player,
+                        lineupCount = it.lineupCount
+                    )
                 }
             }
         }
@@ -106,7 +107,7 @@ fun PlayersScreenPreview() {
 
     HvtdpTheme {
         PlayersScreen(
-            playerState = PlayerState.Success(players = players),
+            playerState = PlayerState.Success(players = players, season = "2024"),
             loadPlayers = { },
         )
     }

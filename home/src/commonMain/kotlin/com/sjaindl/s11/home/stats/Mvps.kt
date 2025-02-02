@@ -1,13 +1,9 @@
 package com.sjaindl.s11.home.stats
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
@@ -21,7 +17,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
 import startingeleven.home.generated.resources.mvpPoints
-import startingeleven.home.generated.resources.noMatches
 
 @Composable
 fun Mvps(
@@ -29,7 +24,7 @@ fun Mvps(
     loadStatistics: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (val state = statsState) {
+    when (statsState) {
         Initial, Loading -> {
             LoadingScreen()
         }
@@ -37,7 +32,7 @@ fun Mvps(
         is Content -> {
             S11PlayerCard(
                 title = stringResource(resource = Res.string.mvpPoints),
-                items = state.mvps,
+                items = statsState.mvps,
                 modifier = modifier,
             )
         }
@@ -45,13 +40,16 @@ fun Mvps(
         is Error -> {
             ErrorScreen(
                 modifier = modifier,
-                text = state.message,
+                text = statsState.message,
                 onButtonClick = loadStatistics,
             )
         }
 
         NoMatches -> {
-            Text(text = stringResource(resource = Res.string.noMatches))
+            S11EmptyPlayerCard(
+                title = stringResource(resource = Res.string.mvpPoints),
+                modifier = modifier,
+            )
         }
     }
 }

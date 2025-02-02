@@ -2,6 +2,7 @@ package com.sjaindl.s11.home.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.core.firestore.config.ConfigRepository
 import com.sjaindl.s11.core.firestore.matchday.MatchDayRepository
 import com.sjaindl.s11.core.firestore.player.PlayerRepository
 import com.sjaindl.s11.core.firestore.user.UserRepository
@@ -34,6 +35,7 @@ class StatsViewModel : ViewModel(), KoinComponent {
 
     private val tag = "StatsViewModel"
 
+    private val configRepository: ConfigRepository by inject()
     private val matchDayRepository: MatchDayRepository by inject()
     private val playerRepository: PlayerRepository by inject()
     private val userRepository: UserRepository by inject()
@@ -62,12 +64,13 @@ class StatsViewModel : ViewModel(), KoinComponent {
                 return@launch
             }
 
+            val season = configRepository.getConfig()?.season
             val players = playerRepository.getPlayers(onlyActive = false)
 
             val mvps = players.map { player ->
                 PlayerCardItem(
                     name = player.name,
-                    points = player.points.values.sum(),
+                    points = player.pointsOfSeason(season = season).values.sum(),
                 )
             }.sortedByDescending {
                 it.points
@@ -76,7 +79,7 @@ class StatsViewModel : ViewModel(), KoinComponent {
             val topElevenLastRound = players.map { player ->
                 PlayerCardItem(
                     name = player.name,
-                    points = player.points.filter {
+                    points = player.pointsOfSeason(season = season).filter {
                         it.key == lastMatchDay.docId
                     }.map {
                         it.value

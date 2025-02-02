@@ -125,7 +125,6 @@ fun S11NavHost(
 
             val playerState by playerViewModel.playerState.collectAsState()
 
-
             PlayersScreen(
                 playerState = playerState,
                 loadPlayers = playerViewModel::loadPlayers,
