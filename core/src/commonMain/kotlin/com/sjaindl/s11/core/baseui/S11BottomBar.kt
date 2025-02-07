@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.sjaindl.s11.core.navigation.Route.Home
 import com.sjaindl.s11.core.navigation.Route.Players
@@ -58,10 +59,10 @@ fun S11BottomBar(
                 enabled = screen == Home || user != null,
                 label = {
                     when (screen) {
-                        Home -> Text(text = stringResource(Res.string.tabHome))
-                        TeamNavGraphRoute -> Text(text = stringResource(Res.string.tabTeam))
-                        Players -> Text(text = stringResource(Res.string.tabPlayers))
-                        StandingsNavGraphRoute -> Text(text = stringResource(Res.string.tabStandings))
+                        Home -> Text(text = stringResource(Res.string.tabHome), textAlign = TextAlign.Center)
+                        TeamNavGraphRoute -> Text(text = stringResource(Res.string.tabTeam), textAlign = TextAlign.Center)
+                        Players -> Text(text = stringResource(Res.string.tabPlayers), textAlign = TextAlign.Center)
+                        StandingsNavGraphRoute -> Text(text = stringResource(Res.string.tabStandings), textAlign = TextAlign.Center)
                         else -> { }
                     }
                 },
