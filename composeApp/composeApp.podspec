@@ -15,6 +15,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseCore', '11.6.0'
     spec.dependency 'FirebaseFirestore', '11.6.0'
     spec.dependency 'FirebaseMessaging', '11.6.0'
+    spec.dependency 'FirebaseRemoteConfig', '11.6.0'
     spec.dependency 'FirebaseStorage', '11.6.0'
     spec.dependency 'GoogleSignIn'
                 

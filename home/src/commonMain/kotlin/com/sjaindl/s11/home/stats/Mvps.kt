@@ -60,7 +60,7 @@ fun MvpsPreview() {
     HvtdpTheme {
         Mvps(
             statsState = Content(
-                topElevenLastRound = emptyList(),
+                topPlayersLastRound = emptyList(),
                 mvps = listOf(
                     PlayerCardItem(name = "Inzaghi", points = 10f),
                     PlayerCardItem(name = "Del Piero", points = 9f),

@@ -48,6 +48,7 @@ facebook-login = { module = "com.facebook.android:facebook-login", version.ref =
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
+firebase-config = { module = "dev.gitlive:firebase-config", version.ref = "firebaseVersion" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebaseVersion" }

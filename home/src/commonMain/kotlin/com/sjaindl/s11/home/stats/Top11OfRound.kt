@@ -17,7 +17,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
 import startingeleven.home.generated.resources.mvpPoints
-import startingeleven.home.generated.resources.topEleven
+import startingeleven.home.generated.resources.topPlayers
 
 @Composable
 fun Top11OfRound(
@@ -32,8 +32,8 @@ fun Top11OfRound(
 
         is Content -> {
             S11PlayerCard(
-                title = stringResource(resource = Res.string.topEleven),
-                items = statsState.topElevenLastRound,
+                title = stringResource(resource = Res.string.topPlayers),
+                items = statsState.topPlayersLastRound,
                 modifier = modifier,
             )
         }
@@ -61,7 +61,7 @@ fun Top11OfRoundPreview() {
     HvtdpTheme {
         Top11OfRound(
             statsState = Content(
-                topElevenLastRound = listOf(
+                topPlayersLastRound = listOf(
                     PlayerCardItem(name = "Del Piero", points = 10f),
                     PlayerCardItem(name = "Inzaghi", points = 9f),
                 ),

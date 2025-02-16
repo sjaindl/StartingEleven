@@ -116,7 +116,7 @@ fun HomeScreenPreview() {
                 text = "Ich bin der erste Test-News-Eintrag in der coolen neuen Starting 11 App!"
             ),
             statsState = StatsState.Content(
-                topElevenLastRound = listOf(
+                topPlayersLastRound = listOf(
                     PlayerCardItem(name = "Del Piero", points = 10f),
                     PlayerCardItem(name = "Inzaghi", points = 9f),
                 ),

@@ -10,13 +10,15 @@ import dev.gitlive.firebase.storage.storage
 import org.koin.dsl.module
 
 val appModule = module {
-    single { getFirebaseFirestore() }
-
     single<FaqRepository> { FaqRepositoryImpl(playerDataSource = get()) }
     single<FaqDataSource> { FaqDataSourceImpl(firestore = get()) }
 
     single {
         Firebase.storage
+    }
+
+    single {
+        getFirebaseFirestore()
     }
 }
 

@@ -5,6 +5,6 @@
     <string name="hello">Hello</string>
 
     <string name="mvpPoints">MVPs of the season (points)</string>
-    <string name="topEleven">Top 11 of the round (points)</string>
+    <string name="topPlayers">Top players of the round (points)</string>
     <string name="noMatches">No matches yet</string>
 </resources>
