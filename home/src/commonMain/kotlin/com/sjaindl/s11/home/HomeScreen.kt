@@ -19,12 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
+import com.sjaindl.s11.home.news.MatchdayNewsScreen
 import com.sjaindl.s11.home.news.NewsScreen
 import com.sjaindl.s11.home.news.NewsState
 import com.sjaindl.s11.home.news.NewsState.Content
 import com.sjaindl.s11.home.stats.Mvps
 import com.sjaindl.s11.home.stats.StatsState
-import com.sjaindl.s11.home.stats.Top11OfRound
+import com.sjaindl.s11.home.stats.TopPlayersOfRound
 import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +50,8 @@ fun HomeScreen(
 
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = spacing.lg),
         verticalArrangement = Arrangement.spacedBy(spacing.xl),
     ) {
         Image(
@@ -87,7 +89,7 @@ fun HomeScreen(
                 .padding(horizontal = spacing.md),
         )
 
-        Top11OfRound(
+        TopPlayersOfRound(
             statsState = statsState,
             loadStatistics = loadStatistics,
             modifier = Modifier
@@ -101,6 +103,13 @@ fun HomeScreen(
                 .padding(horizontal = spacing.md)
                 .padding(bottom = spacing.xl),
         )
+
+        MatchdayNewsScreen(
+            newsState = newsState,
+            loadNews = loadNews,
+            modifier = Modifier
+                .padding(horizontal = spacing.md),
+        )
     }
 }
 
@@ -113,7 +122,9 @@ fun HomeScreenPreview() {
             isAuthenticated = true,
             onAuthenticated = { },
             newsState = Content(
-                text = "Ich bin der erste Test-News-Eintrag in der coolen neuen Starting 11 App!"
+                generalNews = "Ich bin der erste Test-News-Eintrag in der coolen neuen Starting 11 App!",
+                matchdayNews = "Matchday Newseintrag!",
+                matchdayImageDownloadUrl = null,
             ),
             statsState = StatsState.Content(
                 topPlayersLastRound = listOf(

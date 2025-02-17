@@ -20,7 +20,7 @@ import startingeleven.home.generated.resources.mvpPoints
 import startingeleven.home.generated.resources.topPlayers
 
 @Composable
-fun Top11OfRound(
+fun TopPlayersOfRound(
     statsState: StatsState,
     loadStatistics: () -> Unit,
     modifier: Modifier = Modifier,
@@ -57,9 +57,9 @@ fun Top11OfRound(
 
 @Preview
 @Composable
-fun Top11OfRoundPreview() {
+fun TopPlayersOfRoundPreview() {
     HvtdpTheme {
-        Top11OfRound(
+        TopPlayersOfRound(
             statsState = Content(
                 topPlayersLastRound = listOf(
                     PlayerCardItem(name = "Del Piero", points = 10f),

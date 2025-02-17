@@ -64,7 +64,10 @@ fun PlayerUI(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        FallbackImage(photoRefDownloadUrl = player?.downloadUrl)
+        FallbackImage(
+            photoRefDownloadUrl = player?.downloadUrl,
+            maxSize = 120.dp,
+        )
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

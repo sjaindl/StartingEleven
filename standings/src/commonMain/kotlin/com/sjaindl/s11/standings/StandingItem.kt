@@ -104,6 +104,7 @@ fun StandingItem(
                 photoRefDownloadUrl = userWithPoints.user.photoRefDownloadUrl,
                 photoUrl = userWithPoints.user.photoUrl,
                 additionalCacheKey = userWithPoints.user.profilePhotoRefTimestamp,
+                maxSize = 120.dp,
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

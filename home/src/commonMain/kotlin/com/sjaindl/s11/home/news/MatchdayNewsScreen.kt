@@ -1,13 +1,19 @@
 package com.sjaindl.s11.home.news
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
+import com.sjaindl.s11.core.baseui.FallbackImage
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import com.sjaindl.s11.core.theme.spacing
 import com.sjaindl.s11.home.news.NewsState.Content
 import com.sjaindl.s11.home.news.NewsState.Error
 import com.sjaindl.s11.home.news.NewsState.Initial
@@ -16,7 +22,7 @@ import com.sjaindl.s11.home.news.NewsState.NoNews
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun NewsScreen(
+fun MatchdayNewsScreen(
     newsState: NewsState,
     loadNews: () -> Unit,
     modifier: Modifier = Modifier,
@@ -27,10 +33,18 @@ fun NewsScreen(
         }
 
         is Content -> {
-            Text(
-                text = newsState.generalNews,
-                modifier = modifier,
-            )
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(spacing.xl),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                FallbackImage(photoRefDownloadUrl = newsState.matchdayImageDownloadUrl)
+
+                Text(
+                    text = newsState.matchdayNews,
+                )
+            }
         }
 
         is Error -> {
@@ -49,12 +63,12 @@ fun NewsScreen(
 
 @Preview
 @Composable
-fun NewsScreenPreview() {
+fun MatchdayNewsScreenPreview() {
     HvtdpTheme {
-        NewsScreen(
+        MatchdayNewsScreen(
             newsState = Content(
                 generalNews = "Ich bin der erste Test-News-Eintrag in der coolen neuen Starting 11 App!",
-                matchdayNews = "",
+                matchdayNews = "Ich bin ein Matchday News-Eintrag!",
                 matchdayImageDownloadUrl = null,
             ),
             loadNews = { },

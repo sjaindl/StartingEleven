@@ -4,5 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class News(
-    val text: String,
+    val generalNews: String,
+    val matchdayNews: String,
+    val matchdayPhotoRef: String
 )

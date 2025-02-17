@@ -45,6 +45,7 @@ kotlin {
                 implementation(libs.koin.compose)
 
                 implementation(libs.firebase.config)
+                implementation(libs.firebase.storage)
 
                 implementation(project(":core"))
             }

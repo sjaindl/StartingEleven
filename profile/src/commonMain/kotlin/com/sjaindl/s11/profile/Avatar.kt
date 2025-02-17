@@ -65,6 +65,7 @@ fun Avatar(
                 photoRefDownloadUrl = profilePhotoRefImageUri,
                 photoUrl = profileImageUri,
                 additionalCacheKey = profilePhotoRefTimestamp,
+                maxSize = 120.dp,
             )
         }
 

@@ -201,8 +201,7 @@ private fun AsyncImage(
         .build()
 
     SubcomposeAsyncImage(
-        modifier = modifier
-            .size(size = 120.dp),
+        modifier = modifier,
         model = imageRequest,
         loading = {
             LoadingScreen(
