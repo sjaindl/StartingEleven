@@ -14,6 +14,9 @@
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		9A4669B22C70FDA900CEAD0B /* S11Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9A4669AF2C70FDA900CEAD0B /* S11Config.xcconfig */; };
 		9A4669B32C70FDA900CEAD0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */; };
+		9A6B4D5D2D650AF900CAF505 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9A6B4D5C2D650AF900CAF505 /* Crypto */; };
+		9A6B4D5F2D650AF900CAF505 /* _CryptoExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 9A6B4D5E2D650AF900CAF505 /* _CryptoExtras */; };
+		9A6B4D622D650B4A00CAF505 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6B4D612D650B3C00CAF505 /* CryptoUtils.swift */; };
 		9A8952D72D3DA8F900F516C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A8952D62D3DA8F900F516C8 /* GoogleService-Info.plist */; };
 		9A92B1872D3417220036FA51 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A92B1862D3417220036FA51 /* AppleSignInManager.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +33,7 @@
 		9A262F2D2D35C6EB00C72817 /* iosAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosAppDebug.entitlements; sourceTree = "<group>"; };
 		9A4669AF2C70FDA900CEAD0B /* S11Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = S11Config.xcconfig; sourceTree = "<group>"; };
 		9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9A6B4D612D650B3C00CAF505 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		9A8952D62D3DA8F900F516C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9A92B1862D3417220036FA51 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
 		CAD114B85CB900AE6E1039BE /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -41,6 +45,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F2D83F7545105A6E1A2577 /* Pods_iosApp.framework in Frameworks */,
+				9A6B4D5D2D650AF900CAF505 /* Crypto in Frameworks */,
+				9A6B4D5F2D650AF900CAF505 /* _CryptoExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +91,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A6B4D602D650B2F00CAF505 /* crypto */,
 				9A262F2D2D35C6EB00C72817 /* iosAppDebug.entitlements */,
 				9A92B1882D346B7A0036FA51 /* applesignin */,
 				9A4669B02C70FDA900CEAD0B /* AppDelegate.swift */,
@@ -97,6 +104,14 @@
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = iosApp;
+			sourceTree = "<group>";
+		};
+		9A6B4D602D650B2F00CAF505 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				9A6B4D612D650B3C00CAF505 /* CryptoUtils.swift */,
+			);
+			path = crypto;
 			sourceTree = "<group>";
 		};
 		9A92B1882D346B7A0036FA51 /* applesignin */ = {
@@ -162,6 +177,9 @@
 				Base,
 			);
 			mainGroup = 7555FF72242A565900829871;
+			packageReferences = (
+				9A6B4D5B2D650AF900CAF505 /* XCRemoteSwiftPackageReference "swift-crypto" */,
+			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -252,6 +270,7 @@
 				9A4669B32C70FDA900CEAD0B /* AppDelegate.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				9A92B1872D3417220036FA51 /* AppleSignInManager.swift in Sources */,
+				9A6B4D622D650B4A00CAF505 /* CryptoUtils.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,7 +402,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = MAJ9QA679A;
 				ENABLE_PREVIEWS = YES;
@@ -395,7 +414,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sjaindl.s11;
 				PRODUCT_NAME = "Starting 11";
 				SWIFT_VERSION = 5.0;
@@ -413,7 +432,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MAJ9QA679A;
@@ -426,7 +445,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sjaindl.s11;
 				PRODUCT_NAME = "Starting 11";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -458,6 +477,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9A6B4D5B2D650AF900CAF505 /* XCRemoteSwiftPackageReference "swift-crypto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-crypto.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.11.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9A6B4D5C2D650AF900CAF505 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A6B4D5B2D650AF900CAF505 /* XCRemoteSwiftPackageReference "swift-crypto" */;
+			productName = Crypto;
+		};
+		9A6B4D5E2D650AF900CAF505 /* _CryptoExtras */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A6B4D5B2D650AF900CAF505 /* XCRemoteSwiftPackageReference "swift-crypto" */;
+			productName = _CryptoExtras;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

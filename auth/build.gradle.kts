@@ -27,6 +27,7 @@ kotlin {
             val main by getting {
                 cinterops {
                     create("applesignin")
+                    create("crypto")
                 }
             }
         }
@@ -149,5 +150,10 @@ swiftklib {
     create("applesignin") {
         path = file("../iosApp/iosApp/applesignin")
         packageName("com.sjaindl.s11.applesignin")
+    }
+
+    create("crypto") {
+        path = file("../iosApp/iosApp/crypto")
+        packageName("com.sjaindl.s11.crypto")
     }
 }

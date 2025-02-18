@@ -21,7 +21,10 @@ actual fun FacebookSignIn(onResponse: (FacebookAuthResponse) -> Unit) {
         callback = object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 Napier.d(message = "Facebook onSuccess: $result")
-                onResponse(FacebookAuthResponse.Success(result.accessToken.token))
+                onResponse(FacebookAuthResponse.Success(
+                    accessToken = result.accessToken.token,
+                    limited = false),
+                )
             }
 
             override fun onCancel() {

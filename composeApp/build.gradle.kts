@@ -122,16 +122,13 @@ kotlin {
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "16.3.1"
+            version = "18.0.0"
             linkOnly = true
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "16.3.1"
+            version = "18.0.0"
             linkOnly = true
-            // TODO: Support Facebook Limited Sign-In with >= 17.4.0, as soon as the following issues are resolved:
-            // https://github.com/firebase/firebase-ios-sdk/issues/8048
-            // https://github.com/facebook/facebook-ios-sdk/issues/2455
         }
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -233,8 +230,8 @@ android {
 
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 8
-        versionName = "1.8"
+        versionCode = 9
+        versionName = "1.9"
 
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken

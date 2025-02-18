@@ -71,11 +71,20 @@ class SocialAuthenticationViewModel : ViewModel() {
                 }
                 is FacebookAuthResponse.Success -> {
                     try {
-                        Firebase.auth.signInWithCredential(
+                        val credential = if (facebookAuthResponse.limited) {
+                            OAuthProvider.credential(
+                                providerId = "facebook.com",
+                                idToken = facebookAuthResponse.accessToken,
+                                rawNonce = facebookAuthResponse.nonce,
+                            )
+                        } else {
                             FacebookAuthProvider.credential(
                                 accessToken = facebookAuthResponse.accessToken,
                             )
-                        )
+                        }
+
+                        Firebase.auth.signInWithCredential(authCredential = credential)
+
                         _authenticationState.value = FacebookSignInSuccess
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         Napier.e(message = "Firebase Auth Error: FirebaseAuthInvalidCredentialsException", throwable = e)
