@@ -12,6 +12,8 @@ import FirebaseMessaging
 import Foundation
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    let topicName = "news"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ApplicationDelegate.shared.application(
             application,
@@ -24,6 +26,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Messaging.messaging().delegate = self
 
         application.registerForRemoteNotifications()
+        
+        Messaging.messaging().subscribe(toTopic: topicName) { error in
+            debugPrint("Subscribed to topic")
+        }
 
         return true
     }

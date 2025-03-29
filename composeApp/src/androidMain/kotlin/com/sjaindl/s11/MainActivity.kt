@@ -15,12 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.permission.NotificationPermissionExplanation
 
 class MainActivity : ComponentActivity() {
 
     private val tag = "MainActivity"
+    private val topicName = "news"
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -30,6 +33,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Firebase.messaging.subscribeToTopic(topicName)
+            .addOnCompleteListener { task ->
+                var msg = "Subscribed"
+                if (!task.isSuccessful) {
+                    msg = "Subscribe failed"
+                }
+                Log.d(tag, "$topicName: $msg")
+            }
 
         setContent {
             val appViewModel = viewModel {
