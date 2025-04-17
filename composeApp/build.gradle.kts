@@ -230,8 +230,8 @@ android {
 
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "1.9"
+        versionCode = 11
+        versionName = "1.11"
 
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
