@@ -1,6 +1,7 @@
 package com.sjaindl.s11.core.baseui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
@@ -52,11 +55,16 @@ fun ErrorScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = spacing.md),
         )
+
+        val clipboardManager = LocalClipboardManager.current
+
         Text(
             text = text,
             style = typography.bodyMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = spacing.md),
+            modifier = Modifier.padding(horizontal = spacing.md).clickable {
+                clipboardManager.setText(AnnotatedString((text)))
+            }
         )
         onButtonClick?.let {
             Button(onClick = onButtonClick) {
