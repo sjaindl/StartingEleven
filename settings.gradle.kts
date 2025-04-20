@@ -3,6 +3,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
+        mavenCentral()
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
@@ -10,7 +11,7 @@ pluginManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
-        mavenCentral()
+
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
@@ -21,6 +22,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        mavenCentral()
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
@@ -32,7 +34,6 @@ dependencyResolutionManagement {
                 maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
             }
         }
-        mavenCentral()
     }
 }
 
