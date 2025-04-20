@@ -46,6 +46,8 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
+                implementation(libs.koin.annotations)
+               // implementation(libs.koin.viewmodel)
 
                 implementation(libs.firebase.common)
                 implementation(libs.firebase.auth)

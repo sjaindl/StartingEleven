@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.google.playServices)
+    alias(libs.plugins.ksp)
+    //id("com.google.devtools.ksp")
 }
 
 kotlin {
@@ -66,8 +67,6 @@ kotlin {
         framework {
             baseName = "composeApp"
             isStatic = true
-
-            embedBitcode(BITCODE)
         }
 
         // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
@@ -178,6 +177,8 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
+           // implementation(libs.koin.viewmodel)
 
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.content.negotiation)

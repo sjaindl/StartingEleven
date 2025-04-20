@@ -1,7 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework.BitcodeEmbeddingMode.BITCODE
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -46,8 +45,6 @@ kotlin {
         framework {
             baseName = "auth"
             isStatic = true
-
-            embedBitcode(BITCODE)
         }
 
         pod(name = "GoogleSignIn")
@@ -98,6 +95,8 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
+                implementation(libs.koin.annotations)
+               // implementation(libs.koin.viewmodel)
 
                 implementation(project(":core"))
             }
