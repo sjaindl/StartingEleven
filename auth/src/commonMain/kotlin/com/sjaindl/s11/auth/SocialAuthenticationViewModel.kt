@@ -21,6 +21,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
 sealed class SocialAuthenticationState {
     data object Initial: SocialAuthenticationState()
@@ -31,6 +32,7 @@ sealed class SocialAuthenticationState {
     data class Error(val message: String): SocialAuthenticationState()
 }
 
+@KoinViewModel
 class SocialAuthenticationViewModel : ViewModel() {
 
     private var _authenticationState: MutableStateFlow<SocialAuthenticationState> = MutableStateFlow(

@@ -8,6 +8,7 @@ import com.sjaindl.s11.core.firestore.player.model.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -23,6 +24,7 @@ sealed class PlayerState {
     data class Error(val message: String): PlayerState()
 }
 
+@KoinViewModel
 class PlayerViewModel : ViewModel(), KoinComponent {
 
     private val configRepository: ConfigRepository by inject()

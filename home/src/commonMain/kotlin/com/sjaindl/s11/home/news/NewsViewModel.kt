@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -24,6 +25,7 @@ sealed class NewsState {
     data class Error(val message: String): NewsState()
 }
 
+@KoinViewModel
 class NewsViewModel : ViewModel(), KoinComponent {
 
     private val tag = "NewsViewModel"

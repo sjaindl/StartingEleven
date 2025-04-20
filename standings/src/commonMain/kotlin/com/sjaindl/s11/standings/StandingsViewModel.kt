@@ -8,6 +8,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -18,6 +19,7 @@ sealed class StandingsState {
     data class Error(val message: String): StandingsState()
 }
 
+@KoinViewModel
 class StandingsViewModel : ViewModel(), KoinComponent {
 
     private val tag = "StandingsViewModel"

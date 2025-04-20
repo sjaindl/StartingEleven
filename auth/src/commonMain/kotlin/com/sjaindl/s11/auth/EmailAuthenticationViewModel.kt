@@ -16,6 +16,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
 sealed class EmailAuthenticationState {
     data object Initial: EmailAuthenticationState()
@@ -25,6 +26,7 @@ sealed class EmailAuthenticationState {
     data class Error(val message: String): EmailAuthenticationState()
 }
 
+@KoinViewModel
 class EmailAuthenticationViewModel : ViewModel() {
 
     private val tag = "EmailAuthenticationViewModel"
