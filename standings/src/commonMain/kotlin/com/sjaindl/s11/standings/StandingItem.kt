@@ -27,7 +27,11 @@ import com.sjaindl.s11.core.baseui.UnderlinedText
 import com.sjaindl.s11.core.firestore.user.model.User
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.standings.model.UserWithPoints
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.standings.generated.resources.Res
+import startingeleven.standings.generated.resources.bets
+import startingeleven.standings.generated.resources.total
 
 @Composable
 fun StandingItem(
@@ -37,11 +41,12 @@ fun StandingItem(
 ) {
     val user = userWithPoints.user
     val scoredLastRound = userWithPoints.pointsLastRound >= 0
+    val scoredBetPointsLastRound = userWithPoints.betPointsLastRound > 0
     val defaultColor = LocalTextStyle.current.color
     val primary = colorScheme.primary.copy(alpha = 0.25f)
 
     val pointsInfo = buildAnnotatedString {
-        append("${userWithPoints.points} (")
+        append("${stringResource(Res.string.total)}: ${userWithPoints.points} (")
         withStyle(
             style = SpanStyle(
                 color = if (scoredLastRound) {
@@ -55,6 +60,25 @@ fun StandingItem(
                 append("+")
             }
             append("${userWithPoints.pointsLastRound}")
+        }
+        append(")")
+    }
+
+    val betPointsInfo = buildAnnotatedString {
+        append("${stringResource(Res.string.bets)}: ${userWithPoints.betPoints} (")
+        withStyle(
+            style = SpanStyle(
+                color = if (scoredBetPointsLastRound) {
+                    Color.Green
+                } else {
+                    defaultColor
+                },
+            )
+        ) {
+            if (scoredBetPointsLastRound) {
+                append("+")
+            }
+            append("${userWithPoints.betPointsLastRound}")
         }
         append(")")
     }
@@ -115,7 +139,11 @@ fun StandingItem(
                 )
 
                 UnderlinedText(
-                    pointsInfo,
+                    text = pointsInfo,
+                )
+
+                UnderlinedText(
+                    text = betPointsInfo
                 )
             }
         }
