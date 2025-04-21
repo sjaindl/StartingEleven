@@ -16,7 +16,9 @@ import com.sjaindl.s11.players.CalculatePlayerLineupsUseCase
 import com.sjaindl.s11.players.PlayerWithLineupCount
 import com.sjaindl.s11.team.model.Formation
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
@@ -55,6 +57,9 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
         StartingElevenState.Initial
     )
     var startingElevenState = _startingElevenState.asStateFlow()
+
+    private val _showSnackBar = MutableStateFlow<Boolean>(false)
+    val showSnackBar: StateFlow<Boolean> = _showSnackBar
 
     init {
         loadTeam()
@@ -159,10 +164,14 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
 
         viewModelScope.launch {
             eventRepository.teamChanged()
+
+            if (lineup.isComplete) {
+                eventRepository.saveTeam()
+            }
         }
     }
 
-    private fun saveTeam() {
+    fun saveTeam() {
         val state = startingElevenState.value as? StartingElevenState.Content ?: return
 
         viewModelScope.launch {
@@ -201,6 +210,9 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
                 if (it == Event.SaveTeam) {
                     saveTeam()
                     eventRepository.teamSaved()
+                    _showSnackBar.value = true
+                    delay(100)
+                    _showSnackBar.value = false
                 }
             }
         }

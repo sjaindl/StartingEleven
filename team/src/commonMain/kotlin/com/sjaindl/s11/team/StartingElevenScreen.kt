@@ -389,17 +389,17 @@ fun StartingElevenScreenPreview() {
             userBetState = UserBet(homeBet = 1, awayBet = 1),
             savedBet = false,
             loadRecommendations = { },
-            resetSavedBetState = { },
-            setHomeBet = { },
-            setAwayBet = { },
-            submitBet = { },
-            loadBets = { },
             onFormationSelected = {
                 selectedFormation = it
             },
             onChoosePlayer = { _, _, _ ->
             },
             loadTeam = { },
+            resetSavedBetState = { },
+            setHomeBet = { },
+            setAwayBet = { },
+            submitBet = { },
+            loadBets = { },
             onShowSnackBar = { },
         )
     }

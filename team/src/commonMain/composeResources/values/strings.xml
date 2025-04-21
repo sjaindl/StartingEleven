@@ -18,4 +18,6 @@
 
     <string name="formationTitle">Your formation</string>
     <string name="lineupTitle">Your lineup</string>
+
+    <string name="lineupSaved">Lineup saved</string>
 </resources>

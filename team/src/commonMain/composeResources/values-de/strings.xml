@@ -18,4 +18,6 @@
 
     <string name="formationTitle">Deine Formation</string>
     <string name="lineupTitle">Deine Aufstellung</string>
+
+    <string name="lineupSaved">Aufstellung gespeichert</string>
 </resources>

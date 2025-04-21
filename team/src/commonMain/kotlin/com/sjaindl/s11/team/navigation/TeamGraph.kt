@@ -1,7 +1,8 @@
 package com.sjaindl.s11.team.navigation
 
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,6 +15,7 @@ import com.sjaindl.s11.team.StartingElevenViewModel
 import com.sjaindl.s11.team.bet.BetViewModel
 import com.sjaindl.s11.team.recommender.LineupRecommendationViewModel
 import kotlinx.serialization.Serializable
+import startingeleven.team.generated.resources.Res
 
 @Serializable
 data object Team
@@ -41,12 +43,19 @@ fun NavGraphBuilder.teamGraph(
                 LineupRecommendationViewModel()
             }
 
-            val startingElevenState by viewModel.startingElevenState.collectAsState()
-            val recommendationState by lineupRecommendationViewModel.recommendationState.collectAsState()
+            val startingElevenState by viewModel.startingElevenState.collectAsStateWithLifecycle()
+            val showSnackBar by viewModel.showSnackBar.collectAsStateWithLifecycle()
+            val recommendationState by lineupRecommendationViewModel.recommendationState.collectAsStateWithLifecycle()
 
-            val betState by betViewModel.betState.collectAsState()
-            val userBetState by betViewModel.userBet.collectAsState()
-            val savedBet by betViewModel.savedBet.collectAsState()
+            val betState by betViewModel.betState.collectAsStateWithLifecycle()
+            val userBetState by betViewModel.userBet.collectAsStateWithLifecycle()
+            val savedBet by betViewModel.savedBet.collectAsStateWithLifecycle()
+
+            LaunchedEffect(key1 = showSnackBar) {
+                if (showSnackBar) {
+                    onShowSnackBar(Res.string.lineupSaved)
+                }
+            }
 
             StartingElevenScreen(
                 startingElevenState = startingElevenState,
