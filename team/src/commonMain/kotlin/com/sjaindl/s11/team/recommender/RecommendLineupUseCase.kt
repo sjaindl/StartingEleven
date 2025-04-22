@@ -23,7 +23,7 @@ class RecommendLineupUseCase: KoinComponent {
             val formations = formationRepository.getFormations()
 
             val bestGoalKeeper = players.filter {
-                it.position == Position.Goalkeeper
+                it.positions.contains(Position.Goalkeeper)
             }.maxBy { player ->
                 player.pointsOfSeason(season = season).values.sum()
             }
@@ -65,7 +65,7 @@ class RecommendLineupUseCase: KoinComponent {
 
     private fun filterAndSort(players: List<Player>, position: Position, season: String?) =
         players.filter {
-            it.position == position
+            it.positions.contains(position)
         }.sortedByDescending {
             it.pointsOfSeason(season = season).values.sum()
         }

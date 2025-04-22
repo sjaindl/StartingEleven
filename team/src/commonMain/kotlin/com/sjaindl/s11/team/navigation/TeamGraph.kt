@@ -15,7 +15,9 @@ import com.sjaindl.s11.team.StartingElevenViewModel
 import com.sjaindl.s11.team.bet.BetViewModel
 import com.sjaindl.s11.team.recommender.LineupRecommendationViewModel
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 import startingeleven.team.generated.resources.Res
+import startingeleven.team.generated.resources.lineupSaved
 
 @Serializable
 data object Team
@@ -51,9 +53,11 @@ fun NavGraphBuilder.teamGraph(
             val userBetState by betViewModel.userBet.collectAsStateWithLifecycle()
             val savedBet by betViewModel.savedBet.collectAsStateWithLifecycle()
 
+            val lineupSavedText = stringResource(resource = Res.string.lineupSaved)
+
             LaunchedEffect(key1 = showSnackBar) {
                 if (showSnackBar) {
-                    onShowSnackBar(Res.string.lineupSaved)
+                    onShowSnackBar(lineupSavedText)
                 }
             }
 

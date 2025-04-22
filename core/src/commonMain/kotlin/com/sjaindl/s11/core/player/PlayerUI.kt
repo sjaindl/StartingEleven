@@ -130,7 +130,7 @@ fun PlayerPreview() {
             player = Player(
                 playerId = "1",
                 name = "Del Piero",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),

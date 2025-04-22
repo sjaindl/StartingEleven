@@ -127,7 +127,7 @@ fun LineupRecommendationPreview() {
     val player = Player(
         playerId = "inzaghi",
         name = "Inzaghi",
-        position = Position.Attacker,
+        positions = listOf(Position.Attacker),
         imageRef = null,
         downloadUrl = null,
         points = mapOf("inzaghi" to 4f),

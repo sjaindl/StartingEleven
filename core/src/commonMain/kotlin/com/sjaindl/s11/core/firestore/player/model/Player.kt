@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Player(
     val playerId: String,
     val name: String,
-    val position: Position,
+    val positions: List<Position>,
     val imageRef: String?,
     val downloadUrl: String?,
     val points: Map<String, Float>,

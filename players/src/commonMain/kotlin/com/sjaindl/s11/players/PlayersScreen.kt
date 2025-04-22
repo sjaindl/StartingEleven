@@ -69,7 +69,7 @@ fun PlayersScreen(
                     PlayerUI(
                         season = playerState.season,
                         player = it.player,
-                        lineupCount = it.lineupCount
+                        lineupCount = it.lineupCount,
                     )
                 }
             }
@@ -85,7 +85,7 @@ fun PlayersScreenPreview() {
             player = Player(
                 playerId = "delPiero",
                 name = "Del Piero",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = mapOf("delPiero" to 5f),
@@ -96,7 +96,7 @@ fun PlayersScreenPreview() {
             player = Player(
                 playerId = "inzaghi",
                 name = "Inzaghi",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = mapOf("inzaghi" to 4f),

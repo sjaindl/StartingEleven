@@ -75,10 +75,7 @@ fun StandingItem(
                 },
             )
         ) {
-            if (scoredBetPointsLastRound) {
-                append("+")
-            }
-            append("${userWithPoints.betPointsLastRound}")
+            append("+ ${userWithPoints.betPointsLastRound}")
         }
         append(")")
     }

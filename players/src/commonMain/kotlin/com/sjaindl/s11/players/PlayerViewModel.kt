@@ -50,7 +50,7 @@ class PlayerViewModel : ViewModel(), KoinComponent {
                         player = Player(
                             playerId = player.playerId,
                             name = player.name,
-                            position = player.position,
+                            positions = player.positions,
                             imageRef = player.imageRef,
                             downloadUrl = player.downloadUrl,
                             points = player.pointsOfSeason(season = season),

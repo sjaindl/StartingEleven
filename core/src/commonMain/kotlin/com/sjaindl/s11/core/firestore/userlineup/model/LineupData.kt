@@ -14,6 +14,13 @@ data class LineupData(
 
     val isComplete = size == 11
 
+    val allLinedUpPlayers: List<String>
+        get() = (defenders + midfielders + attackers).toMutableList().apply {
+            goalkeeper?.let {
+              add(it)
+            }
+        }
+
     fun includesPlayer(playerId: String): Boolean {
         return goalkeeper == playerId
                 || defenders.contains(element = playerId)

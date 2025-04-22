@@ -134,7 +134,7 @@ fun StartingElevenScreen(
                             val playersAtPosition by remember(key1 = playersWithLineupCount) {
                                 mutableStateOf(
                                     playersWithLineupCount.filter { playerWithLineupCount ->
-                                        playerWithLineupCount.player.position == position
+                                        playerWithLineupCount.player.positions.contains(position)
                                     }
                                 )
                             }
@@ -220,8 +220,8 @@ fun StartingElevenScreen(
                                             season = season,
                                             lineupCount = playerWithLineupCount?.lineupCount,
                                             possiblePlayers = playersAtPosition.filter {
-                                                // prevent choosing same player twice
-                                                it.player.playerId !in (linedUpPlayersAtPosition - playerWithLineupCount?.player?.playerId)
+                                                // prevent choosing same player twice (at same or different position)
+                                                it.player.playerId !in (lineup.allLinedUpPlayers - playerWithLineupCount?.player?.playerId)
                                             }.map {
                                                 it.player
                                             },
@@ -254,7 +254,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "1",
                 name = "Gigi Buffon",
-                position = Position.Goalkeeper,
+                positions = listOf(Position.Goalkeeper),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -265,7 +265,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "2",
                 name = "Gigi Donnaruma",
-                position = Position.Goalkeeper,
+                positions = listOf(Position.Goalkeeper),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -276,7 +276,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "3",
                 name = "Paolo Maldini",
-                position = Position.Defender,
+                positions = listOf(Position.Defender),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -287,7 +287,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "4",
                 name = "Gregory Wüthrich",
-                position = Position.Defender,
+                positions = listOf(Position.Defender),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -298,7 +298,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "5",
                 name = "Jakob Jantscher",
-                position = Position.Midfielder,
+                positions = listOf(Position.Midfielder),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -309,7 +309,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "6",
                 name = "Otar Kiteischvili",
-                position = Position.Midfielder,
+                positions = listOf(Position.Midfielder),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -320,7 +320,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "7",
                 name = "Alessandro Del Piero",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -331,7 +331,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "8",
                 name = "Francesco Totti",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
@@ -342,7 +342,7 @@ fun StartingElevenScreenPreview() {
             Player(
                 playerId = "9",
                 name = "Ivica Vastic",
-                position = Position.Attacker,
+                positions = listOf(Position.Attacker),
                 imageRef = null,
                 downloadUrl = null,
                 points = emptyMap(),
