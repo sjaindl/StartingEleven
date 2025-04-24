@@ -43,11 +43,6 @@ class AppViewModel : ViewModel(), KoinComponent {
         viewModelScope.launch {
             Firebase.auth.authStateChanged.distinctUntilChanged().collectLatest { user ->
                 if (user != null) {
-                    val dbUser = userRepository.getCurrentUser()
-                    if (dbUser == null) {
-                        userRepository.createUser(user)
-                    }
-
                     _userName.value = userRepository.getCurrentUser()?.userName ?: user.displayName
                 } else {
                     _userName.value = null

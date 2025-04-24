@@ -6,6 +6,7 @@ import com.sjaindl.s11.auth.EmailAuthenticationState.EmailSignInSuccess
 import com.sjaindl.s11.auth.EmailAuthenticationState.Error
 import com.sjaindl.s11.auth.EmailAuthenticationState.Initial
 import com.sjaindl.s11.auth.EmailAuthenticationState.Loading
+import com.sjaindl.s11.core.firestore.user.UserRepository
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseException
 import dev.gitlive.firebase.auth.FirebaseAuthException
@@ -17,6 +18,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import kotlin.getValue
 
 sealed class EmailAuthenticationState {
     data object Initial: EmailAuthenticationState()
@@ -27,13 +31,15 @@ sealed class EmailAuthenticationState {
 }
 
 @KoinViewModel
-class EmailAuthenticationViewModel : ViewModel() {
+class EmailAuthenticationViewModel : ViewModel(), KoinComponent {
 
     private val tag = "EmailAuthenticationViewModel"
 
     private val auth by lazy {
         Firebase.auth
     }
+
+    private val userRepository: UserRepository by inject<UserRepository>()
 
     private var _authenticationState: MutableStateFlow<EmailAuthenticationState> = MutableStateFlow(
         Initial
@@ -71,8 +77,15 @@ class EmailAuthenticationViewModel : ViewModel() {
 
             val user = auth.createUserWithEmailAndPassword(email = email, password = password).user
             if (user != null) {
-                Napier.d("Signed up user ${auth.currentUser?.displayName}")
+                Napier.d("Signed up user ${auth.currentUser?.email}")
+
                 user.updateProfile(displayName = name)
+
+                val dbUser = userRepository.getCurrentUser()
+                if (dbUser == null) {
+                    userRepository.createUser(user)
+                }
+
                 Napier.d(
                     message = "Set display name ${auth.currentUser?.displayName}",
                     throwable = null,
