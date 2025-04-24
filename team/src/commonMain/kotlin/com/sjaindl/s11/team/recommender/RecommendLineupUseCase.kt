@@ -28,33 +28,61 @@ class RecommendLineupUseCase: KoinComponent {
                 player.pointsOfSeason(season = season).values.sum()
             }
 
+            val takenPlayers = mutableSetOf(bestGoalKeeper)
+
             val defenders = filterAndSort(players = players, position = Position.Defender, season = season)
             val midfielders = filterAndSort(players = players, position = Position.Midfielder, season = season)
             val attackers = filterAndSort(players = players, position = Position.Attacker, season = season)
 
-            val bestFormation = formations.maxByOrNull { formation ->
+            var bestSum = 0.0f
+            var best: MutableMap<Position, List<Player>> = mutableMapOf()
+
+            formations.forEach { formation ->
                 if (defenders.size < formation.defense || midfielders.size < formation.midfield || attackers.size < formation.attack) {
-                    return@maxByOrNull 0f
+                    return@forEach
                 }
 
-                defenders.take(formation.defense).flatMap {
-                    it.pointsOfSeason(season = season).values
-                }.sum() + midfielders.take(formation.midfield).flatMap {
-                    it.pointsOfSeason(season = season).values
-                }.sum() + attackers.take(formation.attack).flatMap {
+                val chosenDefenders = defenders.filterNot {
+                    takenPlayers.contains(it)
+                }.take(formation.defense)
+                takenPlayers.addAll(chosenDefenders)
+
+                val chosenMidfielders = midfielders.filterNot {
+                    takenPlayers.contains(it)
+                }.take(formation.midfield)
+                takenPlayers.addAll(chosenMidfielders)
+
+                val chosenAttackers = attackers.filterNot {
+                    takenPlayers.contains(it)
+                }.take(formation.attack)
+
+                takenPlayers.removeAll(chosenMidfielders + chosenDefenders)
+
+                val sum = (chosenDefenders + chosenMidfielders + chosenAttackers).flatMap {
                     it.pointsOfSeason(season = season).values
                 }.sum()
+
+                if (sum > bestSum) {
+                    bestSum = sum
+                    best[Position.Defender] = chosenDefenders
+                    best[Position.Midfielder] = chosenMidfielders
+                    best[Position.Attacker] = chosenAttackers
+                }
             }
 
-            if (bestFormation != null) {
-                return RecommendationState.Recommendation(
+            val bestDefenders = best[Position.Defender]
+            val bestMidfielders = best[Position.Midfielder]
+            val bestAttackers = best[Position.Attacker]
+
+            return if (bestDefenders != null && bestMidfielders != null && bestAttackers != null) {
+                RecommendationState.Recommendation(
                     goalkeeper = bestGoalKeeper,
-                    defenders = defenders.take(bestFormation.defense),
-                    midfielders = midfielders.take(bestFormation.midfield),
-                    attackers = attackers.take(bestFormation.attack),
+                    defenders = bestDefenders,
+                    midfielders = bestMidfielders,
+                    attackers = bestAttackers,
                 )
             } else {
-                return RecommendationState.NoRecommendation
+                RecommendationState.NoRecommendation
             }
         } catch (exception: Exception) {
             val message = exception.message ?: exception.toString()

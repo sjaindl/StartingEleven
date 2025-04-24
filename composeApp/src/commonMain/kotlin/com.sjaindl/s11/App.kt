@@ -42,6 +42,7 @@ import com.sjaindl.s11.navigation.S11NavHost
 import com.sjaindl.s11.profile.navigation.navigateToProfile
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import okio.FileSystem
@@ -88,7 +89,7 @@ fun App() {
         val eventRepository = koinInject<EventRepository>()
 
         coroutineScope.launch {
-            eventRepository.onNewEvent.collect { event ->
+            eventRepository.onNewEvent.collectLatest { event ->
                 if (event == Event.TeamChanged) {
                     saveTeamEnabled = true
                 } else if (event == Event.TeamSaved) {

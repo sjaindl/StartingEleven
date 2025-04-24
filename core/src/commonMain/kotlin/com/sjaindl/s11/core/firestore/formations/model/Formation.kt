@@ -10,6 +10,6 @@ data class Formation(
     val attack: Int,
 ) {
     companion object {
-        const val DEFAULT_FORMATION = "4-4--2"
+        const val DEFAULT_FORMATION = "4-4-2"
     }
 }
