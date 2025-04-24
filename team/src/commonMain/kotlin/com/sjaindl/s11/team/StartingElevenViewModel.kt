@@ -20,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.component.KoinComponent
@@ -163,56 +164,54 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
         )
 
         viewModelScope.launch {
-            eventRepository.teamChanged()
-
             if (lineup.isComplete) {
                 eventRepository.saveTeam()
+            } else {
+                eventRepository.teamChanged()
             }
         }
     }
 
-    fun saveTeam() {
+    private suspend fun saveTeam() {
         val state = startingElevenState.value as? StartingElevenState.Content ?: return
 
-        viewModelScope.launch {
-            val currentUser = userRepository.getCurrentUser()
-            if (currentUser == null) {
-                _startingElevenState.value = StartingElevenState.Error(message = "Please sign in")
-                return@launch
-            }
-
-            _startingElevenState.value = StartingElevenState.Loading
-
-            lineupRepository.setUserLineup(
-                uid = currentUser.uid,
-                userLineup = state.lineup,
-            )
-
-            userRepository.setFormation(
-                uid = currentUser.uid,
-                formationId = state.formation.formationId,
-            )
-
-            _startingElevenState.value = StartingElevenState.Content(
-                season = configRepository.getConfig()?.season,
-                possibleFormations = state.possibleFormations,
-                formation = state.formation,
-                playersWithLineupCount = state.playersWithLineupCount,
-                lineup = state.lineup,
-                enabled = state.enabled,
-            )
+        val currentUser = userRepository.getCurrentUser()
+        if (currentUser == null) {
+            _startingElevenState.value = StartingElevenState.Error(message = "Please sign in")
+            return
         }
+
+        _startingElevenState.value = StartingElevenState.Loading
+
+        lineupRepository.setUserLineup(
+            uid = currentUser.uid,
+            userLineup = state.lineup,
+        )
+
+        userRepository.setFormation(
+            uid = currentUser.uid,
+            formationId = state.formation.formationId,
+        )
+
+        _startingElevenState.value = StartingElevenState.Content(
+            season = configRepository.getConfig()?.season,
+            possibleFormations = state.possibleFormations,
+            formation = state.formation,
+            playersWithLineupCount = state.playersWithLineupCount,
+            lineup = state.lineup,
+            enabled = state.enabled,
+        )
     }
 
     private fun initObservers() {
         viewModelScope.launch {
-            eventRepository.onNewEvent.collect {
+            eventRepository.onNewEvent.collectLatest {
                 if (it == Event.SaveTeam) {
                     saveTeam()
-                    eventRepository.teamSaved()
                     _showSnackBar.value = true
-                    delay(100)
+                    delay(200)
                     _showSnackBar.value = false
+                    eventRepository.teamSaved()
                 }
             }
         }
