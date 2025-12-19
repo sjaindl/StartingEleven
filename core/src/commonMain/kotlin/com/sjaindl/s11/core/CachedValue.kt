@@ -1,15 +1,18 @@
 package com.sjaindl.s11.core
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
+import kotlin.time.Clock.System
+import kotlin.time.ExperimentalTime
 
-data class CachedValue<T>(
+@OptIn(ExperimentalTime::class)
+data class CachedValue<T> constructor(
     var value: T? = null,
-    var expiresAt: Long = Clock.System.now().plus(value = 24, unit = DateTimeUnit.HOUR).toEpochMilliseconds(),
+    var expiresAt: Long = System.now().plus(value = 24, unit = DateTimeUnit.HOUR).toEpochMilliseconds(),
 ) {
+
     fun get(): T? {
-        val now = Clock.System.now().toEpochMilliseconds()
+        val now = System.now().toEpochMilliseconds()
         clearIfExpired(nowInMillis = now)
         return value
     }

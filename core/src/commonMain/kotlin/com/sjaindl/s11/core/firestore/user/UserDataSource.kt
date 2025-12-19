@@ -13,9 +13,10 @@ import dev.gitlive.firebase.storage.File
 import dev.gitlive.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 interface UserDataSource {
     suspend fun getUsers(): List<User>
@@ -150,6 +151,7 @@ internal class UserDataSourceImpl(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     override suspend fun setUserPhotoRef(uid: String, file: File) {
         val photoRef = "/users/$uid"
         val storageRef = storage.reference(location = photoRef)
