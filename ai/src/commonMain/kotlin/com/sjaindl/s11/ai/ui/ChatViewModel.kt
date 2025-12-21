@@ -3,6 +3,8 @@ package com.sjaindl.s11.ai.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sjaindl.s11.ai.data.remote.model.FlowiseResponse
+import com.sjaindl.s11.ai.data.remote.model.SourceDocument
+import com.sjaindl.s11.ai.data.remote.model.Tool
 import com.sjaindl.s11.ai.domain.usecase.GetAiCompletionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -64,6 +66,26 @@ class ChatViewModel() : ViewModel(), KoinComponent {
                             chatId = response.data.chatId
                         }
 
+                        is FlowiseResponse.UsedTools -> {
+                            val lastMessage = _uiState.value.messages.lastOrNull()
+                            if (lastMessage != null && !lastMessage.isFromUser) {
+                                val updatedMessages = _uiState.value.messages.toMutableList()
+                                updatedMessages[updatedMessages.lastIndex] =
+                                    lastMessage.copy(usedTools = response.data)
+                                _uiState.value = _uiState.value.copy(messages = updatedMessages)
+                            }
+                        }
+
+                        is FlowiseResponse.SourceDocuments -> {
+                            val lastMessage = _uiState.value.messages.lastOrNull()
+                            if (lastMessage != null && !lastMessage.isFromUser) {
+                                val updatedMessages = _uiState.value.messages.toMutableList()
+                                updatedMessages[updatedMessages.lastIndex] =
+                                    lastMessage.copy(sourceDocuments = response.data)
+                                _uiState.value = _uiState.value.copy(messages = updatedMessages)
+                            }
+                        }
+
                         is FlowiseResponse.Error -> {
                             _uiState.value = _uiState.value.copy(error = response.data)
                         }
@@ -91,4 +113,6 @@ data class ChatUiState(
 data class ChatMessage(
     val text: String,
     val isFromUser: Boolean,
+    val usedTools: List<Tool>? = null,
+    val sourceDocuments: List<SourceDocument>? = null,
 )

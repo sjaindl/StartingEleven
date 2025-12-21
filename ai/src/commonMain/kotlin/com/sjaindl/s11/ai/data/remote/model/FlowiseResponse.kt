@@ -23,6 +23,10 @@ sealed class FlowiseResponse {
     data class UsedTools(val data: List<Tool>) : FlowiseResponse()
 
     @Serializable
+    @SerialName("sourceDocuments")
+    data class SourceDocuments(val data: List<SourceDocument>) : FlowiseResponse()
+
+    @Serializable
     @SerialName("metadata")
     data class Metadata(val data: ChatMetadata) : FlowiseResponse()
 
@@ -49,4 +53,10 @@ data class ChatMetadata(
     val question: String,
     val sessionId: String,
     val memoryType: String,
+)
+
+@Serializable
+data class SourceDocument(
+    val pageContent: String,
+    val metadata: JsonElement,
 )
