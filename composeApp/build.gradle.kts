@@ -198,6 +198,7 @@ kotlin {
             implementation(project(path = ":profile"))
             implementation(project(path = ":standings"))
             implementation(project(path = ":team"))
+            implementation(project(path = ":ai"))
         }
 
         iosMain {

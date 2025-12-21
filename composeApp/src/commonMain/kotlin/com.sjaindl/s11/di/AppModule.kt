@@ -1,5 +1,6 @@
 package com.sjaindl.s11.di
 
+import com.sjaindl.s11.ai.di.aiModule
 import com.sjaindl.s11.firestore.faq.FaqDataSource
 import com.sjaindl.s11.firestore.faq.FaqDataSourceImpl
 import com.sjaindl.s11.firestore.faq.FaqRepository
@@ -12,6 +13,7 @@ import dev.gitlive.firebase.storage.storage
 import org.koin.dsl.module
 
 val appModule = module {
+    includes(aiModule)
     single<FaqRepository> { FaqRepositoryImpl(playerDataSource = get()) }
     single<FaqDataSource> { FaqDataSourceImpl(firestore = get()) }
 
