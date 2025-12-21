@@ -1,10 +1,14 @@
 package com.sjaindl.s11.ai.data.remote.model
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonClassDiscriminator
 import kotlinx.serialization.json.JsonElement
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonClassDiscriminator("event")
 sealed class FlowiseResponse {
     @Serializable
     @SerialName("start")

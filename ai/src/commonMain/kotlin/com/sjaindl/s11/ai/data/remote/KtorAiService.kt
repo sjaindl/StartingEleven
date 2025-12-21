@@ -41,12 +41,8 @@ class KtorAiService : AiService, KoinComponent {
             val line = channel.readUTF8Line()
             if (line?.startsWith("data:") == true) {
                 val data = line.removePrefix("data:").trim()
-                try {
-                    val flowiseResponse = json.decodeFromString<FlowiseResponse>(data)
-                    emit(flowiseResponse)
-                } catch (e: Exception) {
-                    // Ignore serialization errors
-                }
+                val flowiseResponse = json.decodeFromString<FlowiseResponse>(data)
+                emit(flowiseResponse)
             }
         }
     }

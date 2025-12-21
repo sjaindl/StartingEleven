@@ -33,6 +33,7 @@ class ChatViewModel() : ViewModel(), KoinComponent {
                 .onStart {
                     _uiState.value = _uiState.value.copy(
                         isLoading = true,
+                        error = null,
                         messages = _uiState.value.messages + ChatMessage(
                             text = prompt,
                             isFromUser = true
@@ -63,24 +64,20 @@ class ChatViewModel() : ViewModel(), KoinComponent {
                             chatId = response.data.chatId
                         }
 
+                        is FlowiseResponse.Error -> {
+                            _uiState.value = _uiState.value.copy(error = response.data)
+                        }
+
                         else -> Unit
                     }
                 }
-                .catch {
-                    _uiState.value = _uiState.value.copy(
-                        isLoading = false,
-                        messages = _uiState.value.messages + ChatMessage(
-                            text = "Error: ${it.message}",
-                            isFromUser = false
-                        )
-                    )
+                .catch { 
+                    _uiState.value = _uiState.value.copy(error = it.message)
                 }
                 .onCompletion { 
                     _uiState.value = _uiState.value.copy(isLoading = false)
                 }
-                .collect {
-
-                }
+                .collect { }
         }
     }
 }
@@ -88,6 +85,7 @@ class ChatViewModel() : ViewModel(), KoinComponent {
 data class ChatUiState(
     val isLoading: Boolean = false,
     val messages: List<ChatMessage> = emptyList(),
+    val error: String? = null,
 )
 
 data class ChatMessage(

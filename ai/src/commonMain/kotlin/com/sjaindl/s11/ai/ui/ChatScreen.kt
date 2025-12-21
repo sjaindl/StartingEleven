@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -33,6 +34,11 @@ fun ChatScreen() {
     val uiState by chatViewModel.uiState.collectAsState()
     var prompt by remember {
         mutableStateOf("")
+    }
+
+    if (uiState.error != null) {
+        ErrorScreen(text = uiState.error!!)
+        return
     }
 
     Column(
