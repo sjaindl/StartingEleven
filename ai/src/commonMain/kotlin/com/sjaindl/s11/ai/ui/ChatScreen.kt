@@ -11,19 +11,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,10 +33,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.ai.data.remote.model.SourceDocument
 import com.sjaindl.s11.ai.data.remote.model.Tool
+import com.sjaindl.s11.ai.ui.components.JumpingDotsIndicator
 import com.sjaindl.s11.ai.ui.components.SourceDocumentsDialog
 import com.sjaindl.s11.ai.ui.components.UsedToolsDialog
 import com.sjaindl.s11.core.baseui.ErrorScreen
@@ -43,6 +45,7 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.chat_user
 import startingeleven.ai.generated.resources.chatbot
@@ -51,22 +54,20 @@ import startingeleven.ai.generated.resources.chatbot
 fun ChatScreen(
     modifier: Modifier = Modifier,
 ) {
-    val chatViewModel = viewModel {
-        ChatViewModel()
-    }
-
+    val chatViewModel: ChatViewModel = koinViewModel()
     val uiState by chatViewModel.uiState.collectAsState()
 
-    var prompt by remember {
-        mutableStateOf("")
-    }
+    var prompt by remember { mutableStateOf("") }
+    var showToolsDialogFor by remember { mutableStateOf<List<Tool>?>(null) }
+    var showSourceDocsDialogFor by remember { mutableStateOf<List<SourceDocument>?>(null) }
 
-    var showToolsDialogFor by remember {
-        mutableStateOf<List<Tool>?>(null)
-    }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val listState = rememberLazyListState()
 
-    var showSourceDocsDialogFor by remember {
-        mutableStateOf<List<SourceDocument>?>(null)
+    LaunchedEffect(uiState.messages.size, uiState.isLoading) {
+        if (uiState.messages.isNotEmpty() || uiState.isLoading) {
+            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount)
+        }
     }
 
     uiState.error?.let {
@@ -75,22 +76,18 @@ fun ChatScreen(
             text = it
         )
     } ?: Column(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         LazyColumn(
-            modifier = Modifier
-                .weight(1f),
+            state = listState,
+            modifier = Modifier.weight(1f),
         ) {
             items(uiState.messages) { message ->
                 Card(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.padding(8.dp).fillMaxWidth(),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .padding(8.dp),
+                        modifier = Modifier.padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Image(
@@ -98,12 +95,9 @@ fun ChatScreen(
                             contentDescription = if (message.isFromUser) "User" else "AI",
                             modifier = Modifier.size(40.dp).clip(CircleShape)
                         )
-
                         Spacer(modifier = Modifier.size(8.dp))
-
                         Column {
                             Text(text = message.text)
-
                             Row(horizontalArrangement = Arrangement.spacedBy(spacing.s)) {
                                 message.usedTools?.let { tools ->
                                     ElevatedAssistChip(
@@ -112,7 +106,6 @@ fun ChatScreen(
                                         colors = AssistChipDefaults.elevatedAssistChipColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                                     )
                                 }
-
                                 message.sourceDocuments?.let { docs ->
                                     ElevatedAssistChip(
                                         onClick = { showSourceDocsDialogFor = docs },
@@ -125,50 +118,56 @@ fun ChatScreen(
                     }
                 }
             }
+
+            if (uiState.isLoading) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.chatbot),
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp).clip(CircleShape)
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        JumpingDotsIndicator()
+                    }
+                }
+            }
         }
 
         showToolsDialogFor?.let { tools ->
             UsedToolsDialog(
                 tools = tools,
-                onDismissRequest = {
-                    showToolsDialogFor = null
-                }
+                onDismissRequest = { showToolsDialogFor = null }
             )
         }
 
         showSourceDocsDialogFor?.let { docs ->
             SourceDocumentsDialog(
                 documents = docs,
-                onDismissRequest = {
-                    showSourceDocsDialogFor = null
-                }
+                onDismissRequest = { showSourceDocsDialogFor = null }
             )
         }
 
-        if (uiState.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        }
-
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
             horizontalArrangement = Arrangement.spacedBy(spacing.md),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextField(
                 value = prompt,
-                onValueChange = {
-                    prompt = it
-                },
-                modifier = Modifier
-                    .weight(1f),
+                onValueChange = { prompt = it },
+                modifier = Modifier.weight(1f),
             )
-
             Button(
                 onClick = {
                     chatViewModel.sendPrompt(prompt = prompt)
                     prompt = ""
+                    keyboardController?.hide()
                 },
                 enabled = prompt.isNotBlank() && !uiState.isLoading
             ) {

@@ -15,14 +15,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import kotlin.getValue
 
 @KoinViewModel
-class ChatViewModel() : ViewModel(), KoinComponent {
-
-    private val getAiCompletionUseCase: GetAiCompletionUseCase by inject()
+class ChatViewModel(
+    private val getAiCompletionUseCase: GetAiCompletionUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState: StateFlow<ChatUiState> = _uiState.asStateFlow()

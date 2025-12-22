@@ -19,6 +19,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
+            implementation(libs.koin.compose)
         }
 
         commonMain.dependencies {
@@ -31,6 +32,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.annotations)
+            implementation(libs.koin.viewmodel)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -45,6 +47,10 @@ kotlin {
 
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.koin.test)
         }
     }
 }
