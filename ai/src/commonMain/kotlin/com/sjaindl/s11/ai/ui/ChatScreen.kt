@@ -48,7 +48,9 @@ import startingeleven.ai.generated.resources.chat_user
 import startingeleven.ai.generated.resources.chatbot
 
 @Composable
-fun ChatScreen() {
+fun ChatScreen(
+    modifier: Modifier = Modifier,
+) {
     val chatViewModel = viewModel {
         ChatViewModel()
     }
@@ -67,13 +69,13 @@ fun ChatScreen() {
         mutableStateOf<List<SourceDocument>?>(null)
     }
 
-    if (uiState.error != null) {
-        ErrorScreen(text = uiState.error!!)
-        return
-    }
-
-    Column(
-        modifier = Modifier
+    uiState.error?.let {
+        ErrorScreen(
+            modifier = modifier,
+            text = it
+        )
+    } ?: Column(
+        modifier = modifier
             .fillMaxSize(),
     ) {
         LazyColumn(

@@ -24,6 +24,7 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
+import com.sjaindl.s11.ai.ui.AiChat
 import com.sjaindl.s11.core.Event
 import com.sjaindl.s11.core.EventRepository
 import com.sjaindl.s11.core.LocalPlatform
@@ -173,6 +174,11 @@ fun App() {
                     snackbarHost = {
                         SnackbarHost(hostState = snackBarHostState)
                     },
+                    floatingActionButton = {
+                        if (showBottomBar) {
+                            AiChat(navController = navController)
+                        }
+                    }
                 ) {
                     S11NavHost(
                         navController = navController,

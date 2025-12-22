@@ -3,6 +3,7 @@ package com.sjaindl.s11.core.navigation
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
 import com.sjaindl.s11.core.navigation.Route.Auth
+import com.sjaindl.s11.core.navigation.Route.ChatBot
 import com.sjaindl.s11.core.navigation.Route.DebugInfo
 import com.sjaindl.s11.core.navigation.Route.Faqs
 import com.sjaindl.s11.core.navigation.Route.Home
@@ -22,6 +23,7 @@ import org.jetbrains.compose.resources.StringResource
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.debugInfo
 import startingeleven.core.generated.resources.routeAuth
+import startingeleven.core.generated.resources.routeChatbot
 import startingeleven.core.generated.resources.routeFaq
 import startingeleven.core.generated.resources.routeMailSignIn
 import startingeleven.core.generated.resources.routeMailSignUp
@@ -133,6 +135,12 @@ sealed interface Route {
         override val isTopLevelRoute = false
     }
 
+    @Serializable
+    data object ChatBot: Route {
+        override val showBackButton = true
+        override val isTopLevelRoute = false
+    }
+
     companion object {
         fun stringResForRoute(route: Route): StringResource {
             return when (route) {
@@ -156,6 +164,7 @@ sealed interface Route {
                 }
                 is MailSignUp -> Res.string.routeMailSignUp
                 is MailSignIn -> Res.string.routeMailSignIn
+                ChatBot -> Res.string.routeChatbot
             }
         }
     }
@@ -176,6 +185,7 @@ fun NavBackStackEntry?.toRoute(): Route? = when (this?.destination?.route?.subst
     MailSignInHome.toString() -> toRoute<MailSignInHome>()
     MailSignUp.toString().substringBeforeLast("$").substringAfter("$") -> this.toRoute<MailSignUp>()
     MailSignIn.toString().substringBeforeLast("$").substringAfter("$") -> this.toRoute<MailSignIn>()
+    ChatBot.toString() -> toRoute<ChatBot>()
 
     else -> {
         Napier.e("Unknown route: ${this?.destination?.route}")

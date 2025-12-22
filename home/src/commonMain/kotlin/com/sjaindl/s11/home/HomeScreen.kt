@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,7 +17,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import com.sjaindl.s11.ai.ui.AiChat
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import com.sjaindl.s11.home.news.MatchdayNewsScreen
@@ -50,74 +48,68 @@ fun HomeScreen(
         onAuthenticated(isAuthenticated)
     }
 
-    Scaffold(
-        floatingActionButton = {
-            AiChat()
-        }
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = spacing.lg),
+        verticalArrangement = Arrangement.spacedBy(spacing.xl),
     ) {
-        Column(
+        Image(
+            painter = painterResource(Res.drawable.home),
+            contentDescription = null,
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.xl),
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.home),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+                .fillMaxWidth()
+        )
 
-            if (displayName != null) {
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
-                            append(text = "${stringResource(Res.string.hello)} ")
-                        }
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(text = displayName)
-                        }
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
-                            append(text = "!")
-                        }
-                    },
-                    style = typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(horizontal = spacing.md),
-                )
-            }
-
-            NewsScreen(
-                newsState = newsState,
-                loadNews = loadNews,
-                modifier = Modifier
-                    .padding(horizontal = spacing.md),
-            )
-
-            TopPlayersOfRound(
-                statsState = statsState,
-                loadStatistics = loadStatistics,
-                modifier = Modifier
-                    .padding(horizontal = spacing.md),
-            )
-
-            Mvps(
-                statsState = statsState,
-                loadStatistics = loadStatistics,
-                modifier = Modifier
-                    .padding(horizontal = spacing.md)
-                    .padding(bottom = spacing.xl),
-            )
-
-            MatchdayNewsScreen(
-                newsState = newsState,
-                loadNews = loadNews,
+        if (displayName != null) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
+                        append(text = "${stringResource(Res.string.hello)} ")
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(text = displayName)
+                    }
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
+                        append(text = "!")
+                    }
+                },
+                style = typography.bodyLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(horizontal = spacing.md),
             )
         }
+
+        NewsScreen(
+            newsState = newsState,
+            loadNews = loadNews,
+            modifier = Modifier
+                .padding(horizontal = spacing.md),
+        )
+
+        TopPlayersOfRound(
+            statsState = statsState,
+            loadStatistics = loadStatistics,
+            modifier = Modifier
+                .padding(horizontal = spacing.md),
+        )
+
+        Mvps(
+            statsState = statsState,
+            loadStatistics = loadStatistics,
+            modifier = Modifier
+                .padding(horizontal = spacing.md)
+                .padding(bottom = spacing.xl),
+        )
+
+        MatchdayNewsScreen(
+            newsState = newsState,
+            loadNews = loadNews,
+            modifier = Modifier
+                .padding(horizontal = spacing.md),
+        )
     }
 }
 

@@ -21,6 +21,7 @@
     <string name="routeAuthMail">Sign-in with e-mail</string>
     <string name="routeMailSignIn">Sign-in with e-mail</string>
     <string name="routeMailSignUp">Sign-up with e-mail</string>
+    <string name="routeChatbot">HV TDP Assistant</string>
 
     <string name="faqs">FAQs</string>
     <string name="privacyPolicy">Privacy Policy</string>

@@ -37,8 +37,10 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.components.resources)
             implementation(libs.viewmodel.compose)
             implementation(libs.material.icons.extended)
+            implementation(libs.androidx.navigation.compose)
         }
 
         iosMain.dependencies {
