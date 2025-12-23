@@ -54,7 +54,7 @@ import startingeleven.ai.generated.resources.chatbot
 fun ChatScreen(
     modifier: Modifier = Modifier,
 ) {
-    val chatViewModel: ChatViewModel = koinViewModel()
+    val chatViewModel = koinViewModel<ChatViewModel>()
     val uiState by chatViewModel.uiState.collectAsState()
 
     var prompt by remember { mutableStateOf("") }
@@ -64,7 +64,7 @@ fun ChatScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val listState = rememberLazyListState()
 
-    LaunchedEffect(uiState.messages.size, uiState.isLoading) {
+    LaunchedEffect(uiState.messages, uiState.isLoading) {
         if (uiState.messages.isNotEmpty() || uiState.isLoading) {
             listState.animateScrollToItem(listState.layoutInfo.totalItemsCount)
         }
@@ -80,7 +80,8 @@ fun ChatScreen(
     ) {
         LazyColumn(
             state = listState,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f),
         ) {
             items(uiState.messages) { message ->
                 Card(
@@ -88,7 +89,7 @@ fun ChatScreen(
                 ) {
                     Row(
                         modifier = Modifier.padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.Top,
                     ) {
                         Image(
                             painter = painterResource(if (message.isFromUser) Res.drawable.chat_user else Res.drawable.chatbot),
@@ -98,6 +99,12 @@ fun ChatScreen(
                         Spacer(modifier = Modifier.size(8.dp))
                         Column {
                             Text(text = message.text)
+
+                            if (message.isTyping) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                JumpingDotsIndicator()
+                            }
+
                             Row(horizontalArrangement = Arrangement.spacedBy(spacing.s)) {
                                 message.usedTools?.let { tools ->
                                     ElevatedAssistChip(
