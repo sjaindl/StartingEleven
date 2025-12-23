@@ -192,14 +192,18 @@ fun ChatScreen(
         showToolsDialogFor?.let { tools ->
             UsedToolsDialog(
                 tools = tools,
-                onDismissRequest = { showToolsDialogFor = null }
+                onDismissRequest = {
+                    showToolsDialogFor = null
+                },
             )
         }
 
         showSourceDocsDialogFor?.let { docs ->
             SourceDocumentsDialog(
                 documents = docs,
-                onDismissRequest = { showSourceDocsDialogFor = null }
+                onDismissRequest = {
+                    showSourceDocsDialogFor = null
+                },
             )
         }
 
