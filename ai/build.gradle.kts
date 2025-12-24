@@ -4,6 +4,15 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("ChatDatabase") {
+            packageName.set("com.sjaindl.s11.ai.database")
+        }
+    }
 }
 
 kotlin {
@@ -20,6 +29,7 @@ kotlin {
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
+            implementation(libs.sqldelight.android.driver)
         }
 
         commonMain.dependencies {
@@ -43,10 +53,14 @@ kotlin {
             implementation(libs.viewmodel.compose)
             implementation(libs.material.icons.extended)
             implementation(libs.androidx.navigation.compose)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines.extensions)
+
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
+            implementation(libs.sqldelight.native.driver)
         }
 
         commonTest.dependencies {

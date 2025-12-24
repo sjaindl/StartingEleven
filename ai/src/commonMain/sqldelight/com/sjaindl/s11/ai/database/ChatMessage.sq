@@ -1,0 +1,18 @@
+CREATE TABLE chatMessage (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    message TEXT NOT NULL,
+    isFromUser INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    usedTools TEXT,
+    sourceDocuments TEXT
+);
+
+selectAll: SELECT * FROM chatMessage;
+
+insert: INSERT INTO chatMessage(message, isFromUser, timestamp, usedTools, sourceDocuments) VALUES (?, ?, ?, ?, ?);
+
+lastInsertRowId: SELECT last_insert_rowid();
+
+updateMessage: UPDATE chatMessage SET message = ?, usedTools = ?, sourceDocuments = ? WHERE id = ?;
+
+clear: DELETE FROM chatMessage;
