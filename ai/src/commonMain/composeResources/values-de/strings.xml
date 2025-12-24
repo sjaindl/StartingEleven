@@ -1,0 +1,5 @@
+<resources>
+    <string name="sample_question_1">Wann wurde der HV TDP gegründet?</string>
+    <string name="sample_question_2">Welche 5 Spieler haben die meisten Trainings?</string>
+    <string name="sample_questions_title">Noch keine Nachrichten</string>
+</resources>

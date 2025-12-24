@@ -1,0 +1,5 @@
+<resources>
+    <string name="sample_question_1">When was HVTDP established?</string>
+    <string name="sample_question_2">Which are the 5 players with the highest training participation?</string>
+    <string name="sample_questions_title">No messages yet</string>
+</resources>
