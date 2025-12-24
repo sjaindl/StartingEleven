@@ -12,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.chatbot
 
@@ -38,5 +40,13 @@ fun ChatLoadingScreen() {
         )
 
         JumpingDotsIndicator()
+    }
+}
+
+@Preview
+@Composable
+fun ChatLoadingScreenPreview() {
+    HvtdpTheme {
+        ChatLoadingScreen()
     }
 }

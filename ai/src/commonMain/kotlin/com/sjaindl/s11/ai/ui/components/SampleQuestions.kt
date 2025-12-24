@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.sample_question_1
 import startingeleven.ai.generated.resources.sample_question_2
@@ -64,5 +66,13 @@ fun SampleQuestions(onSendPrompt: (String) -> Unit) {
                 }
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun SampleQuestionsPreview() {
+    HvtdpTheme {
+        SampleQuestions(onSendPrompt = {})
     }
 }

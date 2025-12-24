@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,5 +45,18 @@ fun S11BottomSheet(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun S11BottomSheetPreview() {
+    HvtdpTheme {
+        S11BottomSheet(
+            onDismissBottomSheet = {},
+            content = {
+                Text(text = "This is a preview")
+            }
+        )
     }
 }

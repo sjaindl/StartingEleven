@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.ai.ui.ChatUiState
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ChatInputControl(
@@ -60,5 +62,18 @@ fun ChatInputControl(
                 contentDescription = null,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun ChatInputControlPreview() {
+    HvtdpTheme {
+        ChatInputControl(
+            uiState = ChatUiState(
+                isLoading = false,
+            ),
+            onSendPrompt = {}
+        )
     }
 }

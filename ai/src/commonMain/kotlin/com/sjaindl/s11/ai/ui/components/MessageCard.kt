@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.ai.data.remote.model.SourceDocument
 import com.sjaindl.s11.ai.data.remote.model.Tool
 import com.sjaindl.s11.ai.ui.ChatMessage
+import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.chat_user
 import startingeleven.ai.generated.resources.chatbot
@@ -52,14 +54,15 @@ fun MessageCard(
         Row(
             modifier = Modifier
                 .padding(all = 8.dp),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = painterResource(if (message.isFromUser) Res.drawable.chat_user else Res.drawable.chatbot),
                 contentDescription = null,
                 modifier = Modifier
                     .size(size = 40.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .align(Alignment.Top),
             )
 
             Spacer(
@@ -128,6 +131,19 @@ fun MessageCard(
             onDismissRequest = {
                 showSourceDocsDialogFor = null
             },
+        )
+    }
+}
+
+@Preview
+@Composable
+fun MessageCardPreview() {
+    HvtdpTheme {
+        MessageCard(
+            message = ChatMessage(
+                text = "This is a preview with a very long text to see how it looks like",
+                isFromUser = false
+            )
         )
     }
 }
