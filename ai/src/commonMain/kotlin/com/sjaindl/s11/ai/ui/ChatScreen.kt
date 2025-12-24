@@ -17,7 +17,10 @@ import com.sjaindl.s11.ai.ui.components.SampleQuestions
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import kotlinx.serialization.json.JsonPrimitive
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.ai.generated.resources.Res
+import startingeleven.ai.generated.resources.welcome_message
 
 @Composable
 fun ChatScreen(
@@ -49,6 +52,13 @@ fun ChatScreen(
         ) {
             if (uiState.messages.isEmpty() && !uiState.isLoading) {
                 item {
+                    MessageCard(
+                        message = ChatMessage(
+                            text = stringResource(Res.string.welcome_message),
+                            isFromUser = false,
+                        )
+                    )
+
                     SampleQuestions(onSendPrompt = onSendPrompt)
                 }
             }
