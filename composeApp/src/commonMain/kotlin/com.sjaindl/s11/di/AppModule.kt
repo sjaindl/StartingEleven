@@ -1,8 +1,8 @@
 package com.sjaindl.s11.di
 
-import com.sjaindl.s11.ai.config.AssistantConfig
-import com.sjaindl.s11.ai.config.Provider
-import com.sjaindl.s11.ai.di.aiModule
+import com.sjaindl.s11.assistant.config.AssistantConfig
+import com.sjaindl.s11.assistant.config.Provider
+import com.sjaindl.s11.assistant.di.assistantModule
 import com.sjaindl.s11.firestore.faq.FaqDataSource
 import com.sjaindl.s11.firestore.faq.FaqDataSourceImpl
 import com.sjaindl.s11.firestore.faq.FaqRepository
@@ -14,13 +14,13 @@ import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.storage.storage
 import org.koin.dsl.module
 import startingeleven.composeapp.generated.resources.Res
-import startingeleven.composeapp.generated.resources.ai_assistant_title
+import startingeleven.composeapp.generated.resources.assistant_title
 import startingeleven.composeapp.generated.resources.sample_question_1
 import startingeleven.composeapp.generated.resources.sample_question_2
 import startingeleven.composeapp.generated.resources.welcome_message
 
 val appModule = module {
-    includes(aiModule)
+    includes(assistantModule)
     single<FaqRepository> { FaqRepositoryImpl(playerDataSource = get()) }
     single<FaqDataSource> { FaqDataSourceImpl(firestore = get()) }
 
@@ -39,7 +39,7 @@ val appModule = module {
             ),
             sampleQuestions = listOf(Res.string.sample_question_1, Res.string.sample_question_2),
             welcomeMessage = Res.string.welcome_message,
-            appBarTitle = Res.string.ai_assistant_title,
+            appBarTitle = Res.string.assistant_title,
         )
     }
 }

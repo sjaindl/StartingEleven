@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.sjaindl.s11.AppViewModel
-import com.sjaindl.s11.ai.navigation.aiGraph
+import com.sjaindl.s11.assistant.navigation.assistantGraph
 import com.sjaindl.s11.auth.navigation.authenticationGraph
 import com.sjaindl.s11.core.extensions.primaryScreenComposable
 import com.sjaindl.s11.core.extensions.secondaryScreenComposable
@@ -152,7 +152,7 @@ fun S11NavHost(
             }
         )
 
-        aiGraph(rootNavController = navController)
+        assistantGraph(rootNavController = navController)
 
         secondaryScreenComposable<Faqs> {
             val faqViewModel = viewModel {

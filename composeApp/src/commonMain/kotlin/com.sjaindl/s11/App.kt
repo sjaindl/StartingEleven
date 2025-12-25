@@ -24,7 +24,7 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
-import com.sjaindl.s11.ai.ui.AiChat
+import com.sjaindl.s11.assistant.ui.AssistantChat
 import com.sjaindl.s11.core.Event
 import com.sjaindl.s11.core.EventRepository
 import com.sjaindl.s11.core.LocalPlatform
@@ -179,7 +179,7 @@ fun App() {
                     },
                     floatingActionButton = {
                         if (showBottomBar) {
-                            AiChat(navController = navController)
+                            AssistantChat(navController = navController)
                         }
                     }
                 ) {

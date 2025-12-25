@@ -1,6 +1,6 @@
 package com.sjaindl.s11.di
 
-import com.sjaindl.s11.ai.di.aiModule
+import com.sjaindl.s11.assistant.di.assistantModule
 import com.sjaindl.s11.core.di.coreModule
 import com.sjaindl.s11.players.di.playerModule
 import com.sjaindl.s11.standings.di.standingsModule
@@ -11,7 +11,7 @@ fun initKoin() {
     startKoin {
         modules(
             appModule,
-            aiModule,
+            assistantModule,
             coreModule,
             playerModule,
             standingsModule,

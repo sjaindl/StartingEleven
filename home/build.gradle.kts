@@ -50,7 +50,7 @@ kotlin {
                 implementation(libs.firebase.storage)
 
                 implementation(project(":core"))
-                implementation(project(":ai"))
+                implementation(project(":assistant"))
             }
         }
 
