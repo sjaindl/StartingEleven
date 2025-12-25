@@ -121,7 +121,7 @@ fun ChatScreenPreview() {
                     ),
                 )
             ),
-            onSendPrompt = { }
+            onSendPrompt = { },
         )
     }
 }
@@ -135,7 +135,7 @@ fun ChatScreenEmptyPreview() {
                 isLoading = false,
                 messages = emptyList(),
             ),
-            onSendPrompt = { }
+            onSendPrompt = { },
         )
     }
 }

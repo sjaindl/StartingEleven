@@ -1,4 +1,5 @@
 <resources>
+    <string name="back">Back</string>
     <string name="sample_question_1">When was HVTDP established?</string>
     <string name="sample_question_2">Which are the 5 players with the highest training participation?</string>
     <string name="welcome_message">Hello sports fan! I am the HV TDP Assistant and I am happy to answer all your questions about HV TDP Stainz!</string>

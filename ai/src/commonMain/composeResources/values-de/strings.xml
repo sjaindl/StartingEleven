@@ -1,4 +1,5 @@
 <resources>
+    <string name="back">Zurück</string>
     <string name="sample_question_1">Wann wurde der HV TDP gegründet?</string>
     <string name="sample_question_2">Welche 5 Spieler haben die meisten Trainings?</string>
     <string name="welcome_message">Hallo Sportsfreund! Ich bin der HV TDP Assistant und beantworte dir gerne alle Fragen rund um den HV TDP Stainz!</string>

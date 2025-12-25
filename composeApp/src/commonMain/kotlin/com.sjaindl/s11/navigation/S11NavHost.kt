@@ -152,7 +152,7 @@ fun S11NavHost(
             }
         )
 
-        aiGraph()
+        aiGraph(rootNavController = navController)
 
         secondaryScreenComposable<Faqs> {
             val faqViewModel = viewModel {

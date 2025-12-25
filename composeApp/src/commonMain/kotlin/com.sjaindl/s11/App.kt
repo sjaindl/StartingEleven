@@ -122,42 +122,45 @@ fun App() {
             CompositionLocalProvider(LocalPlatform provides getPlatform()) {
                 Scaffold(
                     topBar = {
-                        Column {
-                            //Text("canNavigateBack: $canNavigateBack")
-                            //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
-                            //Text("currentRoute: $currentRoute")
-                            S11AppBar(
-                                userIsSignedIn = user != null,
-                                currentRoute = currentRoute,
-                                canNavigateBack = canNavigateBack,
-                                saveTeamEnabled = saveTeamEnabled,
-                                saveTeam = {
-                                    coroutineScope.launch {
-                                        eventRepository.saveTeam()
+
+                        if (currentRoute != Route.ChatBot) {
+                            Column {
+                                //Text("canNavigateBack: $canNavigateBack")
+                                //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
+                                //Text("currentRoute: $currentRoute")
+                                S11AppBar(
+                                    userIsSignedIn = user != null,
+                                    currentRoute = currentRoute,
+                                    canNavigateBack = canNavigateBack,
+                                    saveTeamEnabled = saveTeamEnabled,
+                                    saveTeam = {
+                                        coroutineScope.launch {
+                                            eventRepository.saveTeam()
+                                        }
+                                    },
+                                    navigateUp = navController::navigateUp,
+                                    navigateHome = {
+                                        navController.navigate(Home) {
+                                            popUpTo<Home>()
+                                        }
+                                    },
+                                    navigateToFaqs = {
+                                        navController.navigate(route = Faqs)
+                                    },
+                                    navigateToPrices = {
+                                        navController.navigate(route = Route.Prices)
+                                    },
+                                    navigateToPrivacyPolicy = {
+                                        navController.navigate(route = Route.Privacy)
+                                    },
+                                    navigateToDebugInfo = {
+                                        navController.navigate(route = Route.DebugInfo)
+                                    },
+                                    onClickProfile = {
+                                        navController.navigateToProfile()
                                     }
-                                },
-                                navigateUp = navController::navigateUp,
-                                navigateHome = {
-                                    navController.navigate(Home) {
-                                        popUpTo<Home>()
-                                    }
-                                },
-                                navigateToFaqs = {
-                                    navController.navigate(route = Faqs)
-                                },
-                                navigateToPrices = {
-                                    navController.navigate(route = Route.Prices)
-                                },
-                                navigateToPrivacyPolicy = {
-                                    navController.navigate(route = Route.Privacy)
-                                },
-                                navigateToDebugInfo = {
-                                    navController.navigate(route = Route.DebugInfo)
-                                },
-                                onClickProfile = {
-                                    navController.navigateToProfile()
-                                }
-                            )
+                                )
+                            }
                         }
                     },
                     bottomBar = {
@@ -187,8 +190,12 @@ fun App() {
                                 snackBarHostState.showSnackbar(message = it)
                             }
                         },
-                        modifier = Modifier
-                            .padding(paddingValues = it),
+                        modifier = if (currentRoute == Route.ChatBot) {
+                            Modifier
+                        } else {
+                            Modifier
+                                .padding(paddingValues = it)
+                        }
                     )
                 }
             }

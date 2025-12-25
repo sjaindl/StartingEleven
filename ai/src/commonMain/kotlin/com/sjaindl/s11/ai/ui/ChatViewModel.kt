@@ -144,6 +144,15 @@ class ChatViewModel(
                 .collect()
         }
     }
+
+    fun resetChat() {
+        viewModelScope.launch {
+            chatMessageDataSource.clear()
+            _uiState.update {
+                it.copy(messages = emptyList())
+            }
+        }
+    }
 }
 
 data class ChatUiState(
