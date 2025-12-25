@@ -14,9 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.chatbot
+import startingeleven.ai.generated.resources.chatbot_icon
 
 @Composable
 fun ChatLoadingScreen() {
@@ -28,7 +30,7 @@ fun ChatLoadingScreen() {
     ) {
         Image(
             painter = painterResource(Res.drawable.chatbot),
-            contentDescription = "",
+            contentDescription = stringResource(Res.string.chatbot_icon),
             modifier = Modifier
                 .size(size = 40.dp)
                 .clip(CircleShape)

@@ -29,10 +29,13 @@ import com.sjaindl.s11.ai.ui.ChatMessage
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.chat_user
 import startingeleven.ai.generated.resources.chatbot
+import startingeleven.ai.generated.resources.source_documents
+import startingeleven.ai.generated.resources.used_tools
 
 @Composable
 fun MessageCard(
@@ -91,7 +94,7 @@ fun MessageCard(
                                 showToolsDialogFor = tools
                             },
                             label = {
-                                Text("Used Tools (${tools.size})")
+                                Text(stringResource(Res.string.used_tools, tools.size))
                             },
                             colors = AssistChipDefaults.elevatedAssistChipColors(
                                 containerColor = colorScheme.secondaryContainer,
@@ -104,7 +107,7 @@ fun MessageCard(
                                 showSourceDocsDialogFor = docs
                             },
                             label = {
-                                Text("Source Documents (${docs.size})")
+                                Text(stringResource(Res.string.source_documents, docs.size))
                             },
                             colors = AssistChipDefaults.elevatedAssistChipColors(
                                 containerColor = colorScheme.tertiaryContainer,

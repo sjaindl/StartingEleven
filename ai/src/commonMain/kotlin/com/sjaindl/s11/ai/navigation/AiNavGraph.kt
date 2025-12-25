@@ -37,7 +37,6 @@ fun NavGraphBuilder.aiGraph(
                     .padding(paddingValues = it),
                 uiState = uiState,
                 onSendPrompt = chatViewModel::sendPrompt,
-                onResetChat = chatViewModel::resetChat,
             )
         }
     }

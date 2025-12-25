@@ -25,7 +25,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.sjaindl.s11.ai.data.remote.model.SourceDocument
 import kotlinx.serialization.json.JsonPrimitive
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.ai.generated.resources.Res
+import startingeleven.ai.generated.resources.close
+import startingeleven.ai.generated.resources.source_documents_title
 
 @Composable
 fun SourceDocumentsDialog(
@@ -53,12 +57,12 @@ fun SourceDocumentsDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Source Documents",
+                        text = stringResource(Res.string.source_documents_title),
                         style = MaterialTheme.typography.titleLarge,
                     )
 
                     IconButton(onClick = onDismissRequest) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(Res.string.close))
                     }
                 }
 

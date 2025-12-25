@@ -3,4 +3,16 @@
     <string name="sample_question_1">Wann wurde der HV TDP gegründet?</string>
     <string name="sample_question_2">Welche 5 Spieler haben die meisten Trainings?</string>
     <string name="welcome_message">Hallo Sportsfreund! Ich bin der HV TDP Assistant und beantworte dir gerne alle Fragen rund um den HV TDP Stainz!</string>
+    <string name="ai_assistant_title">HV TDP Assistant</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="chat">Chat</string>
+    <string name="chatbot_icon">Chatbot-Symbol</string>
+    <string name="used_tools">Verwendete Tools (%1$d)</string>
+    <string name="source_documents">Quelldokumente (%1$d)</string>
+    <string name="source_documents_title">Quelldokumente</string>
+    <string name="close">Schließen</string>
+    <string name="tools_title">Tools</string>
+    <string name="tool_name">Tool: %1$s</string>
+    <string name="tool_input">Input: %1$s</string>
+    <string name="tool_output">Output: %1$s</string>
 </resources>

@@ -3,4 +3,16 @@
     <string name="sample_question_1">When was HVTDP established?</string>
     <string name="sample_question_2">Which are the 5 players with the highest training participation?</string>
     <string name="welcome_message">Hello sports fan! I am the HV TDP Assistant and I am happy to answer all your questions about HV TDP Stainz!</string>
+    <string name="ai_assistant_title">HV TDP Assistant</string>
+    <string name="reset">Reset</string>
+    <string name="chat">Chat</string>
+    <string name="chatbot_icon">Chatbot icon</string>
+    <string name="used_tools">Used Tools (%1$d)</string>
+    <string name="source_documents">Source Documents (%1$d)</string>
+    <string name="source_documents_title">Source Documents</string>
+    <string name="close">Close</string>
+    <string name="tools_title">Tools</string>
+    <string name="tool_name">Tool: %1$s</string>
+    <string name="tool_input">Input: %1$s</string>
+    <string name="tool_output">Output: %1$s</string>
 </resources>

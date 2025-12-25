@@ -26,7 +26,14 @@ import androidx.compose.ui.window.DialogProperties
 import com.sjaindl.s11.ai.data.remote.model.Tool
 import com.sjaindl.s11.core.theme.spacing
 import kotlinx.serialization.json.JsonPrimitive
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.ai.generated.resources.Res
+import startingeleven.ai.generated.resources.close
+import startingeleven.ai.generated.resources.tool_input
+import startingeleven.ai.generated.resources.tool_name
+import startingeleven.ai.generated.resources.tool_output
+import startingeleven.ai.generated.resources.tools_title
 
 @Composable
 fun UsedToolsDialog(
@@ -54,11 +61,11 @@ fun UsedToolsDialog(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "Tools",
+                        text = stringResource(Res.string.tools_title),
                         style = MaterialTheme.typography.titleLarge,
                     )
                     IconButton(onClick = onDismissRequest) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(Res.string.close))
                     }
                 }
 
@@ -78,11 +85,11 @@ fun UsedToolsDialog(
                                     .padding(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(space = spacing.s),
                             ) {
-                                Text("Tool: ${tool.tool}", style = MaterialTheme.typography.titleMedium)
+                                Text(stringResource(Res.string.tool_name, tool.tool), style = MaterialTheme.typography.titleMedium)
 
-                                Text("Input: ${tool.toolInput}")
+                                Text(stringResource(Res.string.tool_input, tool.toolInput))
 
-                                Text("Output: ${tool.toolOutput}")
+                                Text(stringResource(Res.string.tool_output, tool.toolOutput))
                             }
                         }
                     }

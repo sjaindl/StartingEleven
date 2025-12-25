@@ -16,7 +16,9 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
+import startingeleven.ai.generated.resources.ai_assistant_title
 import startingeleven.ai.generated.resources.back
+import startingeleven.ai.generated.resources.reset
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,7 +30,7 @@ fun AIAppBar(
     TopAppBar(
         title = {
             Text(
-                text = "HV TDP Assistant",
+                text = stringResource(Res.string.ai_assistant_title),
                 color = colorScheme.onPrimary,
             )
         },
@@ -52,7 +54,7 @@ fun AIAppBar(
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
-                    contentDescription = "Reset",
+                    contentDescription = stringResource(Res.string.reset),
                     tint = colorScheme.onPrimary,
                 )
             }
