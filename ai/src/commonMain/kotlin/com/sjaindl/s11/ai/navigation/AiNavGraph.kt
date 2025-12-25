@@ -8,9 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.sjaindl.s11.ai.config.AssistantConfig
 import com.sjaindl.s11.ai.ui.AIAppBar
 import com.sjaindl.s11.ai.ui.ChatScreen
 import com.sjaindl.s11.ai.ui.ChatViewModel
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 const val chatScreenRoute = "ChatBot"
@@ -21,14 +23,16 @@ fun NavGraphBuilder.aiGraph(
     composable(route = chatScreenRoute) {
         val chatViewModel = koinViewModel<ChatViewModel>()
         val uiState by chatViewModel.uiState.collectAsState()
+        val config = koinInject<AssistantConfig>()
 
         Scaffold(
             topBar = {
                 AIAppBar(
+                    title = config.appBarTitle,
                     onResetChat = chatViewModel::resetChat,
                     navigateUp = {
                         rootNavController.popBackStack()
-                    }
+                    },
                 )
             }
         ) {

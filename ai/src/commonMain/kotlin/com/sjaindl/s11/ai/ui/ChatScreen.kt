@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.sjaindl.s11.ai.config.AssistantConfig
 import com.sjaindl.s11.ai.data.remote.model.SourceDocument
 import com.sjaindl.s11.ai.data.remote.model.Tool
 import com.sjaindl.s11.ai.ui.components.ChatInputControl
@@ -19,8 +20,7 @@ import com.sjaindl.s11.core.theme.HvtdpTheme
 import kotlinx.serialization.json.JsonPrimitive
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import startingeleven.ai.generated.resources.Res
-import startingeleven.ai.generated.resources.welcome_message
+import org.koin.compose.koinInject
 
 @Composable
 fun ChatScreen(
@@ -29,6 +29,7 @@ fun ChatScreen(
     onSendPrompt: (String) -> Unit,
 ) {
     val listState = rememberLazyListState()
+    val config = koinInject<AssistantConfig>()
 
     LaunchedEffect(uiState.messages, uiState.isLoading) {
         if (uiState.messages.isNotEmpty() || uiState.isLoading) {
@@ -51,15 +52,17 @@ fun ChatScreen(
                 .weight(1f),
         ) {
             if (uiState.messages.isEmpty() && !uiState.isLoading) {
-                item {
-                    MessageCard(
-                        message = ChatMessage(
-                            text = stringResource(Res.string.welcome_message),
-                            isFromUser = false,
+                config.welcomeMessage?.let {
+                    item {
+                        MessageCard(
+                            message = ChatMessage(
+                                text = stringResource(config.welcomeMessage),
+                                isFromUser = false,
+                            )
                         )
-                    )
 
-                    SampleQuestions(onSendPrompt = onSendPrompt)
+                        SampleQuestions(onSendPrompt = onSendPrompt)
+                    }
                 }
             }
             items(items = uiState.messages) { message ->

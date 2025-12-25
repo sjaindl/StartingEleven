@@ -2,6 +2,7 @@ package com.sjaindl.s11.ai.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjaindl.s11.ai.config.AssistantConfig
 import com.sjaindl.s11.ai.data.ChatMessageDataSource
 import com.sjaindl.s11.ai.data.remote.model.FlowiseResponse
 import com.sjaindl.s11.ai.data.remote.model.SourceDocument
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class ChatViewModel(
     private val getAiCompletionUseCase: GetAiCompletionUseCase,
     private val chatMessageDataSource: ChatMessageDataSource,
+    private val config: AssistantConfig,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -85,24 +87,32 @@ class ChatViewModel(
                             }
 
                             is FlowiseResponse.UsedTools -> {
-                                val index = currentState.messages.indexOfFirst { it.id == currentAiMessageId }
-                                if (index != -1) {
-                                    val updatedMessages = currentState.messages.toMutableList()
-                                    val currentMessage = updatedMessages[index]
-                                    updatedMessages[index] = currentMessage.copy(usedTools = response.data)
-                                    currentState.copy(messages = updatedMessages)
+                                if (config.showTools) {
+                                    val index = currentState.messages.indexOfFirst { it.id == currentAiMessageId }
+                                    if (index != -1) {
+                                        val updatedMessages = currentState.messages.toMutableList()
+                                        val currentMessage = updatedMessages[index]
+                                        updatedMessages[index] = currentMessage.copy(usedTools = response.data)
+                                        currentState.copy(messages = updatedMessages)
+                                    } else {
+                                        currentState
+                                    }
                                 } else {
                                     currentState
                                 }
                             }
 
                             is FlowiseResponse.SourceDocuments -> {
-                                val index = currentState.messages.indexOfFirst { it.id == currentAiMessageId }
-                                if (index != -1) {
-                                    val updatedMessages = currentState.messages.toMutableList()
-                                    val currentMessage = updatedMessages[index]
-                                    updatedMessages[index] = currentMessage.copy(sourceDocuments = response.data)
-                                    currentState.copy(messages = updatedMessages)
+                                if (config.showSourceDocuments) {
+                                    val index = currentState.messages.indexOfFirst { it.id == currentAiMessageId }
+                                    if (index != -1) {
+                                        val updatedMessages = currentState.messages.toMutableList()
+                                        val currentMessage = updatedMessages[index]
+                                        updatedMessages[index] = currentMessage.copy(sourceDocuments = response.data)
+                                        currentState.copy(messages = updatedMessages)
+                                    } else {
+                                        currentState
+                                    }
                                 } else {
                                     currentState
                                 }
@@ -115,7 +125,7 @@ class ChatViewModel(
                             else -> currentState
                         }
                     }
-                    delay(4)
+                    delay(config.streamingDelayMilliseconds)
                 }
                 .catch { e ->
                     _uiState.update { it.copy(error = e.message, isLoading = false) }

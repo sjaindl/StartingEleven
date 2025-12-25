@@ -34,7 +34,7 @@ val aiModule = module {
     }
 
     factory {
-        ChatViewModel(get(), get())
+        ChatViewModel(get(), get(), get())
     }
 
     single<GetAiCompletionUseCase> {

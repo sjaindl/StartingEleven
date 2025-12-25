@@ -19,14 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import com.sjaindl.s11.ai.config.AssistantConfig
 import com.sjaindl.s11.ai.ui.ChatUiState
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import startingeleven.ai.generated.resources.Res
 import startingeleven.ai.generated.resources.character_limit_exceeded
-import startingeleven.ai.generated.resources.prompt_label
 
 @Composable
 fun ChatInputControl(
@@ -38,8 +39,9 @@ fun ChatInputControl(
     }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+    val config = koinInject<AssistantConfig>()
 
-    val isError = prompt.length > 250
+    val isError = prompt.length > config.messageCharLimit
 
     Row(
         modifier = Modifier
@@ -56,8 +58,8 @@ fun ChatInputControl(
             modifier = Modifier
                 .weight(weight = 1f),
             isError = isError,
-            label = {
-                Text(stringResource(Res.string.prompt_label))
+            placeholder = {
+                Text(stringResource(config.promptPlaceholder))
             },
             supportingText = {
                 if (isError) {

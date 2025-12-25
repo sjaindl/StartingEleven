@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.sjaindl.s11.core.theme.HvtdpTheme
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.ai.generated.resources.Res
@@ -23,6 +24,7 @@ import startingeleven.ai.generated.resources.reset
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AIAppBar(
+    title: StringResource,
     onResetChat: () -> Unit,
     modifier: Modifier = Modifier,
     navigateUp: () -> Unit = { },
@@ -30,7 +32,7 @@ fun AIAppBar(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(Res.string.ai_assistant_title),
+                text = stringResource(title),
                 color = colorScheme.onPrimary,
             )
         },
@@ -70,6 +72,7 @@ fun AIAppBar(
 fun ChatBotAppBarPreview() {
     HvtdpTheme {
         AIAppBar(
+            title = Res.string.ai_assistant_title,
             onResetChat = { },
             navigateUp = { },
         )
