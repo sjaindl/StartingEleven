@@ -15,4 +15,6 @@
     <string name="tool_name">Tool: %1$s</string>
     <string name="tool_input">Input: %1$s</string>
     <string name="tool_output">Output: %1$s</string>
+    <string name="character_limit_exceeded">Character limit exceeded</string>
+    <string name="prompt_label">Ask me anything...</string>
 </resources>

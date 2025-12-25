@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +22,11 @@ import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.ai.ui.ChatUiState
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import startingeleven.ai.generated.resources.Res
+import startingeleven.ai.generated.resources.character_limit_exceeded
+import startingeleven.ai.generated.resources.prompt_label
 
 @Composable
 fun ChatInputControl(
@@ -33,6 +38,8 @@ fun ChatInputControl(
     }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val isError = prompt.length > 250
 
     Row(
         modifier = Modifier
@@ -48,6 +55,15 @@ fun ChatInputControl(
             },
             modifier = Modifier
                 .weight(weight = 1f),
+            isError = isError,
+            label = {
+                Text(stringResource(Res.string.prompt_label))
+            },
+            supportingText = {
+                if (isError) {
+                    Text(stringResource(Res.string.character_limit_exceeded))
+                }
+            }
         )
         Button(
             onClick = {
@@ -55,7 +71,7 @@ fun ChatInputControl(
                 prompt = ""
                 keyboardController?.hide()
             },
-            enabled = prompt.isNotBlank() && !uiState.isLoading
+            enabled = prompt.isNotBlank() && !uiState.isLoading && !isError
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.Send,
