@@ -8,6 +8,7 @@ import com.sjaindl.s11.assistant.data.remote.model.FlowiseResponse
 import com.sjaindl.s11.assistant.data.remote.model.SourceDocument
 import com.sjaindl.s11.assistant.data.remote.model.Tool
 import com.sjaindl.s11.assistant.domain.usecase.GetAssistantCompletionUseCase
+import com.sjaindl.s11.core.util.generateUUID
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,7 @@ class ChatViewModel(
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
-    private var chatId: String? = null
+    private var chatId: String = generateUUID()
 
     init {
         viewModelScope.launch {
