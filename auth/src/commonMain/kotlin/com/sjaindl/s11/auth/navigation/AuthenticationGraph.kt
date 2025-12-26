@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import com.sjaindl.s11.auth.SignInChooserScreen
 import com.sjaindl.s11.auth.SignInWithMailHomeScreen
 import com.sjaindl.s11.auth.SignInWithMailScreen
@@ -21,9 +22,6 @@ import com.sjaindl.s11.core.navigation.Route.MailSignIn
 import com.sjaindl.s11.core.navigation.Route.MailSignInHome
 import com.sjaindl.s11.core.navigation.Route.MailSignUp
 import com.sjaindl.s11.core.navigation.Route.SignInChooser
-
-private const val MAIL_ARG = "email"
-private const val IS_SIGNUP_ARG = "isSignUp"
 
 private fun NavController.navigateToMailSignInHome(isSignUp: Boolean, navOptions: NavOptions? = null) {
     navigate(route = MailSignInHome(isSignUp = isSignUp), navOptions = navOptions)
@@ -83,7 +81,7 @@ fun NavGraphBuilder.authenticationGraph(
     }
 
     secondaryScreenComposable<MailSignInHome> { navBackStackEntry ->
-        val isSignUp = navBackStackEntry.arguments?.getBoolean(IS_SIGNUP_ARG) ?: true
+        val isSignUp = navBackStackEntry.toRoute<MailSignInHome>().isSignUp
 
         SignInWithMailHomeScreen(
             isSignUp = isSignUp,
@@ -98,7 +96,7 @@ fun NavGraphBuilder.authenticationGraph(
     }
 
     secondaryScreenComposable<MailSignIn> { navBackStackEntry ->
-        val email = navBackStackEntry.arguments?.getString(MAIL_ARG).orEmpty()
+        val email = navBackStackEntry.toRoute<MailSignIn>().email
 
         SignInWithMailScreen(
             email = email,
@@ -110,7 +108,7 @@ fun NavGraphBuilder.authenticationGraph(
     }
 
     secondaryScreenComposable<MailSignUp> { navBackStackEntry ->
-        val email = navBackStackEntry.arguments?.getString(MAIL_ARG).orEmpty()
+        val email = navBackStackEntry.toRoute<MailSignUp>().email
 
         SignUpWithMailScreen(
             email = email,

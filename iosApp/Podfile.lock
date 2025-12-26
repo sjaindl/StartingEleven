@@ -1162,14 +1162,14 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.36)
   - BoringSSL-GRPC/Interface (0.0.36)
   - composeApp (1.0):
-    - FBSDKCoreKit (= 18.0.0)
-    - FBSDKLoginKit (= 18.0.0)
-    - FirebaseAuth (= 11.6.0)
-    - FirebaseCore (= 11.6.0)
-    - FirebaseFirestore (= 11.6.0)
-    - FirebaseMessaging (= 11.6.0)
-    - FirebaseRemoteConfig (= 11.6.0)
-    - FirebaseStorage (= 11.6.0)
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseFirestore
+    - FirebaseMessaging
+    - FirebaseRemoteConfig
+    - FirebaseStorage
     - GoogleSignIn
   - FBAEMKit (18.0.0):
     - FBSDKCoreKit_Basics (= 18.0.0)
@@ -1388,6 +1388,9 @@ PODS:
 
 DEPENDENCIES:
   - composeApp (from `../composeApp`)
+  - FBSDKCoreKit
+  - FirebaseCore
+  - FirebaseMessaging
 
 SPEC REPOS:
   trunk:
@@ -1435,7 +1438,7 @@ SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
-  composeApp: 1cb9d8302b952072c736eb59db795f9f0217fc93
+  composeApp: 171865e727002f8bbaae63176f93957b8b24b4a9
   FBAEMKit: e34530df538b8eb8aeb53c35867715ba6c63ef0c
   FBSDKCoreKit: d3f479a69127acebb1c6aad91c1a33907bcf6c2f
   FBSDKCoreKit_Basics: 017b6dc2a1862024815a8229e75661e627ac1e29
@@ -1467,6 +1470,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 
-PODFILE CHECKSUM: a955f00aa9626bca0516b740169b052cabe153ca
+PODFILE CHECKSUM: f7a38971f279c36f0c10160d224db118aaafdb83
 
 COCOAPODS: 1.16.2

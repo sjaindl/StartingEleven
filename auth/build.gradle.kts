@@ -36,7 +36,7 @@ kotlin {
         summary = "S11 iOS auth dependencies"
         homepage = "https://starting-eleven-2019.firebaseapp.com/home"
         version = "1.0"
-        ios.deploymentTarget = "15.5"
+        ios.deploymentTarget = "23.0"
 
         podfile = project.file("../iosApp/Podfile")
 
@@ -47,16 +47,16 @@ kotlin {
             isStatic = true
         }
 
-        pod(name = "GoogleSignIn")
+        pod(name = "GoogleSignIn") {
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "18.0.0"
         }
 
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "18.0.0"
         }
     }
 
@@ -96,7 +96,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.annotations)
-               // implementation(libs.koin.viewmodel)
+                implementation(libs.koin.viewmodel)
 
                 implementation(project(":core"))
             }
@@ -108,6 +108,10 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotest.assertions.core)
             implementation(libs.koin.test)
+        }
+
+        androidUnitTest.dependencies {
+            implementation(libs.junit)
         }
 
         //val wasmJsMain by getting {

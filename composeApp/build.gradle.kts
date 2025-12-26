@@ -59,7 +59,7 @@ kotlin {
         summary = "S11 iOS dependencies"
         homepage = "https://starting-eleven-2019.firebaseapp.com/home"
         version = "1.0"
-        ios.deploymentTarget = "15.5"
+        ios.deploymentTarget = "23.0"
 
         podfile = project.file("../iosApp/Podfile")
         name = "composeApp"
@@ -74,39 +74,33 @@ kotlin {
 
         pod(name = "FirebaseCore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "11.6.0"
             linkOnly = true
         }
 
         pod(name = "FirebaseAuth") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "11.6.0"
             linkOnly = true
         }
 
         pod(name = "FirebaseStorage") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             linkOnly = true
-            version = "11.6.0"
             // needed because of error:
             // Caused by: java.lang.IllegalStateException: Executing of 'xcodebuild -project Pods.xcodeproj -scheme FirebaseStorage -sdk iphoneos -configuration Release' failed with code 65 and message:
         }
 
         pod(name = "FirebaseFirestore") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "11.6.0"
             linkOnly = true
         }
 
         pod(name = "FirebaseMessaging") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "11.6.0"
             linkOnly = true
         }
 
         pod(name = "FirebaseRemoteConfig") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "11.6.0"
             linkOnly = true
         }
 
@@ -121,12 +115,10 @@ kotlin {
 
         pod(name = "FBSDKCoreKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "18.0.0"
             linkOnly = true
         }
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
-            version = "18.0.0"
             linkOnly = true
         }
 
@@ -151,6 +143,7 @@ kotlin {
             implementation(libs.facebook.login)
 
             implementation(libs.koin.android)
+            implementation(libs.koin.compose)
             implementation(libs.ktor.client.android)
 
             implementation(libs.firebase.messaging.ktx)
@@ -198,7 +191,7 @@ kotlin {
             implementation(project(path = ":profile"))
             implementation(project(path = ":standings"))
             implementation(project(path = ":team"))
-            implementation(project(path = ":ai"))
+            implementation(project(path = ":assistant"))
         }
 
         iosMain {
@@ -208,8 +201,8 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(libs.kotest.assertions.core)
             implementation(libs.koin.test)
+            implementation(libs.kotest.assertions.core)
         }
 
         /*

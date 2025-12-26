@@ -8,37 +8,30 @@ Pod::Spec.new do |spec|
     spec.summary                  = 'S11 iOS dependencies'
     spec.vendored_frameworks      = 'build/cocoapods/framework/composeApp.framework'
     spec.libraries                = 'c++'
-    spec.ios.deployment_target    = '15.5'
-    spec.dependency 'FBSDKCoreKit', '18.0.0'
-    spec.dependency 'FBSDKLoginKit', '18.0.0'
-    spec.dependency 'FirebaseAuth', '11.6.0'
-    spec.dependency 'FirebaseCore', '11.6.0'
-    spec.dependency 'FirebaseFirestore', '11.6.0'
-    spec.dependency 'FirebaseMessaging', '11.6.0'
-    spec.dependency 'FirebaseRemoteConfig', '11.6.0'
-    spec.dependency 'FirebaseStorage', '11.6.0'
+    spec.ios.deployment_target    = '23.0'
+    spec.dependency 'FBSDKCoreKit'
+    spec.dependency 'FBSDKLoginKit'
+    spec.dependency 'FirebaseAuth'
+    spec.dependency 'FirebaseCore'
+    spec.dependency 'FirebaseFirestore'
+    spec.dependency 'FirebaseMessaging'
+    spec.dependency 'FirebaseRemoteConfig'
+    spec.dependency 'FirebaseStorage'
     spec.dependency 'GoogleSignIn'
-                
     if !Dir.exist?('build/cocoapods/framework/composeApp.framework') || Dir.empty?('build/cocoapods/framework/composeApp.framework')
         raise "
-
         Kotlin framework 'composeApp' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
-
             ./gradlew :composeApp:generateDummyFramework
-
         Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
     end
-                
     spec.xcconfig = {
         'ENABLE_USER_SCRIPT_SANDBOXING' => 'NO',
     }
-                
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':composeApp',
         'PRODUCT_MODULE_NAME' => 'composeApp',
     }
-                
     spec.script_phases = [
         {
             :name => 'Build composeApp',
@@ -46,8 +39,8 @@ Pod::Spec.new do |spec|
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT
                 if [ "YES" = "$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED" ]; then
-                  echo "Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \"YES\""
-                  exit 0
+                    echo "Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \"YES\""
+                    exit 0
                 fi
                 set -ev
                 REPO_ROOT="$PODS_TARGET_SRCROOT"
