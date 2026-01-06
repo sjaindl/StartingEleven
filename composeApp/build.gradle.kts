@@ -117,6 +117,7 @@ kotlin {
             extraOpts += listOf("-compiler-option", "-fmodules")
             linkOnly = true
         }
+
         pod(name = "FBSDKLoginKit") {
             extraOpts += listOf("-compiler-option", "-fmodules")
             linkOnly = true
@@ -183,6 +184,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
+            implementation(libs.mobile.rag.assistant)
 
             implementation(project(path = ":core"))
             implementation(project(path = ":auth"))
@@ -191,7 +193,6 @@ kotlin {
             implementation(project(path = ":profile"))
             implementation(project(path = ":standings"))
             implementation(project(path = ":team"))
-            implementation(project(path = ":assistant"))
         }
 
         iosMain {

@@ -36,6 +36,7 @@ serializationVersion = "1.9.0"
 swiftklibVersion = "0.6.4"
 viewModelComposeVersion = "2.9.6"
 sqldelight = "2.0.0"
+mobile-rag-assistant = "1.0.3"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
@@ -84,6 +85,7 @@ sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sq
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+mobile-rag-assistant = { module = "io.github.sjaindl:mobile-rag-assistant", version.ref = "mobile-rag-assistant" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -34,6 +34,9 @@ dependencyResolutionManagement {
                 maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
             }
         }
+        maven {
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
     }
 }
 
@@ -46,4 +49,3 @@ include(":players")
 include(":profile")
 include(":standings")
 include(":team")
-include(":assistant")
