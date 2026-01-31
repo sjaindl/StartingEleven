@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,7 +11,19 @@ plugins {
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.google.playServices)
     alias(libs.plugins.ksp)
-    //id("com.google.devtools.ksp")
+    alias(libs.plugins.buildkonfig)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+buildConfig {
+    packageName = "com.sjaindl.s11"
+    val flowiseApiKey = localProperties.getProperty("FLOWISE_API_KEY", "")
+    buildConfigField("String", "FLOWISE_API_KEY", flowiseApiKey)
 }
 
 kotlin {

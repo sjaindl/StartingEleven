@@ -4,6 +4,7 @@ import com.sjaindl.assistant.config.AssistantConfig
 import com.sjaindl.assistant.config.ChatIcon
 import com.sjaindl.assistant.config.Provider
 import com.sjaindl.assistant.di.assistantModule
+import com.sjaindl.s11.BuildConfig
 import com.sjaindl.s11.firestore.faq.FaqDataSource
 import com.sjaindl.s11.firestore.faq.FaqDataSourceImpl
 import com.sjaindl.s11.firestore.faq.FaqRepository
@@ -40,6 +41,7 @@ val appModule = module {
         AssistantConfig(
             provider = Provider.Flowise(
                 baseUrl = "https://www.hvtdpstainz.at/flowise/api/v1/prediction/3d0fc477-d898-4a7d-8474-67348965eb28",
+                apiKey = BuildConfig.FLOWISE_API_KEY,
             ),
             sampleQuestions = listOf(Res.string.sample_question_1, Res.string.sample_question_2),
             welcomeMessage = Res.string.welcome_message,
