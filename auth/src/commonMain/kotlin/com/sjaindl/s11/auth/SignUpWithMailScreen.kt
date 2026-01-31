@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sjaindl.s11.auth.EmailAuthenticationState.EmailSignInSuccess
@@ -31,7 +32,6 @@ import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.auth.generated.resources.Res
 import startingeleven.auth.generated.resources.email
 import startingeleven.auth.generated.resources.enterName

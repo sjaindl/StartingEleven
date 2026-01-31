@@ -17,6 +17,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.core.theme.spacing
 import com.sjaindl.s11.home.news.MatchdayNewsScreen
@@ -29,7 +30,6 @@ import com.sjaindl.s11.home.stats.TopPlayersOfRound
 import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
 import startingeleven.home.generated.resources.hello
 import startingeleven.home.generated.resources.home

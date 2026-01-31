@@ -1,41 +1,46 @@
 [versions]
 accompanist-permissions = "0.37.3"
-agp = "8.13.2"
+agp = "9.0.0"
 android-compileSdk = "36"
 android-minSdk = "28"
 android-targetSdk = "36"
-androidx-activityCompose = "1.12.2"
+androidx-activityCompose = "1.12.3"
 androidx-material3 = "1.2.1"
 coil3 = "3.3.0"
+componentsResources = "1.10.0"
 credentialsVersion = "1.5.0"
 credentialsPlayServicesVersion = "1.5.0"
-compose-plugin = "1.9.3"
+compose-plugin = "1.10.0"
 exifinterface = "1.4.2"
 facebookVersion = "18.1.3"
 firebaseMessagingKtx = "24.1.2"
 # stuck to 1.13.0 for now (see https://github.com/GitLiveApp/firebase-kotlin-sdk/issues/678)
 firebaseVersion = "2.4.0"
-firebase-bom = "34.7.0"
+firebase-bom = "34.8.0"
+foundation = "1.10.0"
 google-play-services = "4.4.4"
-googleidVersion = "1.1.1"
+googleidVersion = "1.2.0"
 iconsVersion = "1.7.3"
 junit = "4.13.2"
 koinVersion = "4.1.1"
 koinAnnotationsVersion = "2.3.1"
 koinComposeVersion = "4.1.1"
-koinViewModel = "4.2.0-beta2"
-kotestAssertionsCore = "6.0.7"
+koinViewModel = "4.2.0-RC1"
+kotestAssertionsCore = "6.1.2"
 kotlinVersion = "2.3.0"
 kotlinx-datetime = "0.7.1"
-kspVersion = "2.2.0-Beta1-2.0.0"
-ktorVersion = "3.3.3"
+kspVersion = "2.3.2"
+ktorVersion = "3.4.0"
+material3 = "1.9.0"
 napierVersion = "2.7.1"
 navigationComposeVersion = "2.9.1"
-playServicesAuth = "21.4.0"
-serializationVersion = "1.9.0"
+playServicesAuth = "21.5.0"
+runtime = "1.10.0"
+serializationVersion = "1.10.0"
 swiftklibVersion = "0.6.4"
+ui = "1.10.0"
 viewModelComposeVersion = "2.9.6"
-sqldelight = "2.0.0"
+sqldelight = "2.2.1"
 mobile-rag-assistant = "1.0.3"
 
 [libraries]
@@ -48,6 +53,7 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3"
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
+components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }
 credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesVersion" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookVersion" }
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseVersion" }
@@ -57,6 +63,7 @@ firebase-config = { module = "dev.gitlive:firebase-config", version.ref = "fireb
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebaseVersion" }
+foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "foundation" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
@@ -78,7 +85,11 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 logging-napier = { module = "io.github.aakira:napier", version.ref = "napierVersion" }
 material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "iconsVersion" }
+material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "runtime" }
+ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "ui" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "ui" }
 viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewModelComposeVersion" }
 androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }

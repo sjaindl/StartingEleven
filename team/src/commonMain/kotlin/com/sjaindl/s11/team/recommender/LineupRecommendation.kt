@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -23,7 +24,6 @@ import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.team.generated.resources.Res
 import startingeleven.team.generated.resources.football_field
 import startingeleven.team.generated.resources.noRecommendation

@@ -22,11 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.composeapp.generated.resources.Res
 import startingeleven.composeapp.generated.resources.push_notification_description
 import startingeleven.composeapp.generated.resources.push_notification_grant_button

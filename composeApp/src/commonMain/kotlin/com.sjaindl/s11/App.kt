@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -47,8 +48,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import okio.FileSystem
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 
 @Composable
@@ -58,146 +57,144 @@ fun App() {
         getAsyncImageLoader(context)
     }
 
-    KoinContext {
-        val navController = rememberNavController()
+    val navController = rememberNavController()
 
-        val snackBarHostState = remember {
-            SnackbarHostState()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    var showBottomBar by remember {
+        mutableStateOf(value = true)
+    }
+
+    var currentRoute: Route? by remember(navController.currentBackStackEntry) {
+        mutableStateOf(value = null)
+    }
+
+    var selectedItem by remember {
+        mutableStateOf(value = 0)
+    }
+
+    var saveTeamEnabled by rememberSaveable {
+        mutableStateOf(value = false)
+    }
+
+    val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(
+        initial = Firebase.auth.currentUser
+    )
+
+    val eventRepository = koinInject<EventRepository>()
+
+    coroutineScope.launch {
+        eventRepository.onNewEvent.collectLatest { event ->
+            if (event == Event.TeamChanged) {
+                saveTeamEnabled = true
+            } else if (event == Event.TeamSaved) {
+                saveTeamEnabled = false
+            }
         }
+    }
 
-        val coroutineScope = rememberCoroutineScope()
-
-        var showBottomBar by remember {
-            mutableStateOf(value = true)
+    navController.addOnDestinationChangedListener { controller, _, _ ->
+        currentRoute = controller.currentBackStackEntry.toRoute()
+        selectedItem = when (currentRoute) {
+            Home -> 0
+            Team -> 1
+            Players -> 2
+            Standings -> 3
+            else -> selectedItem
         }
+        showBottomBar = currentRoute?.isTopLevelRoute == true
+    }
 
-        var currentRoute: Route? by remember(navController.currentBackStackEntry) {
-            mutableStateOf(value = null)
-        }
-
-        var selectedItem by remember {
-            mutableStateOf(value = 0)
-        }
-
-        var saveTeamEnabled by rememberSaveable {
-            mutableStateOf(value = false)
-        }
-
-        val user by Firebase.auth.authStateChanged.distinctUntilChanged().collectAsState(
-            initial = Firebase.auth.currentUser
+    val canNavigateBack by remember(navController.previousBackStackEntry, currentRoute) {
+        mutableStateOf(
+            value = navController.previousBackStackEntry != null &&
+                    currentRoute?.showBackButton == true
         )
+    }
 
-        val eventRepository = koinInject<EventRepository>()
+    HvtdpTheme {
+        CompositionLocalProvider(LocalPlatform provides getPlatform()) {
+            Scaffold(
+                topBar = {
 
-        coroutineScope.launch {
-            eventRepository.onNewEvent.collectLatest { event ->
-                if (event == Event.TeamChanged) {
-                    saveTeamEnabled = true
-                } else if (event == Event.TeamSaved) {
-                    saveTeamEnabled = false
-                }
-            }
-        }
-
-        navController.addOnDestinationChangedListener { controller, _, _ ->
-            currentRoute = controller.currentBackStackEntry.toRoute()
-            selectedItem = when (currentRoute) {
-                Home -> 0
-                Team -> 1
-                Players -> 2
-                Standings -> 3
-                else -> selectedItem
-            }
-            showBottomBar = currentRoute?.isTopLevelRoute == true
-        }
-
-        val canNavigateBack by remember(navController.previousBackStackEntry, currentRoute) {
-            mutableStateOf(
-                value = navController.previousBackStackEntry != null &&
-                        currentRoute?.showBackButton == true
-            )
-        }
-
-        HvtdpTheme {
-            CompositionLocalProvider(LocalPlatform provides getPlatform()) {
-                Scaffold(
-                    topBar = {
-
-                        if (currentRoute != Route.ChatBot) {
-                            Column {
-                                //Text("canNavigateBack: $canNavigateBack")
-                                //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
-                                //Text("currentRoute: $currentRoute")
-                                S11AppBar(
-                                    userIsSignedIn = user != null,
-                                    currentRoute = currentRoute,
-                                    canNavigateBack = canNavigateBack,
-                                    saveTeamEnabled = saveTeamEnabled,
-                                    saveTeam = {
-                                        coroutineScope.launch {
-                                            eventRepository.saveTeam()
-                                        }
-                                    },
-                                    navigateUp = navController::navigateUp,
-                                    navigateHome = {
-                                        navController.navigate(Home) {
-                                            popUpTo<Home>()
-                                        }
-                                    },
-                                    navigateToFaqs = {
-                                        navController.navigate(route = Faqs)
-                                    },
-                                    navigateToPrices = {
-                                        navController.navigate(route = Route.Prices)
-                                    },
-                                    navigateToPrivacyPolicy = {
-                                        navController.navigate(route = Route.Privacy)
-                                    },
-                                    navigateToDebugInfo = {
-                                        navController.navigate(route = Route.DebugInfo)
-                                    },
-                                    onClickProfile = {
-                                        navController.navigateToProfile()
+                    if (currentRoute != Route.ChatBot) {
+                        Column {
+                            //Text("canNavigateBack: $canNavigateBack")
+                            //Text("previousBackStackEntry: ${navController.previousBackStackEntry}")
+                            //Text("currentRoute: $currentRoute")
+                            S11AppBar(
+                                userIsSignedIn = user != null,
+                                currentRoute = currentRoute,
+                                canNavigateBack = canNavigateBack,
+                                saveTeamEnabled = saveTeamEnabled,
+                                saveTeam = {
+                                    coroutineScope.launch {
+                                        eventRepository.saveTeam()
                                     }
-                                )
-                            }
-                        }
-                    },
-                    bottomBar = {
-                        if (showBottomBar) {
-                            S11BottomBar(
-                                navController = navController,
-                                selectedItem = selectedItem,
-                                onSetSelectedItem = { index ->
-                                    selectedItem = index
+                                },
+                                navigateUp = navController::navigateUp,
+                                navigateHome = {
+                                    navController.navigate(Home) {
+                                        popUpTo<Home>()
+                                    }
+                                },
+                                navigateToFaqs = {
+                                    navController.navigate(route = Faqs)
+                                },
+                                navigateToPrices = {
+                                    navController.navigate(route = Route.Prices)
+                                },
+                                navigateToPrivacyPolicy = {
+                                    navController.navigate(route = Route.Privacy)
+                                },
+                                navigateToDebugInfo = {
+                                    navController.navigate(route = Route.DebugInfo)
+                                },
+                                onClickProfile = {
+                                    navController.navigateToProfile()
                                 }
                             )
                         }
-                    },
-                    snackbarHost = {
-                        SnackbarHost(hostState = snackBarHostState)
-                    },
-                    floatingActionButton = {
-                        if (showBottomBar) {
-                            AssistantChat(navController = navController)
-                        }
                     }
-                ) {
-                    S11NavHost(
-                        navController = navController,
-                        onShowSnackBar = {
-                            coroutineScope.launch {
-                                snackBarHostState.showSnackbar(message = it)
+                },
+                bottomBar = {
+                    if (showBottomBar) {
+                        S11BottomBar(
+                            navController = navController,
+                            selectedItem = selectedItem,
+                            onSetSelectedItem = { index ->
+                                selectedItem = index
                             }
-                        },
-                        modifier = if (currentRoute == Route.ChatBot) {
-                            Modifier
-                        } else {
-                            Modifier
-                                .padding(paddingValues = it)
-                        }
-                    )
+                        )
+                    }
+                },
+                snackbarHost = {
+                    SnackbarHost(hostState = snackBarHostState)
+                },
+                floatingActionButton = {
+                    if (showBottomBar) {
+                        AssistantChat(navController = navController)
+                    }
                 }
+            ) {
+                S11NavHost(
+                    navController = navController,
+                    onShowSnackBar = {
+                        coroutineScope.launch {
+                            snackBarHostState.showSnackbar(message = it)
+                        }
+                    },
+                    modifier = if (currentRoute == Route.ChatBot) {
+                        Modifier
+                    } else {
+                        Modifier
+                            .padding(paddingValues = it)
+                    }
+                )
             }
         }
     }

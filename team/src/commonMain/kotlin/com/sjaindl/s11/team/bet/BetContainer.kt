@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -19,7 +20,6 @@ import com.sjaindl.s11.team.bet.BetState.Initial
 import com.sjaindl.s11.team.bet.BetState.Loading
 import com.sjaindl.s11.team.bet.BetState.NoBets
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.team.generated.resources.Res
 import startingeleven.team.generated.resources.betSaved
 import startingeleven.team.generated.resources.noBets

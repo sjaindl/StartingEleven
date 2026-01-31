@@ -8,12 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.FallbackImage
 import com.sjaindl.s11.core.firestore.player.model.Player
 import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.theme.HvtdpTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SmallPlayerUI(

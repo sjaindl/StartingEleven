@@ -15,8 +15,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.sjaindl.s11.core.theme.HvtdpTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

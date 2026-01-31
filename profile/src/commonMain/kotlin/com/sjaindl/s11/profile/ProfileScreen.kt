@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -40,7 +41,6 @@ import com.sjaindl.s11.profile.UserState.User
 import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.profile.generated.resources.Res
 import startingeleven.profile.generated.resources.deleteAccount
 import startingeleven.profile.generated.resources.deleteAccountConfirm

@@ -3,6 +3,7 @@ package com.sjaindl.s11.home.stats
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -14,7 +15,6 @@ import com.sjaindl.s11.home.stats.StatsState.Loading
 import com.sjaindl.s11.home.stats.StatsState.NoMatches
 import com.sjaindl.s11.home.stats.model.PlayerCardItem
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.home.generated.resources.Res
 import startingeleven.home.generated.resources.mvpPoints
 

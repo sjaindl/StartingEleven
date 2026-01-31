@@ -11,13 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.baseui.expandable.ExpandableCard
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.firestore.faq.model.Faq
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Faqs(

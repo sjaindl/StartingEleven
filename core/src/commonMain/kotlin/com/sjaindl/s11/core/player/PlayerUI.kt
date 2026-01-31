@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.FallbackImage
 import com.sjaindl.s11.core.baseui.TextDropdown
@@ -22,7 +23,6 @@ import com.sjaindl.s11.core.model.TextDropdownMenuItem
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.core.generated.resources.Res
 import startingeleven.core.generated.resources.choosePlayer
 import startingeleven.core.generated.resources.playerLineups

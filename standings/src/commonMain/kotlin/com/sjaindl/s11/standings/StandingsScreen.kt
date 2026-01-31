@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -12,7 +13,6 @@ import com.sjaindl.s11.core.firestore.user.model.User
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.standings.model.UserWithPoints
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.standings.generated.resources.Res
 import startingeleven.standings.generated.resources.placing
 

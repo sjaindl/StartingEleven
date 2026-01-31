@@ -19,6 +19,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sjaindl.s11.core.baseui.FallbackImage
@@ -28,7 +29,6 @@ import com.sjaindl.s11.core.firestore.user.model.User
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import com.sjaindl.s11.standings.model.UserWithPoints
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.standings.generated.resources.Res
 import startingeleven.standings.generated.resources.bets
 import startingeleven.standings.generated.resources.total
