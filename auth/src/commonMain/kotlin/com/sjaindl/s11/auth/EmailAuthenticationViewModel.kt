@@ -68,6 +68,9 @@ class EmailAuthenticationViewModel : ViewModel(), KoinComponent {
             // on iOS FirebaseAuthException is directly thrown
             Napier.e("Sign-in failed", e)
             _authenticationState.value = Error(message = e.message ?: e.toString())
+        } catch (e: FirebaseException) {
+            Napier.e("Sign-in failed with FirebaseException", e)
+            _authenticationState.value = Error(message = e.message ?: e.toString())
         }
     }
 
