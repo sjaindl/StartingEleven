@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
@@ -36,6 +35,7 @@ import com.sjaindl.s11.team.model.Formation
 import com.sjaindl.s11.team.recommender.LineupRecommendation
 import com.sjaindl.s11.team.recommender.RecommendationState
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.team.generated.resources.Res
 import startingeleven.team.generated.resources.attacker
 import startingeleven.team.generated.resources.defender
