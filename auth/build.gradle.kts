@@ -125,7 +125,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        //consumerProguardFiles("consumer-rules.pro")
 
         val googleServerClientId = gradleLocalProperties(rootDir, providers).getProperty("googleServerClientId")
         buildConfigField(type = "String", name = "googleServerClientId", value = googleServerClientId)
