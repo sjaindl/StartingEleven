@@ -15,7 +15,7 @@ class CalculatePointsUseCase(
         val users = userRepository.getUsers()
         val matchDays = matchDayRepository.getMatchDays()
 
-        return users.map { user ->
+        return users.mapNotNull { user ->
             onCalculateUser(user.userName)
 
             var totalPoints = 0F
@@ -24,6 +24,9 @@ class CalculatePointsUseCase(
             var betPointsForRound = 0
 
             matchDays.forEach { matchday ->
+                if (matchday.excludeFromStandings == true) {
+                    return@forEach
+                }
 
                 // Points for matchday lineup
                 pointsForRound = calculatePointsForMatchDayLineupUseCase.calculate(
@@ -42,6 +45,10 @@ class CalculatePointsUseCase(
                 pointsForRound += betPoints
                 totalBetPoints += betPoints
                 betPointsForRound = betPoints
+            }
+
+            if (totalPoints < 0) {
+                return@mapNotNull null
             }
 
             UserWithPoints(
