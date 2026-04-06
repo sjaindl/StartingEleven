@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import java.util.Properties
 
 plugins {
@@ -136,7 +135,6 @@ kotlin {
             linkOnly = true
         }
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             // do not optimize out variables in coroutines
             freeCompilerArgs.add("-Xdebug")
@@ -208,10 +206,8 @@ kotlin {
             implementation(project(path = ":team"))
         }
 
-        iosMain {
-            dependencies {
-                implementation(libs.ktor.client.ios)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.ios)
         }
 
         commonTest.dependencies {
@@ -219,10 +215,6 @@ kotlin {
             implementation(libs.kotest.assertions.core)
         }
 
-        /*
-        val wasmJsMain by getting {
-        }
-         */
     }
 }
 

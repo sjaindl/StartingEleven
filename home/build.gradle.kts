@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -26,31 +23,29 @@ kotlin {
             implementation(libs.koin.android)
         }
 
-        commonMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
-                implementation(libs.androidx.navigation.compose)
-                implementation(libs.viewmodel.compose)
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.viewmodel.compose)
 
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.material.icons.extended)
-                implementation(libs.logging.napier)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.material.icons.extended)
+            implementation(libs.logging.napier)
 
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.annotations)
-               // implementation(libs.koin.viewmodel)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
+           // implementation(libs.koin.viewmodel)
 
-                implementation(libs.firebase.config)
-                implementation(libs.firebase.storage)
+            implementation(libs.firebase.config)
+            implementation(libs.firebase.storage)
 
-                implementation(project(":core"))
-            }
+            implementation(project(":core"))
         }
 
         iosMain.dependencies {
@@ -60,9 +55,6 @@ kotlin {
             implementation(libs.kotest.assertions.core)
             implementation(libs.koin.test)
         }
-
-        //val wasmJsMain by getting {
-        //}
     }
 }
 

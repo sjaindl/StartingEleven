@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./gradlew tasks:*)"
+      "Bash(./gradlew tasks:*)",
+      "Bash(./gradlew :composeApp:assembleDebug 2>&1)"
     ]
   }
 }

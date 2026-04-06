@@ -20,12 +20,10 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach {
-        it.compilations {
-            val main by getting {
-                cinterops {
-                    create("applesignin")
-                    create("crypto")
-                }
+        it.compilations.getByName("main") {
+            cinterops {
+                create("applesignin")
+                create("crypto")
             }
         }
     }
@@ -73,31 +71,29 @@ kotlin {
             implementation(libs.koin.android)
         }
 
-        commonMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
-                implementation(libs.androidx.navigation.compose)
-                implementation(libs.viewmodel.compose)
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.viewmodel.compose)
 
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.material.icons.extended)
-                implementation(libs.logging.napier)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.material.icons.extended)
+            implementation(libs.logging.napier)
 
-                implementation(libs.firebase.common)
-                implementation(libs.firebase.auth)
+            implementation(libs.firebase.common)
+            implementation(libs.firebase.auth)
 
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.annotations)
-                implementation(libs.koin.viewmodel)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
+            implementation(libs.koin.viewmodel)
 
-                implementation(project(":core"))
-            }
+            implementation(project(":core"))
         }
 
         iosMain.dependencies {
@@ -111,9 +107,6 @@ kotlin {
         androidUnitTest.dependencies {
             implementation(libs.junit)
         }
-
-        //val wasmJsMain by getting {
-        //}
     }
 }
 

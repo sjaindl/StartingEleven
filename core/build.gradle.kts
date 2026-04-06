@@ -26,34 +26,32 @@ kotlin {
         }
 
 
-        commonMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
-                implementation(libs.androidx.navigation.compose)
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.navigation.compose)
 
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.material.icons.extended)
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.logging.napier)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.material.icons.extended)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.logging.napier)
 
-                implementation(libs.firebase.common)
-                implementation(libs.firebase.auth)
-                implementation(libs.firebase.firestore)
-                implementation(libs.firebase.storage)
+            implementation(libs.firebase.common)
+            implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
 
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
-                implementation(libs.coil.compose.core)
-                implementation(libs.coil.compose)
-                implementation(libs.coil.mp)
-                implementation(libs.coil.network.ktor)
-            }
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
         }
 
         iosMain.dependencies {
@@ -62,9 +60,6 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotest.assertions.core)
         }
-
-        //val wasmJsMain by getting {
-        //}
     }
 }
 
