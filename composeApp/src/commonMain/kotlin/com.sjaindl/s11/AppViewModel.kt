@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.KoinViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
