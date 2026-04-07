@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
@@ -9,7 +9,17 @@ plugins {
 kotlin {
     jvmToolchain(jdkVersion = 17)
 
-    androidTarget()
+    android {
+        namespace = "com.sjaindl.s11.profile"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -18,6 +28,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
+            implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.play.services.auth)
@@ -68,37 +79,10 @@ kotlin {
             implementation(libs.kotest.assertions.core)
             implementation(libs.koin.test)
         }
-    }
-}
 
-android {
-    namespace = "com.sjaindl.s11.profile"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        //consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        getByName("androidHostTest").dependencies {
+            implementation(libs.junit)
+            implementation(libs.kotlin.test.junit)
         }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    dependencies {
-        debugImplementation(compose.uiTooling)
-        testImplementation(libs.junit)
-        testImplementation(libs.kotlin.test.junit)
     }
 }

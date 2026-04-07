@@ -1,19 +1,42 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.swiftklib)
+    alias(libs.plugins.buildkonfig)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+buildConfig {
+    packageName = "com.sjaindl.s11.auth"
+    val googleServerClientId = localProperties.getProperty("googleServerClientId", "")
+    buildConfigField("String", "googleServerClientId", googleServerClientId)
 }
 
 kotlin {
     jvmToolchain(jdkVersion = 17)
 
-    androidTarget()
+    android {
+        namespace = "com.sjaindl.s11.auth"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        withHostTest {}
+    }
 
     listOf(
         iosX64(),
@@ -104,39 +127,9 @@ kotlin {
             implementation(libs.koin.test)
         }
 
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.junit)
         }
-    }
-}
-
-android {
-    namespace = "com.sjaindl.s11.auth"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        //consumerProguardFiles("consumer-rules.pro")
-
-        val googleServerClientId = gradleLocalProperties(rootDir, providers).getProperty("googleServerClientId")
-        buildConfigField(type = "String", name = "googleServerClientId", value = googleServerClientId)
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    buildFeatures {
-        compose = true
-        buildConfig = true
     }
 }
 
