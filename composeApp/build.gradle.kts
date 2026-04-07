@@ -1,14 +1,12 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlinCocoapods)
-    alias(libs.plugins.google.playServices)
     alias(libs.plugins.ksp)
     alias(libs.plugins.buildkonfig)
 }
@@ -61,7 +59,17 @@ kotlin {
 
     jvmToolchain(jdkVersion = 17)
 
-    androidTarget()
+    android {
+        namespace = "com.sjaindl.s11"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -144,21 +152,15 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
+            implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.play.services.auth)
             implementation(project.dependencies.platform(libs.firebase.bom))
 
-            implementation(libs.androidx.credentials)
-            implementation(libs.credentials.play.services)
-            implementation(libs.googleid)
-            implementation(libs.facebook.login)
-
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
             implementation(libs.ktor.client.android)
-
-            implementation(libs.firebase.messaging.ktx)
         }
 
         commonMain.dependencies {
@@ -215,67 +217,11 @@ kotlin {
             implementation(libs.kotest.assertions.core)
         }
 
+        getByName("androidHostTest").dependencies {
+            implementation(libs.junit)
+            implementation(libs.kotlin.test.junit)
+        }
+
     }
 }
 
-android {
-    namespace = "com.sjaindl.s11"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    sourceSets["main"].manifest.srcFile(srcPath = "src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
-
-    defaultConfig {
-        applicationId = "com.sjaindl.s11"
-
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 15
-        versionName = "1.15"
-
-        val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
-        manifestPlaceholders["facebookClientToken"] = facebookClientToken
-    }
-
-    signingConfigs {
-        create("release") {
-            keyAlias = gradleLocalProperties(rootDir, providers).getProperty("release.keyAlias")
-            keyPassword = gradleLocalProperties(rootDir, providers).getProperty("release.password")
-            storeFile = file(
-                gradleLocalProperties(rootDir, providers).getProperty("release.storeFile")
-            )
-            storePassword = gradleLocalProperties(rootDir, providers).getProperty("release.password")
-        }
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            isDebuggable = false
-            isShrinkResources = false
-
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    dependencies {
-        debugImplementation(compose.uiTooling)
-        testImplementation(libs.junit)
-        testImplementation(libs.kotlin.test.junit)
-    }
-}

@@ -13,16 +13,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew build
 
 # Android
-./gradlew :composeApp:assembleDebug
-./gradlew :composeApp:installDebug
-./gradlew :composeApp:bundleRelease
+./gradlew :androidapp:assembleDebug
+./gradlew :androidapp:installDebug
+./gradlew :androidapp:bundleRelease
 
 # iOS (CocoaPods)
 ./gradlew podInstall
 
 # Tests
 ./gradlew test                           # All unit tests
-./gradlew :composeApp:testDebugUnitTest  # Android debug unit tests
+./gradlew :composeApp:testAndroidHostTest  # Android debug unit tests
 ./gradlew iosSimulatorArm64Test          # iOS simulator tests
 ./gradlew connectedAndroidTest           # Instrumented tests (requires device)
 
@@ -35,7 +35,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Feature-driven multiplatform modules. Each feature module depends on `:core`.
 
 ```
-composeApp        – Root app, navigation host, Koin init, platform entry points
+androidapp        – Android application entry point (MainActivity, S11Application, signing, manifest)
+composeApp        – KMP library: navigation host, Koin init, shared app UI, iOS entry point
 auth              – Firebase Auth + social sign-in (Google, Facebook, Apple via C-interop)
 core              – Shared UI components, theme, Firebase repositories, DI base, nav routes
 home              – Home screen, news, stats (Firebase Remote Config/Storage)
@@ -53,11 +54,11 @@ Each KMP module follows:
 - `commonMain/` – shared Kotlin/Compose logic
 - `androidMain/` – Android-specific implementations
 - `iosMain/` – iOS-specific implementations
-- `commonTest/`, `androidUnitTest/`, `iosTest/` – test sources
+- `commonTest/`, `androidHostTest/`, `iosTest/` – test sources
 
 ### Dependency Injection
 
-Koin 4.x with KSP annotations. Each module exposes a Koin module (e.g. `authModule`, `coreModule`). Root DI is assembled in `composeApp/AppModule.kt` and started in `S11Application` (Android) / `MainViewController` (iOS).
+Koin 4.x with KSP annotations. Each module exposes a Koin module (e.g. `authModule`, `coreModule`). Root DI is assembled in `composeApp/AppModule.kt` and started in `S11Application` (in `androidapp`) / `MainViewController` (iOS).
 
 ### Navigation
 
