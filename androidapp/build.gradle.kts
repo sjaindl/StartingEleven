@@ -16,8 +16,8 @@ android {
 
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 15
-        versionName = "1.15"
+        versionCode = 16
+        versionName = "1.16"
 
         val facebookClientToken = gradleLocalProperties(rootDir, providers).getProperty("facebookClientToken")
         manifestPlaceholders["facebookClientToken"] = facebookClientToken
@@ -100,5 +100,11 @@ dependencies {
     testImplementation(libs.kotlin.test.junit)
 }
 
-
-
+// Disable baseline profile compilation to prevent INSTALL_BASELINE_PROFILE_FAILED on Android 16+
+afterEvaluate {
+    tasks.configureEach {
+        if (name.contains("ArtProfile", ignoreCase = true)) {
+            enabled = false
+        }
+    }
+}

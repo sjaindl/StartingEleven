@@ -4,7 +4,9 @@
       "Bash(./gradlew tasks:*)",
       "Bash(./gradlew :composeApp:assembleDebug 2>&1)",
       "Bash(./gradlew :androidapp:assembleDebug)",
-      "Bash(./gradlew :core:compileAndroidMain)"
+      "Bash(./gradlew :core:compileAndroidMain)",
+      "Bash(./gradlew clean:*)",
+      "Bash(./gradlew :androidapp:assembleRelease)"
     ]
   }
 }
