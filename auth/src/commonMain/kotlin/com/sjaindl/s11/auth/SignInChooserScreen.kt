@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sjaindl.s11.auth.SocialAuthenticationState.AppleSignInSuccess
 import com.sjaindl.s11.auth.SocialAuthenticationState.Error
@@ -46,7 +47,6 @@ import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.auth.generated.resources.Res
 import startingeleven.auth.generated.resources.createNewAccount
 import startingeleven.auth.generated.resources.ic_apple

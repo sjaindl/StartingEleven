@@ -100,6 +100,10 @@ sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", versi
 sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 mobile-rag-assistant = { module = "io.github.sjaindl:mobile-rag-assistant", version.ref = "mobile-rag-assistant" }
 
+[bundles]
+compose-common = ["runtime", "foundation", "material3", "ui", "components-resources"]
+compose-android-debug = ["ui-tooling-preview", "compose-ui-tooling"]
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

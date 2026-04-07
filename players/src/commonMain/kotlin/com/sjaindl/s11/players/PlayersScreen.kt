@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.sjaindl.s11.core.baseui.ErrorScreen
 import com.sjaindl.s11.core.baseui.LoadingScreen
 import com.sjaindl.s11.core.firestore.player.model.Player
@@ -14,7 +15,6 @@ import com.sjaindl.s11.core.firestore.player.model.Position
 import com.sjaindl.s11.core.player.PlayerUI
 import com.sjaindl.s11.core.theme.HvtdpTheme
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import startingeleven.players.generated.resources.Res
 import startingeleven.players.generated.resources.calculating
 

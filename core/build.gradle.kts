@@ -27,8 +27,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(compose.uiTooling)
+            implementation(libs.bundles.compose.android.debug)
 
             implementation(libs.play.services.auth)
             implementation(project.dependencies.platform(libs.firebase.bom))
@@ -38,12 +37,8 @@ kotlin {
 
 
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.bundles.compose.common)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.androidx.navigation.compose)
 
             implementation(libs.kotlinx.serialization.json)
