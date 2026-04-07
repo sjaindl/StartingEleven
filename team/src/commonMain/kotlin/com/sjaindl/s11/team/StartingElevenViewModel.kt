@@ -59,7 +59,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
     )
     var startingElevenState = _startingElevenState.asStateFlow()
 
-    private val _showSnackBar = MutableStateFlow<Boolean>(false)
+    private val _showSnackBar = MutableStateFlow(false)
     val showSnackBar: StateFlow<Boolean> = _showSnackBar
 
     init {
@@ -164,11 +164,7 @@ class StartingElevenViewModel : ViewModel(), KoinComponent {
         )
 
         viewModelScope.launch {
-            if (lineup.isComplete) {
-                eventRepository.saveTeam()
-            } else {
-                eventRepository.teamChanged()
-            }
+            eventRepository.teamChanged()
         }
     }
 
