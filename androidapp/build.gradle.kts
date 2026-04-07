@@ -2,7 +2,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.playServices)
@@ -65,9 +64,6 @@ android {
     }
 }
 
-kotlin {
-    jvmToolchain(jdkVersion = 17)
-}
 
 dependencies {
     implementation(project(":composeApp"))
@@ -77,8 +73,8 @@ dependencies {
     implementation(project(":standings"))
     implementation(project(":team"))
 
-    implementation(compose.preview)
-    debugImplementation(compose.uiTooling)
+    implementation(libs.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.play.services.auth)
